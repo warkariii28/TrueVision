@@ -201,6 +201,15 @@ git rm --cached backend/.env
 git commit -m "Stop tracking backend env file"
 ```
 
+## Legacy Flask Version
+
+
+The older Flask-only version of the project is preserved in:
+
+`legacy-flask-version/`
+
+The root project is the current Angular frontend + Flask API version.
+
 ## Notes
 
 - The backend serves generated result images from `backend/static/uploads` and `backend/static/gradcam`
