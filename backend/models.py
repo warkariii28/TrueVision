@@ -120,7 +120,7 @@ class CustomViT(nn.Module):
         )
 
         try:
-            _model_path = os.path.join(BASE_DIR, "best_Swin_stage2.pth")
+            _model_path = os.path.join(BASE_DIR, "Your .pth file path")
             state_dict = torch.load(_model_path, map_location=device)
 
             self.model.load_state_dict(state_dict, strict=False)
