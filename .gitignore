@@ -1,0 +1,50 @@
+# Root environment and secrets
+.env
+*.env
+!.env.example
+backend/.env
+frontend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+venv/
+.venv/
+backend/venv/
+frontend/venv/
+
+# Python local data
+backend/instance/
+*.db
+*.sqlite3
+
+# Generated backend assets
+backend/static/uploads/*
+!backend/static/uploads/.gitkeep
+backend/static/gradcam/*
+!backend/static/gradcam/.gitkeep
+
+# Node / Angular
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.angular/cache/
+frontend/coverage/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
