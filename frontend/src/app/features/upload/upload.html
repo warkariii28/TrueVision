@@ -1,0 +1,95 @@
+<section class="row g-4">
+  <div class="col-lg-5">
+    <div class="tv-panel h-100">
+      <div class="tv-kicker mb-3">Image Check</div>
+      <h1 class="tv-section-title mb-3">Upload a face image to check if it may be fake.</h1>
+      <p class="tv-muted mb-4">
+        Choose a PNG, JPG, or JPEG image. The app checks image quality first, then gives you a result with a simple
+        explanation.
+      </p>
+
+      <div class="tv-upload-summary mb-4">
+        <div class="tv-upload-summary-item">
+          <span class="tv-upload-summary-label">Accepted</span>
+          <strong>PNG, JPG, JPEG</strong>
+        </div>
+        <div class="tv-upload-summary-item">
+          <span class="tv-upload-summary-label">Size Limit</span>
+          <strong>5 MB</strong>
+        </div>
+      </div>
+
+      <p class="small text-secondary mb-0" *ngIf="!isSubmitting()">
+        Guests can view results immediately. <br> Log in only if you want saved history.
+      </p>
+    </div>
+  </div>
+
+  <div class="col-lg-7">
+    <div class="tv-panel h-100">
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+        <div>
+          <div class="tv-pill mb-2">
+            <i class="bi bi-cloud-arrow-up"></i> Upload Area
+          </div>
+          <h2 class="fw-bold mb-1">Choose or drag your image</h2>
+          <p class="tv-muted mb-0">Images above 5 MB are blocked before upload.</p>
+        </div>
+      </div>
+
+      <form (submit)="onSubmit($event)">
+        <div class="tv-upload-zone mb-3" [ngClass]="{ dragging: isDragging }" role="button" tabindex="0"
+          (click)="openFilePicker()" (keydown)="onKeydown($event)" (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+          <div class="display-6 mb-3 text-primary">
+            <i class="bi bi-cloud-upload"></i>
+          </div>
+          <h3 class="h5 fw-bold">Drop an image here</h3>
+          <p class="tv-muted mb-0">or click to browse from your device</p>
+        </div>
+
+        <p class="small text-secondary mb-3">
+          Best results come from a clear front-facing face image with good lighting.
+        </p>
+
+        <input #fileInput type="file" accept=".png,.jpg,.jpeg" hidden (change)="onFileSelected($event)" />
+
+        <div *ngIf="errorMessage()" class="text-danger small mb-3">
+          {{ errorMessage() }}
+        </div>
+
+        <div *ngIf="previewUrl()" class="tv-preview mb-4">
+          <img [src]="previewUrl()" alt="Image preview" />
+        </div>
+
+        <p *ngIf="selectedFileName()" class="small text-secondary mb-3">
+          Selected file: {{ selectedFileName() }}
+        </p>
+
+        <div *ngIf="showProgress()" class="mb-4">
+          <div class="progress">
+            <div class="progress-bar" [ngClass]="progressClass()" role="progressbar" [style.width.%]="progress()"
+              [attr.aria-valuenow]="progress()" aria-valuemin="0" aria-valuemax="100">
+              {{ progress() }}%
+            </div>
+          </div>
+
+          <p class="tv-muted mt-2 mb-0">
+            {{ statusMessage() }}
+          </p>
+        </div>
+
+        <div class="upload-buttons-div d-flex flex-wrap gap-3 mt-auto justify-content-center justify-content-md-start">
+          <button type="submit" class="btn btn-tv-primary btn-lg px-4" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'Processing...' : 'Check Image' }}
+          </button>
+
+          <a routerLink="/" class="btn btn-tv-soft btn-lg px-4" [class.disabled]="isSubmitting()"
+            [attr.aria-disabled]="isSubmitting()">
+            Back to Home
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,63 @@
+<section class="tv-auth-shell">
+  <div class="row g-4 align-items-stretch w-100">
+    <div class="col-lg-5">
+      <div class="tv-panel h-100 d-flex flex-column justify-content-center">
+        <div class="tv-kicker mb-3">Account Access</div>
+        <h1 class="tv-section-title mb-3">Access TRUEVISION with a clean, guided workflow.</h1>
+        <p class="tv-muted mb-4">
+          Sign in to upload images, review detection outputs, and keep a history of your previous checks.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="tv-panel h-100">
+        <div class="mb-4">
+          <div class="tv-pill mb-3">Login</div>
+          <h2 class="fw-bold mb-2">Access Portal to TRUEVISION</h2>
+        </div>
+
+        <form (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Email address</label>
+            <input
+              type="email"
+              class="form-control tv-form-control"
+              placeholder="Enter your email"
+              name="email"
+              [(ngModel)]="email"
+            />
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Password</label>
+            <input
+              type="password"
+              class="form-control tv-form-control"
+              placeholder="Enter your password"
+              name="password"
+              [(ngModel)]="password"
+            />
+          </div>
+
+          @if (errorMessage()) {
+            <div class="text-danger small mb-3">
+              {{ errorMessage() }}
+            </div>
+          }
+
+          <div class="d-grid gap-3">
+            <button type="submit" class="btn btn-tv-primary btn-lg" [disabled]="isSubmitting()">
+              {{ isSubmitting() ? 'Logging in...' : 'Login' }}
+            </button>
+          </div>
+
+          <div class="text-center mt-4">
+            New here?
+            <a routerLink="/register" class="text-decoration-none fw-semibold">Create account</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

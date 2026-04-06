@@ -1,0 +1,165 @@
+<div class="tv-page-home">
+  <section #revealBlock class="tv-hero tv-reveal mb-4">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7">
+        <div class="tv-kicker mb-3">AI Media Verification</div>
+
+        <div class="tv-hero-badge mb-3">
+          <span><i class="bi bi-stars"></i> Modern AI review workspace</span>
+          <span><i class="bi bi-shield-check"></i> Heatmap-backed explanations</span>
+        </div>
+
+        <h1 class="tv-display mb-3">
+          <span class="d-block">Detect</span>
+          <span class="tv-display-accent-line">
+            <span class="tv-rotating-word" [ngClass]="wordState()">{{ currentWord() }}</span>
+            <span>face images</span>
+          </span>
+          <span class="d-block">with a sharper AI analysis experience.</span>
+        </h1>
+
+        <p class="tv-subtext mb-4">
+          TRUEVISION turns deepfake screening into a guided AI workspace with upload validation, confidence-led
+          decisions, visual evidence, and a persistent history for review.
+        </p>
+
+        <div class="d-flex flex-wrap gap-3">
+          <a routerLink="/upload" class="btn btn-tv-primary btn-lg px-4">Check Image Now</a>
+          <a routerLink="/register" class="btn btn-tv-soft btn-lg px-4">Create Account</a>
+        </div>
+
+        <p class="tv-muted mt-3 mb-0">
+          You can check an image without logging in. <br> Create an account only if you want saved history.
+        </p>
+
+
+        <div class="row row-cols-1 row-cols-md-3 g-3 mt-4">
+          <div class="col">
+            <div class="tv-mini-stat">
+              <span class="tv-mini-stat-label">Input</span>
+              <strong>PNG, JPG, JPEG</strong>
+            </div>
+          </div>
+          <div class="col">
+            <div class="tv-mini-stat">
+              <span class="tv-mini-stat-label">Output</span>
+              <strong>Decision + Heatmap</strong>
+            </div>
+          </div>
+          <div class="col">
+            <div class="tv-mini-stat">
+              <span class="tv-mini-stat-label">History</span>
+              <strong>Tracked AI reviews</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div #revealBlock class="tv-hero-console h-100 tv-reveal">
+          <div class="tv-console-top">
+            <span class="tv-console-dot"></span>
+            <span class="tv-console-dot"></span>
+            <span class="tv-console-dot"></span>
+          </div>
+
+          <div class="tv-pill mb-3">
+            <i class="bi bi-robot"></i>
+            Secure Media Review
+          </div>
+
+          <div class="row g-3">
+            <div class="col-6">
+              <div class="tv-stat">
+                <div class="tv-stat-label mb-2">Step 1</div>
+                <div class="tv-stat-icon d-flex flex-column align-items-center gap-2">
+                  <div class="tv-stat-value">Upload</div>
+                  <i class="bi bi-upload"></i>
+                </div>
+                <div class="tv-muted small">Choose an image and submit it.</div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="tv-stat">
+                <div class="tv-stat-label mb-2">Step 2</div>
+                <div class="tv-stat-icon d-flex flex-column align-items-center gap-2">
+                  <div class="tv-stat-value">Decision</div>
+                  <i class="bi bi-cpu"></i>
+                </div>
+                <div class="tv-muted small">See the verdict and confidence.</div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="tv-stat">
+                <div class="tv-stat-label mb-2">Step 3</div>
+                <div class="tv-stat-icon d-flex flex-column align-items-center gap-2">
+                  <div class="tv-stat-value">Evidence</div>
+                  <i class="bi bi-search"></i>
+                </div>
+                <div class="tv-muted small">Inspect highlighted regions.</div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="tv-stat h-100">
+                <div class="tv-stat-label mb-2">Step 4</div>
+                <div class="tv-stat-icon d-flex flex-column align-items-center gap-2">
+                  <div class="tv-stat-value">History</div>
+                  <i class="bi bi-clock-history"></i>
+                </div>
+                <div class="tv-muted small">Compare earlier sessions.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tv-hero-console-note mt-4">
+            <i class="bi bi-lightning-charge"></i>
+            Built for fast image checks, readable outputs, and clean review history.
+          </div>
+
+          <div class="tv-hero-live mt-4">
+            <div class="tv-hero-live-label">Detection Surface</div>
+            <div class="tv-hero-live-item">
+              <span class="tv-live-pill tv-live-pill--active"></span>
+              Face integrity cues monitored
+            </div>
+            <div class="tv-hero-live-item">
+              <span class="tv-live-pill"></span>
+              Visual saliency explanation ready
+            </div>
+            <div class="tv-hero-live-item">
+              <span class="tv-live-pill"></span>
+              Session history available
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section #revealBlock class="row g-4 mb-4 tv-reveal">
+    <div class="col-md-4">
+      <div class="tv-card tv-summary-card">
+        <div class="tv-summary-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+        <div class="tv-summary-value">4</div>
+        <div class="tv-summary-label">guided steps from upload to decision</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="tv-card tv-summary-card">
+        <div class="tv-summary-icon"><i class="bi bi-layers-half"></i></div>
+        <div class="tv-summary-value">3</div>
+        <div class="tv-summary-label">evidence layers on the result surface</div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="tv-card tv-summary-card">
+        <div class="tv-summary-icon"><i class="bi bi-cpu-fill"></i></div>
+        <div class="tv-summary-value">24</div>
+        <div class="tv-summary-label">AI-first design cues across the product</div>
+      </div>
+    </div>
+  </section>
+</div>

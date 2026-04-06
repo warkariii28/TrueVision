@@ -1,0 +1,45 @@
+.tv-page-upload .tv-panel:last-child {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(244, 249, 255, 0.98) 100%);
+}
+
+.tv-page-upload .tv-upload-helper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tv-page-upload .progress {
+    background: #dfeafe;
+}
+
+.tv-page-upload .upload-buttons-div > * {
+    flex: 0 1 auto;
+}
+
+@media (max-width: 991.98px) {
+    .tv-page-upload .tv-upload-helper {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .tv-page-upload .upload-buttons-div > * {
+        flex-basis: 100%;
+    }
+
+    .tv-page-upload .progress-bar {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .tv-page-upload .tv-upload-helper span {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tv-page-upload .tv-upload-zone {
+        padding: 1.4rem 0.9rem;
+        border-radius: 20px;
+    }
+}

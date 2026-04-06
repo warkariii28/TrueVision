@@ -1,0 +1,151 @@
+<section class="row g-4">
+  <div class="col-12" *ngIf="isLoading()">
+    <div class="tv-panel">
+      <p class="mb-0">Loading result...</p>
+    </div>
+  </div>
+
+  <div class="col-12" *ngIf="errorMessage()">
+    <div class="alert alert-danger mb-0" role="alert">
+      {{ errorMessage() }}
+    </div>
+    <div class="mt-3">
+      <a routerLink="/upload" class="btn btn-sm btn-tv-primary">Go To Upload</a>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!isLoading() && result() as data">
+    <div class="col-12">
+      <div class="tv-panel tv-result-hero">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+          <div>
+            <div class="tv-kicker mb-2">
+              {{ isGuestPreview ? 'Preview Result' : 'Image Check Result' }}
+            </div>
+            <h1 class="tv-section-title mb-2">Your result is ready</h1>
+            <p class="tv-muted mb-0">
+              See the result, confidence score, simple explanation, and suggested next steps.
+            </p>
+            <p class="tv-muted mb-4">
+              This result is available for this session. It is not added to history unless you are logged in.
+            </p>
+          </div>
+
+          <div class="tv-result-hero-meta text-lg-end">
+            <div class="tv-result-badge" [ngClass]="{
+                'tv-result-fake': data.prediction === 'Fake',
+                'tv-result-real': data.prediction === 'Real'
+              }">
+              <i class="bi" [ngClass]="{
+                  'bi-exclamation-triangle': data.prediction === 'Fake',
+                  'bi-check-circle': data.prediction === 'Real'
+                }"></i>
+              {{ data.prediction }}
+            </div>
+
+            <div class="mt-3">
+              <div class="small text-uppercase text-secondary fw-semibold mb-2">Confidence</div>
+              <div class="fw-bold fs-4">{{ data.confidence.toFixed(2) }}%</div>
+              <div class="tv-meter tv-result-meter mt-2">
+                <span [style.width]="confidenceWidth"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="tv-panel h-100">
+        <h2 class="h4 fw-bold mb-3">Your Uploaded Image</h2>
+        <div class="tv-preview">
+          <img *ngIf="imageUrl" [src]="imageUrl" alt="Original image" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="tv-panel h-100">
+        <h2 class="h4 fw-bold mb-3">Highlighted Areas</h2>
+        <div class="tv-preview">
+          <img *ngIf="gradcamUrl" [src]="gradcamUrl" alt="Grad-CAM heatmap" />
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="tv-panel h-100">
+        <div class="tv-pill mb-3"><i class="bi bi-search"></i> Simple Explanation</div>
+        <h2 class="h4 fw-bold mb-3">Why the system gave this result</h2>
+
+        <div class="tv-result-copy mb-4">
+          {{ data.explanation || 'No explanation available.' }}
+        </div>
+
+        <div class="alert mb-0" [ngClass]="{
+            'alert-warning': data.prediction === 'Fake',
+            'alert-success': data.prediction === 'Real'
+          }">
+          <strong>Recommendation:</strong>
+          {{ data.recommendation || 'No recommendation available.' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="tv-panel h-100">
+        <ng-container *ngIf="!isGuestPreview; else guestInfo">
+          <div class="tv-pill mb-3"><i class="bi bi-chat-left-text"></i> Your Feedback</div>
+          <h2 class="h4 fw-bold mb-3">Was this result helpful?</h2>
+          <p class="tv-muted">
+            Choose a simple option below so your saved results remain useful later.
+          </p>
+
+          <div *ngIf="successMessage()" class="alert alert-success" role="alert">
+            {{ successMessage() }}
+          </div>
+
+          <div class="d-grid gap-3">
+            <button type="button" class="btn btn-outline-success btn-lg" [disabled]="isSubmittingFeedback()"
+              (click)="submitFeedback('Satisfied')">
+              <i class="bi bi-hand-thumbs-up me-2"></i>Helpful
+            </button>
+
+            <button type="button" class="btn btn-outline-danger btn-lg" [disabled]="isSubmittingFeedback()"
+              (click)="submitFeedback('Unsatisfied')">
+              <i class="bi bi-hand-thumbs-down me-2"></i>Not Helpful
+            </button>
+          </div>
+
+          <div class="mt-3 small text-secondary" *ngIf="result()?.feedback">
+            Saved feedback:
+            <strong>{{ result()?.feedback }}</strong>
+          </div>
+
+          <div class="d-grid gap-3 mt-4">
+            <a routerLink="/upload" class="btn btn-tv-primary btn-lg">Check Another Image</a>
+            <a routerLink="/results" class="btn btn-tv-soft btn-lg">See My Results</a>
+          </div>
+        </ng-container>
+
+        <ng-template #guestInfo>
+          <div class="tv-pill mb-3"><i class="bi bi-person"></i> Guest Mode</div>
+          <h2 class="h4 fw-bold mb-3">Preview only</h2>
+          <p class="tv-muted mb-4">
+            You can view this result now, but it is not saved to your history because you are not logged in.
+          </p>
+
+          <div class="alert alert-info mb-4" role="alert">
+            Log in or create an account if you want future uploads to be saved in your results history.
+          </div>
+
+          <div class="d-grid gap-3">
+            <a routerLink="/login" class="btn btn-tv-primary btn-lg">Login to Save History</a>
+            <a routerLink="/register" class="btn btn-tv-soft btn-lg">Create Account</a>
+            <a routerLink="/upload" class="btn btn-outline-secondary btn-lg">Check Another Image</a>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+</section>

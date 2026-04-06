@@ -1,0 +1,85 @@
+<nav class="navbar navbar-expand-lg tv-navbar" aria-label="Main navigation">
+  <div class="tv-shell-container">
+    <div class="tv-navbar-inner w-100">
+      <a class="navbar-brand tv-brand" routerLink="/">
+        <span class="tv-brand-icon">
+          <i class="bi bi-house-heart-fill" aria-hidden="true"></i>
+        </span>
+        <span>
+          <span class="tv-brand-name d-block">TRUEVISION</span>
+          <span class="tv-brand-subtitle">Deepfake image intelligence</span>
+        </span>
+      </a>
+
+      <span class="tv-nav-status d-none d-xl-inline-flex">
+        <i class="bi bi-stars"></i>
+        Advanced AI Review Surface
+      </span>
+
+      <button
+        class="navbar-toggler ms-auto tv-navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              Home
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/upload" routerLinkActive="active">
+              Check Image
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/performance" routerLinkActive="active">
+              Model Report
+            </a>
+          </li>
+
+          <ng-container *ngIf="authService.isAuthenticated(); else guestLinks">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/results" routerLinkActive="active">
+                My Results
+              </a>
+            </li>
+            <li class="nav-item ms-lg-2 tv-nav-cta-item">
+              <button type="button" class="btn btn-tv-primary tv-nav-cta" (click)="logout()">
+                Logout
+              </button>
+            </li>
+          </ng-container>
+
+          <ng-template #guestLinks>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/login" routerLinkActive="active">
+                Login
+              </a>
+            </li>
+            <li class="nav-item ms-lg-2 tv-nav-cta-item">
+              <a class="btn btn-tv-primary tv-nav-cta" routerLink="/register">
+                Create Account
+              </a>
+            </li>
+          </ng-template>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

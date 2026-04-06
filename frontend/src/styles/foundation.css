@@ -1,0 +1,95 @@
+:root {
+    --tv-primary: #2d6bff;
+    --tv-primary-strong: #1447d7;
+    --tv-primary-soft: #dbe7ff;
+    --tv-accent: #11c7b1;
+    --tv-accent-strong: #0c9a8a;
+    --tv-ink: #06142b;
+    --tv-text: #1d2f4f;
+    --tv-muted: #7183a6;
+    --tv-surface: #ffffff;
+    --tv-surface-alt: #f4f8ff;
+    --tv-surface-deep: #0b1730;
+    --tv-line: rgba(138, 159, 196, 0.22);
+    --tv-line-strong: rgba(116, 140, 182, 0.35);
+    --tv-shadow-sm: 0 18px 50px rgba(6, 20, 43, 0.07);
+    --tv-shadow-md: 0 26px 70px rgba(18, 36, 76, 0.12);
+    --tv-shadow-lg: 0 30px 90px rgba(21, 49, 124, 0.18);
+    --tv-radius-sm: 16px;
+    --tv-radius: 24px;
+    --tv-radius-lg: 32px;
+    --tv-pill: 999px;
+    --tv-shell-max: 1500px;
+    --tv-nav-height: 88px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    color: var(--tv-text);
+    font-family: "DM Sans", "Segoe UI", sans-serif;
+    line-height: 1.6;
+    background:
+        radial-gradient(circle at top left, rgba(45, 107, 255, 0.22), transparent 32%),
+        radial-gradient(circle at top right, rgba(17, 199, 177, 0.16), transparent 30%),
+        linear-gradient(180deg, #f4f7fd 0%, #f8fbff 30%, #f1f6ff 100%);
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.72)),
+        radial-gradient(circle, rgba(139, 156, 193, 0.12) 1px, transparent 1px);
+    background-size: auto, 26px 26px;
+    pointer-events: none;
+    z-index: -2;
+}
+
+img {
+    max-width: 100%;
+}
+
+a {
+    color: var(--tv-primary-strong);
+}
+
+a:hover {
+    color: var(--tv-primary);
+}
+
+::selection {
+    background: var(--tv-primary);
+    color: #fff;
+}
+
+:focus-visible {
+    outline: 2px solid rgba(45, 107, 255, 0.45);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}

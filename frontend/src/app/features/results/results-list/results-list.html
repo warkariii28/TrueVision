@@ -1,0 +1,74 @@
+<section class="tv-panel">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+    <div>
+      <div class="tv-kicker mb-2">Saved Results</div>
+      <h1 class="tv-section-title mb-2">My Results</h1>
+      <p class="tv-muted mb-0">
+        Review your past image checks, confidence scores, saved images, and feedback.
+      </p>
+    </div>
+
+    <div class="tv-action-group d-flex flex-wrap gap-2">
+      <a routerLink="/upload" class="btn btn-tv-primary">Check New Image</a>
+      <a routerLink="/" class="btn btn-tv-soft">Dashboard</a>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoading() && !errorMessage() && results().length === 0" class="py-4">
+    <h3 class="h5 fw-bold mb-2">No saved results yet</h3>
+    <p class="mb-3 text-secondary">
+      Upload an image while logged in and it will appear here automatically.
+    </p>
+    <a routerLink="/upload" class="btn btn-tv-primary">Check Image</a>
+  </div>
+
+  <div class="table-responsive" *ngIf="!isLoading() && !errorMessage() && results().length > 0">
+    <table class="table tv-table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Prediction</th>
+          <th>Confidence</th>
+          <th>Image</th>
+          <th>Highlighted Areas</th>
+          <th>Feedback</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let result of results()">
+          <td class="fw-semibold" data-label="ID">#{{ result.id }}</td>
+
+          <td data-label="Prediction">
+            <span class="badge" [class.text-bg-danger]="result.prediction === 'Fake'"
+              [class.text-bg-success]="result.prediction === 'Real'">
+              {{ result.prediction }}
+            </span>
+          </td>
+
+          <td data-label="Confidence">{{ result.confidence.toFixed(2) }}%</td>
+
+          <td data-label="Image">
+            <a [routerLink]="['/results', result.id]" class="tv-result-link">
+              <img [src]="imageUrl(result.imagePath)" alt="Uploaded image" class="tv-thumb" />
+            </a>
+          </td>
+
+          <td data-label="Highlighted Areas">
+            <a [routerLink]="['/results', result.id]" class="tv-result-link">
+              <img *ngIf="result.gradcamPath" [src]="gradcamUrl(result.gradcamPath)" alt="Grad-CAM image"
+                class="tv-thumb" />
+            </a>
+          </td>
+
+          <td data-label="Feedback">
+            <span class="tv-feedback-pill">
+              <i class="bi bi-chat-left-text"></i>
+              {{ result.feedback || 'Not provided' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
