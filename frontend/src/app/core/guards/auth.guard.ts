@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { catchError, map, of } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 export const authGuard: CanActivateFn = () => {
@@ -10,6 +11,14 @@ export const authGuard: CanActivateFn = () => {
     return true;
   }
 
-  router.navigate(['/login']);
-  return false;
+  return authService.me().pipe(
+    map((response) => {
+      if (response.authenticated) {
+        return true;
+      }
+
+      return router.createUrlTree(['/login']);
+    }),
+    catchError(() => of(router.createUrlTree(['/login'])))
+  );
 };

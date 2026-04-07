@@ -178,7 +178,7 @@ export class Upload {
         this.isSubmitting.set(false);
 
         setTimeout(() => {
-          if (response.result.id) {
+          if (response.result.saved && response.result.id) {
             this.router.navigate(['/results', response.result.id]);
             return;
           }

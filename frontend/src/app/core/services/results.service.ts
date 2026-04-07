@@ -5,6 +5,7 @@ import { API_BASE_URL } from '../config/api.config';
 
 export type ResultItem = {
   id: number;
+  saved: boolean;
   prediction: 'Fake' | 'Real';
   confidence: number;
   feedback: string | null;
