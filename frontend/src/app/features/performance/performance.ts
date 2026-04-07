@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule, NgFor, DecimalPipe } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import {
   PerformanceModel,
   PerformanceResponse,
@@ -8,7 +8,7 @@ import {
 
 @Component({
   selector: 'app-performance',
-  imports: [NgFor, CommonModule, DecimalPipe],
+  imports: [NgFor, CommonModule],
   templateUrl: './performance.html',
   styleUrl: './performance.css',
 })

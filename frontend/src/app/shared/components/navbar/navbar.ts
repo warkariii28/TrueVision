@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -11,20 +11,27 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class Navbar {
   readonly authService = inject(AuthService);
+  readonly isMenuOpen = signal(false);
 
   private readonly router = inject(Router);
 
-  logout(): void {
-  console.log('Logout clicked');
+  toggleMenu(): void {
+    this.isMenuOpen.update((isOpen) => !isOpen);
+  }
 
-  this.authService.logout().subscribe({
-    next: () => {
-      console.log('Logout success');
-      this.router.navigate(['/']);
-    },
-    error: (error) => {
-      console.error('Logout failed:', error);
-    }
-  });
-}
+  closeMenu(): void {
+    this.isMenuOpen.set(false);
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.closeMenu();
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.error('Logout failed:', error);
+      }
+    });
+  }
 }

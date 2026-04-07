@@ -1,20 +1,47 @@
 import { Routes } from '@angular/router';
-import { Home } from './features/home/home';
-import { Login } from './features/auth/login/login';
-import { Register } from './features/auth/register/register';
-import { Upload } from './features/upload/upload';
-import { ResultsList } from './features/results/results-list/results-list';
-import { ResultDetail } from './features/results/result-detail/result-detail';
-import { Performance } from './features/performance/performance';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: Home },
-  { path: 'login', component: Login },
-  { path: 'register', component: Register },
-  { path: 'upload', component: Upload },
-  { path: 'results', component: ResultsList, canActivate: [authGuard] },
-  { path: 'results/:id', component: ResultDetail, canActivate: [authGuard] },
-  { path: 'result-preview', component: ResultDetail },
-  { path: 'performance', component: Performance }
+  {
+    path: '',
+    loadComponent: () =>
+      import('./features/home/home').then((m) => m.Home),
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./features/auth/login/login').then((m) => m.Login),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./features/auth/register/register').then((m) => m.Register),
+  },
+  {
+    path: 'upload',
+    loadComponent: () =>
+      import('./features/upload/upload').then((m) => m.Upload),
+  },
+  {
+    path: 'results',
+    loadComponent: () =>
+      import('./features/results/results-list/results-list').then((m) => m.ResultsList),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'results/:id',
+    loadComponent: () =>
+      import('./features/results/result-detail/result-detail').then((m) => m.ResultDetail),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'result-preview',
+    loadComponent: () =>
+      import('./features/results/result-detail/result-detail').then((m) => m.ResultDetail),
+  },
+  {
+    path: 'performance',
+    loadComponent: () =>
+      import('./features/performance/performance').then((m) => m.Performance),
+  },
 ];

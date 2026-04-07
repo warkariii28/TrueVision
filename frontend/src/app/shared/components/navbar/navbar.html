@@ -19,22 +19,22 @@
       <button
         class="navbar-toggler ms-auto tv-navbar-toggler"
         type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
+        (click)="toggleMenu()"
         aria-controls="navbarNav"
-        aria-expanded="false"
+        [attr.aria-expanded]="isMenuOpen()"
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="navbarNav" [class.show]="isMenuOpen()">
         <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
           <li class="nav-item">
             <a
               class="nav-link"
               routerLink="/"
               routerLinkActive="active"
+              (click)="closeMenu()"
               [routerLinkActiveOptions]="{ exact: true }"
             >
               Home
@@ -42,20 +42,20 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" routerLink="/upload" routerLinkActive="active">
+            <a class="nav-link" routerLink="/upload" routerLinkActive="active" (click)="closeMenu()">
               Check Image
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" routerLink="/performance" routerLinkActive="active">
+            <a class="nav-link" routerLink="/performance" routerLinkActive="active" (click)="closeMenu()">
               Model Report
             </a>
           </li>
 
           <ng-container *ngIf="authService.isAuthenticated(); else guestLinks">
             <li class="nav-item">
-              <a class="nav-link" routerLink="/results" routerLinkActive="active">
+              <a class="nav-link" routerLink="/results" routerLinkActive="active" (click)="closeMenu()">
                 My Results
               </a>
             </li>
@@ -68,12 +68,12 @@
 
           <ng-template #guestLinks>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/login" routerLinkActive="active">
+              <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="closeMenu()">
                 Login
               </a>
             </li>
             <li class="nav-item ms-lg-2 tv-nav-cta-item">
-              <a class="btn btn-tv-primary tv-nav-cta" routerLink="/register">
+              <a class="btn btn-tv-primary tv-nav-cta" routerLink="/register" (click)="closeMenu()">
                 Create Account
               </a>
             </li>

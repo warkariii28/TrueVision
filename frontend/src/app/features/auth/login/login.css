@@ -1,0 +1,39 @@
+@media (max-width: 400px) {
+    .tv-page-auth .tv-auth-shell {
+        padding-top: 0;
+        align-items: stretch;
+    }
+
+    .tv-page-auth .tv-auth-shell .row {
+        --bs-gutter-x: 0.9rem;
+        --bs-gutter-y: 0.9rem;
+    }
+
+    .tv-page-auth .tv-panel {
+        padding: 0.9rem;
+    }
+
+    .tv-page-auth .tv-section-title {
+        font-size: 1.3rem;
+        line-height: 1.15;
+    }
+
+    .tv-page-auth h2.fw-bold {
+        font-size: 1.15rem;
+        line-height: 1.2;
+    }
+
+    .tv-page-auth .tv-form-control {
+        min-height: 3rem;
+        padding: 0.8rem 0.9rem;
+    }
+
+    .tv-page-auth .btn-tv-primary {
+        min-height: 2.9rem;
+        font-size: 0.82rem;
+    }
+
+    .tv-page-auth .text-center {
+        font-size: 0.92rem;
+    }
+}

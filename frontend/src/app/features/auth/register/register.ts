@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -21,6 +21,7 @@ export class Register {
 
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   onSubmit(): void {
     this.errorMessage.set('');
@@ -50,7 +51,9 @@ export class Register {
     }).subscribe({
       next: () => {
         this.isSubmitting.set(false);
-        this.router.navigate(['/upload']);
+
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        this.router.navigateByUrl(returnUrl || '/upload');
       },
       error: (error) => {
         this.isSubmitting.set(false);
