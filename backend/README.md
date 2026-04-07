@@ -32,8 +32,13 @@ Create this file:
 Use:
 
 ```env
+APP_ENV=development
 SECRET_KEY=your-secret-key-here
 DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost/deepfake_detection
+CORS_ORIGINS=http://localhost:4200,http://127.0.0.1:4200
+SESSION_COOKIE_SECURE=false
+SESSION_COOKIE_SAMESITE=Lax
+PRELOAD_MODEL=false
 ```
 
 You can copy the structure from:
@@ -124,6 +129,24 @@ They are used to serve:
 - The backend is now API-first; old Flask HTML page routes/templates are no longer part of the main app flow
 - Unauthorized access returns JSON `401` responses
 - If `.env` is missing, the backend falls back to SQLite for local safety, but PostgreSQL is recommended for real saved-history use
+- In production, `APP_ENV=production` requires `SECRET_KEY` to be set and should use HTTPS with `SESSION_COOKIE_SECURE=true`
+
+## Production Notes
+
+Recommended production values:
+
+```env
+APP_ENV=production
+SECRET_KEY=<long-random-secret>
+DATABASE_URL=<production-database-url>
+CORS_ORIGINS=https://your-frontend-domain.com
+SESSION_COOKIE_SECURE=true
+SESSION_COOKIE_SAMESITE=Lax
+PRELOAD_MODEL=true
+```
+
+The inference stack is now lazy-loaded during upload processing, which avoids loading the model for auth/results/performance-only requests.
+If you set `PRELOAD_MODEL=true`, the backend will warm the model during startup so the first upload request is faster.
 
 ## Common Checks
 

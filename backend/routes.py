@@ -17,7 +17,8 @@ from werkzeug.utils import secure_filename
 
 from app import bcrypt, create_app, db, login_manager
 from filter_utils import filter_image
-from models import Performance, Result, User, predict_image
+from inference import predict_image
+from models import Performance, Result, User
 
 
 @login_manager.user_loader
