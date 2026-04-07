@@ -64,8 +64,13 @@ Create this file:
 Use:
 
 ```env
+APP_ENV=development
 SECRET_KEY=your-secret-key-here
 DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost/deepfake_detection
+CORS_ORIGINS=http://localhost:4200,http://127.0.0.1:4200
+SESSION_COOKIE_SECURE=false
+SESSION_COOKIE_SAMESITE=Lax
+PRELOAD_MODEL=false
 ```
 
 You can copy from:
@@ -103,6 +108,46 @@ npm start
 Frontend runs at:
 
 `http://localhost:4200`
+
+## Production Config
+
+### Backend
+
+For production, set:
+
+```env
+APP_ENV=production
+SECRET_KEY=<long-random-secret>
+DATABASE_URL=<production-database-url>
+CORS_ORIGINS=https://your-frontend-domain.com
+SESSION_COOKIE_SECURE=true
+SESSION_COOKIE_SAMESITE=Lax
+PRELOAD_MODEL=true
+```
+
+- `SECRET_KEY` is required in production
+- `CORS_ORIGINS` should list your real frontend origin(s)
+- `SESSION_COOKIE_SECURE=true` should be enabled behind HTTPS
+- `PRELOAD_MODEL=true` warms the AI model during backend startup so the first upload is faster
+
+### Frontend
+
+The frontend now derives API URLs from the current origin by default.
+
+- local Angular dev server:
+  defaults to `http://localhost:5000`
+- same-origin production deploy:
+  uses the current site origin automatically
+
+If you need a separate API host, inject this before the Angular bundle loads:
+
+```html
+<script>
+  window.__TRUEVISION_CONFIG__ = {
+    backendOrigin: 'https://api.example.com'
+  };
+</script>
+```
 
 ## Session Persistence
 
