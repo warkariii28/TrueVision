@@ -108,7 +108,7 @@
             <a [routerLink]="['/results', result.id]" class="tv-result-link">
               <!-- <div class="tv-results-thumb-shell"> -->
                 <!-- <span class="tv-results-thumb-label">Original</span> -->
-                <img [src]="imageUrl(result.imagePath)" alt="Uploaded image" class="tv-thumb" />
+                <img [src]="imageUrl(result)" alt="Uploaded image" class="tv-thumb" />
               <!-- </div> -->
             </a>
           </td>
@@ -117,7 +117,7 @@
             <a [routerLink]="['/results', result.id]" class="tv-result-link">
               <!-- <div class="tv-results-thumb-shell"> -->
                 <!-- <span class="tv-results-thumb-label">Focus map</span> -->
-                <img *ngIf="result.gradcamPath" [src]="gradcamUrl(result.gradcamPath)" alt="Grad-CAM image"
+                <img *ngIf="result.gradcamPath !== null || !result.saved" [src]="gradcamUrl(result)" alt="Grad-CAM image"
                   class="tv-thumb" />
               <!-- </div> -->
             </a>

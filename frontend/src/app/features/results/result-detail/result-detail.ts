@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ResultItem, ResultsService } from '../../../core/services/results.service';
-import { STATIC_BASE_URL } from '../../../core/config/api.config';
 
 @Component({
   selector: 'app-result-detail',
@@ -15,7 +14,6 @@ export class ResultDetail {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly resultsService = inject(ResultsService);
-  private readonly backendBase = `${STATIC_BASE_URL}/`;
 
   readonly result = signal<ResultItem | null>(null);
   readonly errorMessage = signal('');
@@ -67,13 +65,16 @@ export class ResultDetail {
   }
 
   get imageUrl(): string {
-    const imagePath = this.result()?.imagePath;
-    return imagePath ? `${this.backendBase}${imagePath}` : '';
+    const result = this.result();
+    return result ? this.resultsService.resultImageUrl(result) : '';
   }
 
   get gradcamUrl(): string {
-    const gradcamPath = this.result()?.gradcamPath;
-    return gradcamPath ? `${this.backendBase}${gradcamPath}` : '';
+    const result = this.result();
+    if (!result || (result.saved && !result.gradcamPath)) {
+      return '';
+    }
+    return this.resultsService.resultGradcamUrl(result);
   }
 
   get isGuestPreview(): boolean {

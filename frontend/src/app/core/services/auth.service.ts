@@ -14,11 +14,13 @@ export type AuthUser = {
 export type AuthMeResponse = {
   authenticated: boolean;
   user: AuthUser | null;
+  csrfToken: string | null;
 };
 
 export type AuthActionResponse = {
   message?: string;
   user?: AuthUser | null;
+  csrfToken?: string | null;
   error?: string;
 };
 
@@ -30,6 +32,7 @@ export class AuthService {
 
   readonly user = signal<AuthUser | null>(null);
   readonly isAuthenticated = signal(false);
+  readonly csrfToken = signal<string | null>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -42,6 +45,7 @@ export class AuthService {
         tap((response) => {
           this.user.set(response.user);
           this.isAuthenticated.set(response.authenticated);
+          this.csrfToken.set(response.csrfToken);
         })
       );
   }
@@ -55,6 +59,7 @@ export class AuthService {
         tap((response) => {
           this.user.set(response.user ?? null);
           this.isAuthenticated.set(!!response.user);
+          this.csrfToken.set(response.csrfToken ?? null);
         })
       );
   }
@@ -73,6 +78,7 @@ export class AuthService {
         tap((response) => {
           this.user.set(response.user ?? null);
           this.isAuthenticated.set(!!response.user);
+          this.csrfToken.set(response.csrfToken ?? null);
         })
       );
   }
@@ -90,6 +96,7 @@ export class AuthService {
         tap(() => {
           this.user.set(null);
           this.isAuthenticated.set(false);
+          this.csrfToken.set(null);
         })
       );
   }

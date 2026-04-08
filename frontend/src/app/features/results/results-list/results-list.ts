@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ResultItem, ResultsService } from '../../../core/services/results.service';
-import { STATIC_BASE_URL } from '../../../core/config/api.config';
 import { ResultDetail } from '../result-detail/result-detail';
 
 @Component({
@@ -18,7 +17,6 @@ export class ResultsList {
   readonly results = signal<ResultItem[]>([]);
   readonly isLoading = signal(true);
   readonly errorMessage = signal('');
-  private readonly backendBase = `${STATIC_BASE_URL}/`;
 
   constructor() {
     this.resultsService.getResults().subscribe({
@@ -35,12 +33,12 @@ export class ResultsList {
     });
   }
 
-  imageUrl(path: string): string {
-    return `${this.backendBase}${path}`;
+  imageUrl(result: ResultItem): string {
+    return this.resultsService.resultImageUrl(result);
   }
 
-  gradcamUrl(path: string | null): string {
-    return path ? `${this.backendBase}${path}` : '';
+  gradcamUrl(result: ResultItem): string {
+    return this.resultsService.resultGradcamUrl(result);
   }
 
   get totalResults(): number {

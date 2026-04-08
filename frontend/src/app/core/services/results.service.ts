@@ -80,6 +80,22 @@ export class ResultsService {
 
   constructor(private http: HttpClient) {}
 
+  resultImageUrl(result: ResultItem): string {
+    if (result.saved && result.id) {
+      return `${this.apiBase}/media/result/${result.id}/image`;
+    }
+
+    return `${this.apiBase}/media/guest/image`;
+  }
+
+  resultGradcamUrl(result: ResultItem): string {
+    if (result.saved && result.id) {
+      return `${this.apiBase}/media/result/${result.id}/gradcam`;
+    }
+
+    return `${this.apiBase}/media/guest/gradcam`;
+  }
+
   uploadImage(file: File) {
     const formData = new FormData();
     formData.append('file', file);
