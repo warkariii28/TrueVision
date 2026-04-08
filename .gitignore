@@ -54,3 +54,16 @@ backend/best_Swin_stage2.pth
 
 # Old backend static image assets
 backend/static/*.png
+
+
+# code-review-graph
+
+.claude/
+.cursorrules
+.mcp.json
+.opencode.json
+.windsurfrules
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+
