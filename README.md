@@ -1,21 +1,14 @@
 # TrueVision
 
-TrueVision is a deepfake image detection application with:
+TrueVision is a deepfake image detection application built with an Angular frontend, a Flask backend API, PostgreSQL-backed persistence, and a PyTorch/Transformers inference pipeline.
 
-- an Angular frontend
-- a Flask backend API
-- PostgreSQL for persisted users, saved results, and model performance
-- guest upload support with temporary preview results
-
-## Features
+## What It Does
 
 - Upload a face image and run deepfake analysis
-- View confidence score, explanation, recommendation, and Grad-CAM output
-- Guest mode:
-  guests can upload and view results without logging in
-- Authenticated mode:
-  logged-in users get saved history and feedback persistence
-- Public model performance report
+- Show prediction confidence, explanation, recommendation, and Grad-CAM output
+- Support guest uploads with temporary preview results
+- Support logged-in users with saved result history and feedback
+- Expose a public model performance report
 
 ## Project Structure
 
@@ -25,6 +18,7 @@ TrueVision - Angular/
 │   ├── app.py
 │   ├── routes.py
 │   ├── models.py
+│   ├── inference.py
 │   ├── requirements.txt
 │   ├── .env.example
 │   └── static/
@@ -38,108 +32,94 @@ TrueVision - Angular/
 └── README.md
 ```
 
-## Backend Setup
+## Local Setup
 
-### 1. Create and activate a virtual environment
+### Backend
 
-From the `backend` folder:
+From `backend`:
 
 ```powershell
 py -3.10 -m venv venv
 .\venv\Scripts\Activate.ps1
-```
-
-### 2. Install dependencies
-
-```powershell
 pip install -r requirements.txt
 ```
 
-### 3. Create `.env`
+Create `backend/.env` using `backend/.env.example`.
 
-Create this file:
-
-`backend/.env`
-
-Use:
+Example local values:
 
 ```env
 APP_ENV=development
 SECRET_KEY=your-secret-key-here
+FLASK_DEBUG=false
 DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost/deepfake_detection
 CORS_ORIGINS=http://localhost:4200,http://127.0.0.1:4200
 SESSION_COOKIE_SECURE=false
 SESSION_COOKIE_SAMESITE=Lax
 PRELOAD_MODEL=false
+RATELIMIT_STORAGE_URI=memory://
+LOGIN_RATE_LIMIT_COUNT=10
+LOGIN_RATE_LIMIT_WINDOW=300
+REGISTER_RATE_LIMIT_COUNT=5
+REGISTER_RATE_LIMIT_WINDOW=600
+UPLOAD_RATE_LIMIT_COUNT=8
+UPLOAD_RATE_LIMIT_WINDOW=600
 ```
 
-You can copy from:
-
-`backend/.env.example`
-
-### 4. Run the backend
-
-From `backend`:
+Run the backend:
 
 ```powershell
-.\venv\Scripts\python.exe -m flask --app routes.py --debug run
+.\venv\Scripts\python.exe -m flask --app routes.py run
 ```
 
-Backend runs at:
+Backend runs at `http://localhost:5000`.
 
-`http://localhost:5000`
+### Frontend
 
-## Frontend Setup
-
-From the `frontend` folder:
-
-### 1. Install dependencies
+From `frontend`:
 
 ```powershell
 npm install
-```
-
-### 2. Run the Angular app
-
-```powershell
 npm start
 ```
 
-Frontend runs at:
+Frontend runs at `http://localhost:4200`.
 
-`http://localhost:4200`
+## Production Notes
 
-## Production Config
-
-### Backend
-
-For production, set:
+Recommended backend values:
 
 ```env
 APP_ENV=production
 SECRET_KEY=<long-random-secret>
+FLASK_DEBUG=false
 DATABASE_URL=<production-database-url>
 CORS_ORIGINS=https://your-frontend-domain.com
 SESSION_COOKIE_SECURE=true
 SESSION_COOKIE_SAMESITE=Lax
 PRELOAD_MODEL=true
+RATELIMIT_STORAGE_URI=redis://localhost:6379/0
+LOGIN_RATE_LIMIT_COUNT=10
+LOGIN_RATE_LIMIT_WINDOW=300
+REGISTER_RATE_LIMIT_COUNT=5
+REGISTER_RATE_LIMIT_WINDOW=600
+UPLOAD_RATE_LIMIT_COUNT=8
+UPLOAD_RATE_LIMIT_WINDOW=600
 ```
 
-- `SECRET_KEY` is required in production
-- `CORS_ORIGINS` should list your real frontend origin(s)
-- `SESSION_COOKIE_SECURE=true` should be enabled behind HTTPS
-- `PRELOAD_MODEL=true` warms the AI model during backend startup so the first upload is faster
+- `SECRET_KEY` is required in all environments
+- `SESSION_COOKIE_SECURE=true` should be used behind HTTPS
+- `PRELOAD_MODEL=true` warms the AI model during startup so the first upload is faster
+- write routes use CSRF protection through the `X-CSRF-Token` header
+- auth and upload endpoints are rate-limited through Flask-Limiter
+- use Redis for `RATELIMIT_STORAGE_URI` in multi-instance production so rate limits stay shared
 
-### Frontend
+The frontend now derives backend URLs from the browser origin by default.
 
-The frontend now derives API URLs from the current origin by default.
+- Angular dev server defaults to `http://localhost:5000`
+- same-origin production deploys use the current site origin automatically
 
-- local Angular dev server:
-  defaults to `http://localhost:5000`
-- same-origin production deploy:
-  uses the current site origin automatically
-
-If you need a separate API host, inject this before the Angular bundle loads:
+If you need a separate API host, inject runtime config before the Angular bundle loads:
 
 ```html
 <script>
@@ -149,53 +129,25 @@ If you need a separate API host, inject this before the Angular bundle loads:
 </script>
 ```
 
-## Session Persistence
-
-Session persistence is already implemented.
-
-### Backend
-
-In `backend/app.py`:
-
-- session lifetime is set to 7 days
-- Flask session cookie is used for auth
-
-In `backend/routes.py`:
-
-- login sets `session.permanent = True`
-- authenticated API calls use the same session cookie
-
-### Frontend
-
-In `frontend/src/app/app.ts`:
-
-- the app calls `/api/auth/me` on startup
-- this restores auth state after refresh if the session is still valid
-
-In Angular services:
-
-- API calls use `withCredentials: true`
-- that ensures browser cookies are sent with requests
-
-## Guest vs Logged-in Flow
+## Main Flows
 
 ### Guest users
 
-- can open upload page
-- can upload image
-- can view result preview
+- can open the upload page
+- can upload an image
+- can view a temporary result preview
 - preview survives refresh using `sessionStorage`
 - results are not saved to history
 
 ### Logged-in users
 
-- can upload image
-- result is saved in the database
+- can log in or register
+- can upload an image and save the result
 - can view `/results`
 - can revisit saved result pages
 - can submit feedback
 
-## Backend API Summary
+## API Summary
 
 ### Auth
 
@@ -210,53 +162,42 @@ In Angular services:
 - `GET /api/results`
 - `GET /api/results/<id>`
 - `POST /api/results/<id>/feedback`
+- `GET /api/media/result/<id>/image`
+- `GET /api/media/result/<id>/gradcam`
+- `GET /api/media/guest/image`
+- `GET /api/media/guest/gradcam`
 
 ### Performance
 
 - `GET /api/performance`
 
-## Git Upload Safety
+## Testing
 
-Before pushing to GitHub:
+### Frontend
 
-- do not commit `backend/.env`
-- do not commit virtual environments
-- do not commit uploaded/generated images unless intentionally needed
-- do not commit SQLite DB files, caches, or `__pycache__`
-
-This repo now includes a root `.gitignore` to help with that.
-
-## Suggested Git Commands
-
-If this is a new repo:
+From `frontend`:
 
 ```powershell
-git init
-git add .
-git commit -m "Initial TrueVision Angular + Flask API migration"
-git branch -M main
-git remote add origin <your-repo-url>
-git push -u origin main
+cmd /c npx ng test --watch=false
+cmd /c npm run build
 ```
 
-If Git warns that `.env` is already tracked, remove it from Git tracking first:
+### Backend
+
+From `backend`:
 
 ```powershell
-git rm --cached backend/.env
-git commit -m "Stop tracking backend env file"
+.\venv\Scripts\python.exe -m pytest -q
 ```
-
-## Legacy Flask Version
-
-
-The older Flask-only version of the project is preserved in:
-
-`legacy-flask-version/`
-
-The root project is the current Angular frontend + Flask API version.
 
 ## Notes
 
-- The backend serves generated result images from `backend/static/uploads` and `backend/static/gradcam`
-- Angular uses its own favicon from `frontend/public/favicon.ico`
-- PostgreSQL is recommended for full saved-history functionality
+- The backend stores generated files in `backend/static/uploads` and `backend/static/gradcam`
+- Saved-result media is delivered through protected API endpoints instead of direct static URLs
+- The inference model is lazy-loaded, so non-upload routes do not boot the full ML stack
+- PostgreSQL is the recommended database for real saved-history usage
+- Do not commit `backend/.env`
+
+## Legacy Version
+
+The older Flask-only version is preserved in `legacy-flask-version/`.
