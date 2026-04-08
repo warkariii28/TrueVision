@@ -8,6 +8,7 @@ import { ResultsService } from '../../core/services/results.service';
   imports: [RouterLink, NgIf, NgClass],
   templateUrl: './upload.html',
   styleUrl: './upload.css',
+  host: { class: 'tv-page-upload' },
 })
 export class Upload {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;

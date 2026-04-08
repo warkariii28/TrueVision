@@ -14,6 +14,53 @@
     </div>
   </div>
 
+  <div class="tv-results-summary-grid mb-4" *ngIf="!isLoading() && !errorMessage() && results().length > 0">
+    <article class="tv-results-summary-card" tabindex="0">
+      <div class="tv-results-summary-top">
+
+        <span class="tv-results-summary-icon"><i class="bi bi-collection"></i></span>
+        <div class="tv-results-summary-heading">
+          <span class="tv-results-summary-kicker">Total checks</span>
+          <strong class="tv-results-summary-value">{{ totalResults }}</strong>
+        </div>
+      </div>
+      <p class="mb-0">All saved image analyses currently attached to your account.</p>
+    </article>
+
+    <article class="tv-results-summary-card" tabindex="0">
+      <div class="tv-results-summary-top">
+        <span class="tv-results-summary-icon"><i class="bi bi-exclamation-octagon"></i></span>
+        <div class="tv-results-summary-heading">
+          <span class="tv-results-summary-kicker">Flagged fake</span>
+          <strong class="tv-results-summary-value">{{ fakeCount }}</strong>
+        </div>
+      </div>
+      <p class="mb-0">Saved checks where the model detected likely manipulation.</p>
+    </article>
+
+    <article class="tv-results-summary-card" tabindex="0">
+      <div class="tv-results-summary-top">
+        <span class="tv-results-summary-icon"><i class="bi bi-check2-circle"></i></span>
+        <div class="tv-results-summary-heading">
+          <span class="tv-results-summary-kicker">Likely real</span>
+          <strong class="tv-results-summary-value">{{ realCount }}</strong>
+        </div>
+      </div>
+      <p class="mb-0">Saved checks where the model judged the image as more likely authentic.</p>
+    </article>
+
+    <article class="tv-results-summary-card" tabindex="0">
+      <div class="tv-results-summary-top">
+        <span class="tv-results-summary-icon"><i class="bi bi-chat-left-dots"></i></span>
+        <div class="tv-results-summary-heading">
+          <span class="tv-results-summary-kicker">With feedback</span>
+          <strong class="tv-results-summary-value">{{ feedbackCount }}</strong>
+        </div>
+      </div>
+      <p class="mb-0">Results where you already marked whether the analysis was helpful.</p>
+    </article>
+  </div>
+
   <div *ngIf="!isLoading() && !errorMessage() && results().length === 0" class="py-4">
     <h3 class="h5 fw-bold mb-2">No saved results yet</h3>
     <p class="mb-3 text-secondary">
@@ -37,32 +84,47 @@
 
       <tbody>
         <tr *ngFor="let result of results()">
-          <td class="fw-semibold" data-label="ID">#{{ result.id }}</td>
+          <td class="fw-semibold" data-label="ID">
+            <div class="tv-results-id-cell">
+              <span class="tv-rank-pill">#{{ result.id }}</span>
+            </div>
+          </td>
 
           <td data-label="Prediction">
-            <span class="badge" [class.text-bg-danger]="result.prediction === 'Fake'"
+            <span class="badge tv-results-badge" [class.text-bg-danger]="result.prediction === 'Fake'"
               [class.text-bg-success]="result.prediction === 'Real'">
               {{ result.prediction }}
             </span>
           </td>
 
-          <td data-label="Confidence">{{ result.confidence.toFixed(2) }}%</td>
+          <td data-label="Confidence">
+            <div class="tv-results-confidence">
+              <strong>{{ result.confidence.toFixed(2) }}%</strong>
+              <span>{{ result.prediction === 'Fake' ? 'Manipulation confidence' : 'Authenticity confidence' }}</span>
+            </div>
+          </td>
 
           <td data-label="Image">
             <a [routerLink]="['/results', result.id]" class="tv-result-link">
-              <img [src]="imageUrl(result.imagePath)" alt="Uploaded image" class="tv-thumb" />
+              <!-- <div class="tv-results-thumb-shell"> -->
+                <!-- <span class="tv-results-thumb-label">Original</span> -->
+                <img [src]="imageUrl(result.imagePath)" alt="Uploaded image" class="tv-thumb" />
+              <!-- </div> -->
             </a>
           </td>
 
           <td data-label="Highlighted Areas">
             <a [routerLink]="['/results', result.id]" class="tv-result-link">
-              <img *ngIf="result.gradcamPath" [src]="gradcamUrl(result.gradcamPath)" alt="Grad-CAM image"
-                class="tv-thumb" />
+              <!-- <div class="tv-results-thumb-shell"> -->
+                <!-- <span class="tv-results-thumb-label">Focus map</span> -->
+                <img *ngIf="result.gradcamPath" [src]="gradcamUrl(result.gradcamPath)" alt="Grad-CAM image"
+                  class="tv-thumb" />
+              <!-- </div> -->
             </a>
           </td>
 
           <td data-label="Feedback">
-            <span class="tv-feedback-pill">
+            <span class="tv-feedback-pill tv-results-feedback-pill">
               <i class="bi bi-chat-left-text"></i>
               {{ result.feedback || 'Not provided' }}
             </span>

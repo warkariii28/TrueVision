@@ -9,6 +9,7 @@ import { STATIC_BASE_URL } from '../../../core/config/api.config';
   imports: [NgClass, NgIf, RouterLink],
   templateUrl: './result-detail.html',
   styleUrl: './result-detail.css',
+  host: { class: 'tv-page-result' },
 })
 export class ResultDetail {
   private readonly route = inject(ActivatedRoute);

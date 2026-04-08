@@ -4,7 +4,8 @@
       <div class="tv-kicker mb-2">Model Report</div>
       <h1 class="tv-section-title mb-2">How well the system performs</h1>
       <p class="tv-muted mb-0">
-        This page shows how reliable each model is in simple terms, so the results are easier to understand.
+        This page turns model metrics into a clearer decision view, so you can quickly see which version is strongest
+        and where its mistakes still happen.
       </p>
     </div>
   </div>
@@ -21,59 +22,92 @@
 <ng-container *ngIf="!isLoading() && !errorMessage() && bestModel() as best">
   <section class="row g-4 mb-4">
     <div class="col-lg-5">
-      <div class="tv-panel h-100">
-        <div class="tv-kicker mb-2">Best Model</div>
-        <h2 class="h3 fw-bold mb-3">{{ best.modelName }}</h2>
+      <div class="tv-panel tv-best-model-panel h-100">
+        <div class="tv-kicker mb-2">Current Leader</div>
+        <div class="tv-model-leader-chip mb-3">
+          <span class="tv-model-leader-rank">#1</span>
+          <span>Top ranked across {{ leadingModelCount }} saved models</span>
+        </div>
+        <h2 class="h3 fw-bold mb-2">{{ best.modelName }}</h2>
         <p class="tv-muted mb-4">
-          This is the strongest model currently stored in the system based on overall recorded performance.
+          This model currently leads the stack on overall accuracy and remains the strongest all-round option stored in
+          the system.
         </p>
+
+        <div class="tv-callout-note mb-4" *ngIf="runnerUpModel as runnerUp">
+          <div class="tv-callout-note-label">Lead over next best model</div>
+          <div class="tv-callout-note-value">
+            {{ accuracyLead ?? 0 | percent:'1.1-2' }}
+          </div>
+          <p class="mb-0">
+            Ahead of <strong>{{ runnerUp.modelName }}</strong> in overall correctness.
+          </p>
+        </div>
 
         <div class="row g-3">
           <div class="col-6">
             <div class="tv-stat-card">
-              <div class="tv-stat-label">Gets It Right</div>
+              <div class="tv-performance-stat-top">
+                <span class="tv-performance-stat-icon"><i class="bi bi-bullseye"></i></span>
+                <div class="tv-stat-label">Gets It Right</div>
+              </div>
               <div class="tv-stat-value">{{ best.accuracy | percent:'1.1-2' }}</div>
-              <div class="small text-secondary">Overall correctness</div>
+              <div class="tv-performance-stat-copy">Overall correctness</div>
             </div>
           </div>
 
           <div class="col-6">
             <div class="tv-stat-card">
-              <div class="tv-stat-label">Trust In Fake Alerts</div>
+              <div class="tv-performance-stat-top">
+                <span class="tv-performance-stat-icon"><i class="bi bi-shield-check"></i></span>
+                <div class="tv-stat-label">Trust In Fake Alerts</div>
+              </div>
               <div class="tv-stat-value">{{ best.precision | percent:'1.1-2' }}</div>
-              <div class="small text-secondary">How often “fake” is truly fake</div>
+              <div class="tv-performance-stat-copy">How often "fake" is truly fake</div>
             </div>
           </div>
 
           <div class="col-6">
             <div class="tv-stat-card">
-              <div class="tv-stat-label">Catches More Fakes</div>
+              <div class="tv-performance-stat-top">
+                <span class="tv-performance-stat-icon"><i class="bi bi-search-heart"></i></span>
+                <div class="tv-stat-label">Catches More Fakes</div>
+              </div>
               <div class="tv-stat-value">{{ best.recall | percent:'1.1-2' }}</div>
-              <div class="small text-secondary">How well it avoids missing fakes</div>
+              <div class="tv-performance-stat-copy">How well it avoids missing fakes</div>
             </div>
           </div>
 
           <div class="col-6">
             <div class="tv-stat-card">
-              <div class="tv-stat-label">Overall Balance</div>
+              <div class="tv-performance-stat-top">
+                <span class="tv-performance-stat-icon"><i class="bi bi-sliders"></i></span>
+                <div class="tv-stat-label">Overall Balance</div>
+              </div>
               <div class="tv-stat-value">{{ best.f1Score | percent:'1.1-2' }}</div>
-              <div class="small text-secondary">Balanced quality score</div>
+              <div class="tv-performance-stat-copy">Balanced quality score</div>
             </div>
           </div>
 
           <div class="col-6">
             <div class="tv-stat-card">
-              <div class="tv-stat-label">Separation Strength</div>
+              <div class="tv-performance-stat-top">
+                <span class="tv-performance-stat-icon"><i class="bi bi-distribute-horizontal"></i></span>
+                <div class="tv-stat-label">Separation Strength</div>
+              </div>
               <div class="tv-stat-value">{{ best.aucRoc | percent:'1.1-2' }}</div>
-              <div class="small text-secondary">How clearly it separates real vs fake</div>
+              <div class="tv-performance-stat-copy">How clearly it separates real vs fake</div>
             </div>
           </div>
 
           <div class="col-6">
             <div class="tv-stat-card">
-              <div class="tv-stat-label">Hard-Case Reliability</div>
+              <div class="tv-performance-stat-top">
+                <span class="tv-performance-stat-icon"><i class="bi bi-lightning-charge"></i></span>
+                <div class="tv-stat-label">Hard-Case Reliability</div>
+              </div>
               <div class="tv-stat-value">{{ best.prAuc | percent:'1.1-2' }}</div>
-              <div class="small text-secondary">How well it performs on difficult cases</div>
+              <div class="tv-performance-stat-copy">How well it performs on difficult cases</div>
             </div>
           </div>
         </div>
@@ -85,36 +119,164 @@
         <div class="tv-kicker mb-2">Decision Summary</div>
         <h2 class="h4 fw-bold mb-3">How this model behaved in testing</h2>
         <p class="tv-muted mb-4">
-          These values show the kinds of correct and incorrect decisions the best model made.
+          These values show the four outcomes that matter most: correct fake catches, correct real detections, false
+          alarms, and missed fake cases.
         </p>
 
         <div class="row g-3">
           <div class="col-6 col-md-3">
-            <div class="tv-stat-card">
-              <div class="tv-stat-label">Correct Fake Detections</div>
+            <div class="tv-stat-card tv-outcome-card tv-outcome-card--good">
+              <div class="tv-performance-stat-top">
+
+                <div class="tv-performance-stat-heading">
+                  <span class="tv-performance-stat-icon"><i class="bi bi-check2-circle"></i></span>
+                  <div class="tv-stat-label">Correct Fake Detections</div>
+                </div>
+              </div>
               <div class="tv-stat-value">{{ best.tp }}</div>
+              <div class="tv-performance-stat-copy">True positives</div>
             </div>
           </div>
 
           <div class="col-6 col-md-3">
-            <div class="tv-stat-card">
-              <div class="tv-stat-label">Correct Real Detections</div>
+            <div class="tv-stat-card tv-outcome-card tv-outcome-card--good">
+              <div class="tv-performance-stat-top">
+
+                <div class="tv-performance-stat-heading">
+                  <span class="tv-performance-stat-icon"><i class="bi bi-check2-square"></i></span>
+                  <div class="tv-stat-label">Correct Real Detections</div>
+                </div>
+              </div>
               <div class="tv-stat-value">{{ best.tn }}</div>
+              <div class="tv-performance-stat-copy">True negatives</div>
             </div>
           </div>
 
           <div class="col-6 col-md-3">
-            <div class="tv-stat-card">
-              <div class="tv-stat-label">False Fake Alerts</div>
+            <div class="tv-stat-card tv-outcome-card tv-outcome-card--risk">
+              <div class="tv-performance-stat-top">
+
+                <div class="tv-performance-stat-heading">
+                  <span class="tv-performance-stat-icon"><i class="bi bi-bell"></i></span>
+                  <div class="tv-stat-label">False Fake Alerts</div>
+                </div>
+              </div>
               <div class="tv-stat-value">{{ best.fp }}</div>
+              <div class="tv-performance-stat-copy">False positives</div>
             </div>
           </div>
 
           <div class="col-6 col-md-3">
-            <div class="tv-stat-card">
-              <div class="tv-stat-label">Missed Fake Cases</div>
+            <div class="tv-stat-card tv-outcome-card tv-outcome-card--risk">
+              <div class="tv-performance-stat-top">
+
+                <div class="tv-performance-stat-heading">
+                  <span class="tv-performance-stat-icon"><i class="bi bi-eye-slash"></i></span>
+                  <div class="tv-stat-label">Missed Fake Cases</div>
+                </div>
+              </div>
               <div class="tv-stat-value">{{ best.fn }}</div>
+              <div class="tv-performance-stat-copy">False negatives</div>
             </div>
+          </div>
+        </div>
+
+        <div class="tv-summary-strip mt-4">
+          <div class="tv-summary-strip-item">
+            <div class="tv-summary-strip-top">
+              <span class="tv-summary-strip-icon"><i class="bi bi-compass"></i></span>
+              <span class="tv-summary-strip-kicker">Best for</span>
+            </div>
+            <strong>Balanced real-world use</strong>
+          </div>
+          <div class="tv-summary-strip-item">
+            <div class="tv-summary-strip-top">
+              <span class="tv-summary-strip-icon"><i class="bi bi-exclamation-diamond"></i></span>
+              <span class="tv-summary-strip-kicker">Watch closely</span>
+            </div>
+            <strong>False alerts vs missed fake tradeoff</strong>
+          </div>
+          <div class="tv-summary-strip-item">
+            <div class="tv-summary-strip-top">
+              <span class="tv-summary-strip-icon"><i class="bi bi-kanban"></i></span>
+              <span class="tv-summary-strip-kicker">Use case</span>
+            </div>
+            <strong>Fast comparison and audit review</strong>
+          </div>
+        </div>
+
+        <div class="tv-rate-grid mt-4" *ngIf="bestModelDetails as metrics">
+          <article class="tv-rate-card">
+            <div class="tv-summary-strip-top">
+              <span class="tv-summary-strip-icon"><i class="bi bi-flag"></i></span>
+              <span class="tv-summary-strip-kicker">False positive rate</span>
+            </div>
+            <strong>{{ metrics.fpr | percent:'1.1-2' }}</strong>
+            <p class="mb-0">How often a real image could be flagged as fake.</p>
+          </article>
+
+          <article class="tv-rate-card">
+            <div class="tv-summary-strip-top">
+              <span class="tv-summary-strip-icon"><i class="bi bi-x-octagon"></i></span>
+              <span class="tv-summary-strip-kicker">False negative rate</span>
+            </div>
+            <strong>{{ metrics.fnr | percent:'1.1-2' }}</strong>
+            <p class="mb-0">How often a fake image could be missed.</p>
+          </article>
+
+          <article class="tv-rate-card">
+            <div class="tv-summary-strip-top">
+              <span class="tv-summary-strip-icon"><i class="bi bi-shield"></i></span>
+              <span class="tv-summary-strip-kicker">True negative rate</span>
+            </div>
+            <strong>{{ metrics.tnr | percent:'1.1-2' }}</strong>
+            <p class="mb-0">How consistently real images stay correctly classified.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="row g-4 mb-4" *ngIf="rankedModels.length > 0">
+    <div class="col-12">
+      <div class="tv-panel">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+          <div>
+            <div class="tv-kicker mb-2">Leaderboard</div>
+            <h2 class="h4 fw-bold mb-2">Which saved model is strongest right now</h2>
+            <p class="tv-muted mb-0">
+              These quick cards highlight the current ranking before you inspect the full comparison table.
+            </p>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4" *ngFor="let row of rankedModels.slice(0, 3)">
+            <article class="tv-ranking-card" [class.is-best]="isBestModel(row.modelName)">
+              <div class="tv-ranking-card-top">
+                <span class="tv-ranking-badge">#{{ rankFor(row.modelName) }}</span>
+                <span class="tv-ranking-tag" *ngIf="isBestModel(row.modelName)">Recommended</span>
+              </div>
+              <h3 class="h5 fw-bold mb-2">{{ row.modelName }}</h3>
+              <p class="tv-muted mb-3">
+                Accuracy {{ row.accuracy | percent:'1.1-2' }} with balanced F1 score of
+                {{ row.f1Score | percent:'1.1-2' }}.
+              </p>
+              <div class="tv-mini-metrics">
+                <div>
+                  <span>Precision</span>
+                  <strong>{{ row.precision | percent:'1.1-2' }}</strong>
+                </div>
+                <div>
+                  <span>Recall</span>
+                  <strong>{{ row.recall | percent:'1.1-2' }}</strong>
+                </div>
+                <div>
+                  <span>AUC-ROC</span>
+                  <strong>{{ row.aucRoc | percent:'1.1-2' }}</strong>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
       </div>
@@ -127,7 +289,7 @@
         <div class="tv-kicker mb-2">All Models</div>
         <h2 class="h4 fw-bold mb-2">Compare saved model versions</h2>
         <p class="tv-muted mb-0">
-          The table below compares each model using plain-language performance labels.
+          The table below compares each saved model with its full ranking and plain-language metric labels.
         </p>
       </div>
     </div>
@@ -143,6 +305,7 @@
       <table class="table tv-table table-hover align-middle mb-0">
         <thead>
           <tr>
+            <th>Rank</th>
             <th>Model</th>
             <th>Gets It Right</th>
             <th>Trust In Fake Alerts</th>
@@ -154,14 +317,17 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let row of modelRows()">
-            <td class="fw-semibold">{{ row.modelName }}</td>
-            <td>{{ row.accuracy | percent:'1.1-2' }}</td>
-            <td>{{ row.precision | percent:'1.1-2' }}</td>
-            <td>{{ row.recall | percent:'1.1-2' }}</td>
-            <td>{{ row.f1Score | percent:'1.1-2' }}</td>
-            <td>{{ row.aucRoc | percent:'1.1-2' }}</td>
-            <td>{{ row.prAuc | percent:'1.1-2' }}</td>
+          <tr *ngFor="let row of rankedModels" [class.tv-best-row]="isBestModel(row.modelName)">
+            <td data-label="Rank">
+              <span class="tv-rank-pill">#{{ rankFor(row.modelName) }}</span>
+            </td>
+            <td class="fw-semibold" data-label="Model">{{ row.modelName }}</td>
+            <td data-label="Gets It Right">{{ row.accuracy | percent:'1.1-2' }}</td>
+            <td data-label="Trust In Fake Alerts">{{ row.precision | percent:'1.1-2' }}</td>
+            <td data-label="Catches More Fakes">{{ row.recall | percent:'1.1-2' }}</td>
+            <td data-label="Overall Balance">{{ row.f1Score | percent:'1.1-2' }}</td>
+            <td data-label="Separation Strength">{{ row.aucRoc | percent:'1.1-2' }}</td>
+            <td data-label="Hard-Case Reliability">{{ row.prAuc | percent:'1.1-2' }}</td>
           </tr>
         </tbody>
       </table>

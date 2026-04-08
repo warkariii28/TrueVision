@@ -26,9 +26,25 @@
             <p class="tv-muted mb-0">
               See the result, confidence score, simple explanation, and suggested next steps.
             </p>
-            <p class="tv-muted mb-4">
+            <p class="tv-muted mb-4" *ngIf="isGuestPreview">
               This result is available for this session. It is not added to history unless you are logged in.
             </p>
+            <p class="tv-muted mb-4" *ngIf="!isGuestPreview">
+              This result is saved to your history, so you can revisit it later and keep feedback attached to it.
+            </p>
+
+            <div class="tv-result-hero-callout">
+              <div class="tv-result-hero-callout-label">
+                {{ data.prediction === 'Fake' ? 'What this means' : 'Interpretation' }}
+              </div>
+              <p class="mb-0">
+                {{
+                  data.prediction === 'Fake'
+                    ? 'The model found enough suspicious signals to treat this image as potentially manipulated.'
+                    : 'The model did not find strong manipulation signals and considers this image more likely to be authentic.'
+                }}
+              </p>
+            </div>
           </div>
 
           <div class="tv-result-hero-meta text-lg-end">
@@ -50,14 +66,66 @@
                 <span [style.width]="confidenceWidth"></span>
               </div>
             </div>
+
+            <div class="tv-result-status-chip mt-3">
+              {{ isGuestPreview ? 'Preview only for this session' : 'Saved in your results history' }}
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="tv-panel">
+        <div class="tv-result-summary-grid">
+          <article class="tv-result-summary-card tv-result-summary-card--prediction" tabindex="0">
+            <div class="tv-result-summary-top">
+              <span class="tv-result-summary-icon"><i class="bi bi-patch-check"></i></span>
+              <div class="tv-result-summary-heading">
+                <span class="tv-result-summary-kicker">Prediction</span>
+                <strong>{{ data.prediction }}</strong>
+              </div>
+            </div>
+            <p class="mb-0">
+              {{ data.prediction === 'Fake' ? 'Potential manipulation detected.' : 'Image appears more likely to be real.' }}
+            </p>
+          </article>
+
+          <article class="tv-result-summary-card tv-result-summary-card--confidence" tabindex="0">
+            <div class="tv-result-summary-top">
+              <span class="tv-result-summary-icon"><i class="bi bi-speedometer2"></i></span>
+              <div class="tv-result-summary-heading">
+                <span class="tv-result-summary-kicker">Confidence Level</span>
+                <strong>{{ data.confidence.toFixed(2) }}%</strong>
+              </div>
+            </div>
+            <p class="mb-0">Higher confidence means the model was more certain about this judgement.</p>
+          </article>
+
+          <article class="tv-result-summary-card tv-result-summary-card--next" tabindex="0">
+            <div class="tv-result-summary-top">
+              <span class="tv-result-summary-icon"><i class="bi bi-signpost-split"></i></span>
+              <div class="tv-result-summary-heading">
+                <span class="tv-result-summary-kicker">Next Step</span>
+                <strong>{{ data.prediction === 'Fake' ? 'Review carefully' : 'Use with normal caution' }}</strong>
+              </div>
+            </div>
+            <p class="mb-0">{{ data.recommendation || 'No recommendation available.' }}</p>
+          </article>
         </div>
       </div>
     </div>
 
     <div class="col-lg-6">
       <div class="tv-panel h-100">
-        <h2 class="h4 fw-bold mb-3">Your Uploaded Image</h2>
+        <div class="tv-result-media-head mb-3">
+          <div>
+            <h2 class="h4 fw-bold mb-2">Your Uploaded Image</h2>
+            <p class="tv-muted mb-0">
+              This is the original image exactly as it entered the analysis flow before any detection cues were overlaid.
+            </p>
+          </div>
+        </div>
         <div class="tv-preview">
           <img *ngIf="imageUrl" [src]="imageUrl" alt="Original image" />
         </div>
@@ -66,7 +134,14 @@
 
     <div class="col-lg-6">
       <div class="tv-panel h-100">
-        <h2 class="h4 fw-bold mb-3">Highlighted Areas</h2>
+        <div class="tv-result-media-head mb-3">
+          <div>
+            <h2 class="h4 fw-bold mb-2">Highlighted Areas</h2>
+            <p class="tv-muted mb-0">
+              These highlighted regions show where the model focused most strongly while making its decision.
+            </p>
+          </div>
+        </div>
         <div class="tv-preview">
           <img *ngIf="gradcamUrl" [src]="gradcamUrl" alt="Grad-CAM heatmap" />
         </div>
@@ -77,6 +152,21 @@
       <div class="tv-panel h-100">
         <div class="tv-pill mb-3"><i class="bi bi-search"></i> Simple Explanation</div>
         <h2 class="h4 fw-bold mb-3">Why the system gave this result</h2>
+
+        <div class="tv-result-insight-grid mb-4">
+          <div class="tv-result-insight-card">
+            <div class="tv-result-insight-head">
+              <span class="tv-result-summary-kicker">Model verdict</span>
+              <strong>{{ data.prediction === 'Fake' ? 'Suspicious pattern detected' : 'Authenticity looks stronger' }}</strong>
+            </div>
+          </div>
+          <div class="tv-result-insight-card">
+            <div class="tv-result-insight-head">
+              <span class="tv-result-summary-kicker">Confidence reading</span>
+              <strong>{{ data.confidence.toFixed(2) }}% confidence</strong>
+            </div>
+          </div>
+        </div>
 
         <div class="tv-result-copy mb-4">
           {{ data.explanation || 'No explanation available.' }}

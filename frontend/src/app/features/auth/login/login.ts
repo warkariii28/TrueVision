@@ -8,6 +8,7 @@ import { AuthService } from '../../../core/services/auth.service';
   imports: [FormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
+  host: { class: 'tv-page-auth' },
 })
 export class Login {
   email = '';

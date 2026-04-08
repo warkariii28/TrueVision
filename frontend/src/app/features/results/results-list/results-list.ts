@@ -3,13 +3,14 @@ import { NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ResultItem, ResultsService } from '../../../core/services/results.service';
 import { STATIC_BASE_URL } from '../../../core/config/api.config';
-
+import { ResultDetail } from '../result-detail/result-detail';
 
 @Component({
   selector: 'app-results-list',
   imports: [NgFor, NgIf, RouterLink],
   templateUrl: './results-list.html',
   styleUrl: './results-list.css',
+  host: { class: 'tv-page-results' },
 })
 export class ResultsList {
   private readonly resultsService = inject(ResultsService);
@@ -18,7 +19,6 @@ export class ResultsList {
   readonly isLoading = signal(true);
   readonly errorMessage = signal('');
   private readonly backendBase = `${STATIC_BASE_URL}/`;
-;
 
   constructor() {
     this.resultsService.getResults().subscribe({
@@ -41,5 +41,21 @@ export class ResultsList {
 
   gradcamUrl(path: string | null): string {
     return path ? `${this.backendBase}${path}` : '';
+  }
+
+  get totalResults(): number {
+    return this.results().length;
+  }
+
+  get fakeCount(): number {
+    return this.results().filter((result) => result.prediction === 'Fake').length;
+  }
+
+  get realCount(): number {
+    return this.results().filter((result) => result.prediction === 'Real').length;
+  }
+
+  get feedbackCount(): number {
+    return this.results().filter((result) => !!result.feedback).length;
   }
 }

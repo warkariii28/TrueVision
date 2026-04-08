@@ -2,80 +2,88 @@
 
 This is the Angular frontend for TrueVision.
 
-It provides:
-
-- guest image upload
-- logged-in upload with saved history
-- result preview and result detail pages
-- feedback submission for saved results
-- public model performance page
-
 ## Tech Stack
 
 - Angular 21
-- Bootstrap 5
-- Bootstrap Icons
+- TypeScript
 - RxJS
+- custom `bootstrap-lite.css` utility layer
+- Bootstrap Icons
 
-## Runs Against
+## What It Covers
 
-The frontend expects the Flask backend API to be running at:
+- guest image upload
+- logged-in upload with saved history
+- temporary result preview and saved result detail views
+- feedback submission for saved results
+- public model performance page
 
-- API base: `http://localhost:5000/api`
-- static assets: `http://localhost:5000/static`
+## Backend Connectivity
 
-These values are centralized in:
+Frontend API and static URLs are centralized in:
 
 - `src/app/core/config/api.config.ts`
 
-## Install
+Behavior:
+
+- local Angular development defaults to `http://localhost:5000`
+- same-origin production deploys use the current origin automatically
+- an alternate backend host can be injected through `window.__TRUEVISION_CONFIG__`
+
+Example runtime override:
+
+```html
+<script>
+  window.__TRUEVISION_CONFIG__ = {
+    backendOrigin: 'https://api.example.com'
+  };
+</script>
+```
+
+## Install and Run
 
 From the `frontend` folder:
 
 ```powershell
 npm install
-```
-
-## Run
-
-```powershell
 npm start
 ```
 
-Then open:
+Then open `http://localhost:4200`.
 
-`http://localhost:4200`
+## Route Summary
 
-## Main User Flows
+### Public routes
 
-### Guest users
+- `/`
+- `/upload`
+- `/result-preview`
+- `/performance`
+- `/login`
+- `/register`
 
-- can open the upload page
-- can upload an image
-- can view a temporary result preview
-- preview survives refresh using `sessionStorage`
-- results are not saved to history
+### Protected routes
 
-### Logged-in users
+- `/results`
+- `/results/:id`
 
-- can log in and register through the Angular UI
-- uploads are saved to backend history
-- can view `My Results`
-- can open saved result details
-- can submit feedback
+Protected routes use `src/app/core/guards/auth.guard.ts` and redirect guests to login with a `returnUrl`.
 
-## Important App Areas
+## Main Areas
 
-### Core config
+### Core
 
-- `src/app/core/config/api.config.ts`
+- `src/app/app.ts`
+- `src/app/app.routes.ts`
+- `src/app/app.config.ts`
 
 ### Auth
 
 - `src/app/core/services/auth.service.ts`
 - `src/app/core/guards/auth.guard.ts`
+- `src/app/features/auth/`
 
-### Results and upload
+### Upload and results
 
 - `src/app/core/services/results.service.ts`
 - `src/app/features/upload/`
@@ -85,36 +93,20 @@ Then open:
 
 - `src/app/features/performance/`
 
-## Protected Routes
+### Shared UI
 
-These routes require login:
+- `src/app/shared/components/navbar/`
+- `src/app/shared/components/footer/`
 
-- `/results`
-- `/results/:id`
-
-These routes are public:
-
-- `/`
-- `/upload`
-- `/result-preview`
-- `/performance`
-- `/login`
-- `/register`
-
-## Build
+## Build and Test
 
 ```powershell
-npm run build
-```
-
-## Test
-
-```powershell
-npm test
+cmd /c npx ng test --watch=false
+cmd /c npm run build
 ```
 
 ## Notes
 
-- The favicon is served by Angular from `public/favicon.ico`
 - API calls use `withCredentials: true` so Flask session cookies are sent correctly
-- Auth state is restored on app startup via `/api/auth/me`
+- auth state is restored on app startup through `/api/auth/me`
+- the frontend is lazy-routed to keep the initial bundle smaller

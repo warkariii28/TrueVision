@@ -8,6 +8,12 @@
         explanation.
       </p>
 
+      <div class="tv-upload-trust-strip mb-4">
+        <span class="tv-upload-trust-pill">Guest preview allowed</span>
+        <span class="tv-upload-trust-pill">Saved history for members</span>
+        <span class="tv-upload-trust-pill">Quality check before analysis</span>
+      </div>
+
       <div class="tv-upload-summary mb-4">
         <div class="tv-upload-summary-item">
           <span class="tv-upload-summary-label">Accepted</span>
@@ -17,6 +23,32 @@
           <span class="tv-upload-summary-label">Size Limit</span>
           <strong>5 MB</strong>
         </div>
+      </div>
+
+      <div class="tv-upload-steps mb-4">
+        <article class="tv-upload-step">
+          <span class="tv-upload-step-index">01</span>
+          <div>
+            <strong>Choose a clear face image</strong>
+            <p class="mb-0">Front-facing images with good lighting usually produce the strongest analysis.</p>
+          </div>
+        </article>
+
+        <article class="tv-upload-step">
+          <span class="tv-upload-step-index">02</span>
+          <div>
+            <strong>System checks image quality first</strong>
+            <p class="mb-0">Blurry or low-quality images are stopped before they reach the model.</p>
+          </div>
+        </article>
+
+        <article class="tv-upload-step">
+          <span class="tv-upload-step-index">03</span>
+          <div>
+            <strong>Review the result and explanation</strong>
+            <p class="mb-0">You get a prediction, confidence level, highlighted areas, and a recommendation.</p>
+          </div>
+        </article>
       </div>
 
       <p class="small text-secondary mb-0" *ngIf="!isSubmitting()">
@@ -48,9 +80,16 @@
           <p class="tv-muted mb-0">or click to browse from your device</p>
         </div>
 
-        <p class="small text-secondary mb-3">
-          Best results come from a clear front-facing face image with good lighting.
-        </p>
+        <div class="tv-upload-guidance mb-3">
+          <div class="tv-upload-guidance-item">
+            <i class="bi bi-stars"></i>
+            <span>Best results come from clear, front-facing face images with balanced lighting.</span>
+          </div>
+          <div class="tv-upload-guidance-item">
+            <i class="bi bi-shield-check"></i>
+            <span>Your image is checked for quality before the model begins detection.</span>
+          </div>
+        </div>
 
         <input #fileInput type="file" accept=".png,.jpg,.jpeg" hidden (change)="onFileSelected($event)" />
 
@@ -58,11 +97,21 @@
           {{ errorMessage() }}
         </div>
 
-        <div *ngIf="previewUrl()" class="tv-preview mb-4">
-          <img [src]="previewUrl()" alt="Image preview" />
+        <div *ngIf="previewUrl()" class="tv-preview-shell mb-4">
+          <div class="tv-preview-shell-header">
+            <div>
+              <div class="tv-kicker mb-1">Selected Image</div>
+              <h3 class="h5 fw-bold mb-1">Ready for analysis</h3>
+            </div>
+            <span class="tv-upload-file-chip" *ngIf="selectedFileName()">{{ selectedFileName() }}</span>
+          </div>
+
+          <div class="tv-preview mb-0">
+            <img [src]="previewUrl()" alt="Image preview" />
+          </div>
         </div>
 
-        <p *ngIf="selectedFileName()" class="small text-secondary mb-3">
+        <p *ngIf="selectedFileName() && !previewUrl()" class="small text-secondary mb-3">
           Selected file: {{ selectedFileName() }}
         </p>
 
@@ -88,6 +137,26 @@
             [attr.aria-disabled]="isSubmitting()">
             Back to Home
           </a>
+        </div>
+
+        <div class="tv-upload-deliverables mt-4" *ngIf="!isSubmitting()">
+          <article class="tv-upload-deliverable">
+            <span class="tv-upload-deliverable-kicker">You will get</span>
+            <strong>Prediction + confidence</strong>
+            <p class="mb-0">A simple verdict on whether the image appears fake or real, with a confidence reading.</p>
+          </article>
+
+          <article class="tv-upload-deliverable">
+            <span class="tv-upload-deliverable-kicker">Visual evidence</span>
+            <strong>Highlighted focus areas</strong>
+            <p class="mb-0">A Grad-CAM view showing which parts of the face influenced the model most strongly.</p>
+          </article>
+
+          <article class="tv-upload-deliverable">
+            <span class="tv-upload-deliverable-kicker">Next-step guidance</span>
+            <strong>Simple explanation and recommendation</strong>
+            <p class="mb-0">A plain-language explanation and a suggestion on what to do with the result.</p>
+          </article>
         </div>
       </form>
     </div>

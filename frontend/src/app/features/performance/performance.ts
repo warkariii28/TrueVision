@@ -11,6 +11,7 @@ import {
   imports: [NgFor, CommonModule],
   templateUrl: './performance.html',
   styleUrl: './performance.css',
+  host: { class: 'tv-page-performance' },
 })
 export class Performance {
   private readonly resultsService = inject(ResultsService);
@@ -36,5 +37,46 @@ export class Performance {
         this.isLoading.set(false);
       },
     });
+  }
+
+  get rankedModels(): PerformanceModel[] {
+    return [...this.modelRows()].sort((left, right) => right.accuracy - left.accuracy);
+  }
+
+  get runnerUpModel(): PerformanceModel | null {
+    return this.rankedModels[1] ?? null;
+  }
+
+  get bestModelDetails(): PerformanceModel | null {
+    const best = this.bestModel();
+
+    if (!best) {
+      return null;
+    }
+
+    return this.modelRows().find((row) => row.modelName === best.modelName) ?? null;
+  }
+
+  get accuracyLead(): number | null {
+    const best = this.bestModel();
+    const runnerUp = this.runnerUpModel;
+
+    if (!best || !runnerUp) {
+      return null;
+    }
+
+    return best.accuracy - runnerUp.accuracy;
+  }
+
+  get leadingModelCount(): number {
+    return this.rankedModels.length;
+  }
+
+  isBestModel(modelName: string): boolean {
+    return this.bestModel()?.modelName === modelName;
+  }
+
+  rankFor(modelName: string): number {
+    return this.rankedModels.findIndex((row) => row.modelName === modelName) + 1;
   }
 }

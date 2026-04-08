@@ -9,6 +9,7 @@ import { AuthService } from '../../../core/services/auth.service';
   imports: [FormsModule, RouterLink, NgIf],
   templateUrl: './register.html',
   styleUrl: './register.css',
+  host: { class: 'tv-page-auth' },
 })
 export class Register {
   username = '';
