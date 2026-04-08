@@ -1,0 +1,16 @@
+:root {
+    --tv-border-line: 1px solid var(--tv-line);
+    --tv-border-line-soft: 1px solid var(--tv-line-soft);
+    --tv-border-line-subtle: 1px solid var(--tv-line-subtle);
+    --tv-border-line-faint: 1px solid var(--tv-line-faint);
+    --tv-border-line-strong: 1px solid var(--tv-line-strong);
+    --tv-border-primary-soft: 1px solid var(--tv-line-primary-soft);
+    --tv-border-primary-faint: 1px solid var(--tv-line-primary-faint);
+    --tv-border-primary-strong: 1px solid var(--tv-line-primary-strong);
+    --tv-border-primary-focus: 1px solid var(--tv-line-primary-focus);
+    --tv-border-navbar: 1px solid var(--tv-line-navbar);
+    --tv-border-navbar-strong: 1px solid var(--tv-line-navbar-strong);
+    --tv-border-white-soft: 1px solid var(--tv-line-white-soft);
+    --tv-border-white-strong: 1px solid var(--tv-line-white-strong);
+    --tv-border-dashed-strong: 1.5px dashed rgba(116, 140, 182, 0.5);
+}

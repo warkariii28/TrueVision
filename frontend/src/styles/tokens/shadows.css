@@ -1,0 +1,11 @@
+:root {
+    --tv-shadow-sm: 0 18px 50px rgba(6, 20, 43, 0.07);
+    --tv-shadow-md: 0 26px 70px rgba(18, 36, 76, 0.12);
+    --tv-shadow-lg: 0 30px 90px rgba(21, 49, 124, 0.18);
+    --tv-shadow-primary: 0 18px 36px rgba(45, 107, 255, 0.22);
+    --tv-shadow-primary-strong: 0 22px 40px rgba(45, 107, 255, 0.3);
+    --tv-shadow-navbar: 0 12px 36px rgba(6, 20, 43, 0.08);
+    --tv-shadow-card-soft: 0 14px 30px rgba(15, 23, 42, 0.05);
+    --tv-shadow-card-soft-lg: 0 16px 30px rgba(15, 23, 42, 0.04);
+    --tv-shadow-card-primary: 0 18px 34px rgba(45, 107, 255, 0.1);
+}

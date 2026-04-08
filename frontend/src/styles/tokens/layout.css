@@ -1,0 +1,7 @@
+:root {
+    --tv-shell-max: 1500px;
+    --tv-nav-height: 88px;
+    --tv-navbar-inner-min-height: 64px;
+    --tv-shell-orb-size-lg: 340px;
+    --tv-shell-orb-size-md: 300px;
+}

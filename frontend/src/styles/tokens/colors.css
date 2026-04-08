@@ -1,0 +1,66 @@
+:root {
+    --tv-white: #ffffff;
+    --tv-black: #000000;
+
+    --tv-primary: #2d6bff;
+    --tv-primary-strong: #1447d7;
+    --tv-primary-soft: #dbe7ff;
+    --tv-primary-bright: #4d86ff;
+    --tv-primary-glow: #578eff;
+
+    --tv-accent: #11c7b1;
+    --tv-accent-strong: #0c9a8a;
+
+    --tv-ink: #06142b;
+    --tv-ink-soft: #10213a;
+    --tv-text: #1d2f4f;
+    --tv-text-soft: #34506f;
+    --tv-text-soft-strong: #36506d;
+    --tv-text-soft-alt: #385472;
+    --tv-muted: #7183a6;
+    --tv-muted-strong: #5f748f;
+    --tv-muted-alt: #59708c;
+    --tv-muted-deep: #60718e;
+
+    --tv-success: #106a40;
+    --tv-success-soft: #eafdf4;
+    --tv-success-soft-strong: #d9f8e9;
+    --tv-danger: #a11e33;
+    --tv-danger-soft: #fff1f3;
+    --tv-danger-soft-strong: #ffe2e8;
+    --tv-warning: #f59e0b;
+    --tv-danger-bright: #ef4444;
+    --tv-success-bright: #22c55e;
+
+    --tv-surface: #ffffff;
+    --tv-surface-alt: #f4f8ff;
+    --tv-surface-soft: #f4f7fd;
+    --tv-surface-softer: #f8fbff;
+    --tv-surface-cool: #f1f6ff;
+    --tv-surface-deep: #0b1730;
+    --tv-surface-progress: #eaf1fb;
+    --tv-surface-meter: #dbe7f3;
+    --tv-surface-chip: #e8f0ff;
+    --tv-surface-chip-strong: #edf3ff;
+    --tv-surface-panel: rgba(255, 255, 255, 0.82);
+    --tv-surface-glass: rgba(255, 255, 255, 0.88);
+    --tv-surface-frost: rgba(255, 255, 255, 0.92);
+    --tv-surface-soft-glass: rgba(255, 255, 255, 0.96);
+    --tv-surface-strong: rgba(255, 255, 255, 0.98);
+    --tv-surface-muted: rgba(255, 255, 255, 0.76);
+    --tv-surface-dim: rgba(255, 255, 255, 0.74);
+
+    --tv-line: rgba(138, 159, 196, 0.22);
+    --tv-line-strong: rgba(116, 140, 182, 0.35);
+    --tv-line-soft: rgba(138, 159, 196, 0.16);
+    --tv-line-subtle: rgba(138, 159, 196, 0.14);
+    --tv-line-faint: rgba(138, 159, 196, 0.12);
+    --tv-line-primary-soft: rgba(45, 107, 255, 0.14);
+    --tv-line-primary-faint: rgba(45, 107, 255, 0.12);
+    --tv-line-primary-strong: rgba(45, 107, 255, 0.22);
+    --tv-line-primary-focus: rgba(45, 107, 255, 0.34);
+    --tv-line-navbar: rgba(174, 191, 221, 0.18);
+    --tv-line-navbar-strong: rgba(174, 191, 221, 0.28);
+    --tv-line-white-soft: rgba(255, 255, 255, 0.08);
+    --tv-line-white-strong: rgba(255, 255, 255, 0.7);
+}

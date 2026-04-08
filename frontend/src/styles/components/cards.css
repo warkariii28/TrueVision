@@ -1,0 +1,286 @@
+.tv-card,
+.tv-stat,
+.tv-metric-card {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  padding: 1.45rem;
+  border: var(--tv-border-line);
+  border-radius: var(--tv-radius);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 249, 255, 0.92) 100%);
+  box-shadow: var(--tv-shadow-sm);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.tv-card:hover,
+.tv-stat:hover,
+.tv-metric-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--tv-line-strong);
+  box-shadow: var(--tv-shadow-md);
+}
+
+.tv-card::before,
+.tv-metric-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(45, 107, 255, 0.34), rgba(17, 199, 177, 0.18), transparent 88%);
+}
+
+.tv-info-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.tv-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.tv-info-icon,
+.tv-stat-icon,
+.tv-summary-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--tv-primary-strong);
+}
+
+.tv-info-icon,
+.tv-stat-icon {
+  flex-shrink: 0;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #eff5ff 0%, #dae7ff 100%);
+  border: var(--tv-border-primary-soft);
+}
+
+.tv-info-icon,
+.tv-summary-icon {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.15rem;
+}
+
+.tv-stat {
+  text-align: center;
+}
+
+.tv-stat-label,
+.tv-mini-stat-label,
+.tv-upload-summary-label,
+.tv-metric-label {
+  color: var(--tv-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.tv-stat-label,
+.tv-metric-label {
+  letter-spacing: 0.1em;
+}
+
+.tv-stat-label {
+  font-size: 0.74rem;
+}
+
+.tv-stat-icon {
+  width: 100%;
+  min-height: 5.4rem;
+  margin-bottom: 0.85rem;
+  padding: 0.95rem;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.tv-stat-icon i {
+  font-size: 1.4rem;
+}
+
+.tv-stat-value,
+.tv-summary-value,
+.tv-metric-value {
+  color: var(--tv-ink);
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  font-weight: 800;
+}
+
+.tv-stat-value {
+  font-size: 1rem;
+}
+
+.tv-mini-stat,
+.tv-upload-summary-item {
+  height: 100%;
+  padding: var(--tv-space-md) 1.1rem;
+  border: var(--tv-border-line-soft);
+  border-radius: var(--tv-radius-md);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.tv-upload-summary-item {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.tv-summary-card {
+  text-align: left;
+}
+
+.tv-summary-icon {
+  margin-bottom: var(--tv-space-md);
+  border-radius: var(--tv-radius-card);
+  background: linear-gradient(135deg, rgba(45, 107, 255, 0.12), rgba(17, 199, 177, 0.14));
+}
+
+.tv-summary-value {
+  font-size: clamp(2rem, 1.6rem + 1vw, 2.8rem);
+  line-height: 1;
+}
+
+.tv-summary-label {
+  margin-top: 0.5rem;
+  color: var(--tv-muted);
+  font-size: 0.94rem;
+}
+
+.tv-metric-card {
+  padding: 1.5rem;
+}
+
+.tv-metric-value {
+  font-size: 2rem;
+  line-height: 1.08;
+}
+
+.tv-note {
+  height: 100%;
+  padding: 1rem 1.15rem;
+  border-left: 4px solid var(--tv-primary);
+  border-radius: 0 16px 16px 0;
+  background: linear-gradient(90deg, rgba(226, 236, 255, 0.92) 0%, rgba(247, 250, 255, 0.98) 100%);
+}
+
+.tv-highlight-card {
+  position: relative;
+  overflow: hidden;
+  padding: 1.9rem;
+  border-radius: var(--tv-radius-lg);
+  color: var(--tv-white);
+  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.22), transparent 32%), linear-gradient(135deg, #091b43 0%, #1746b8 55%, #0eb5a6 100%);
+  box-shadow: var(--tv-shadow-lg);
+}
+
+.tv-highlight-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -8% -30% auto;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 68%);
+}
+
+.tv-stat-card {
+  height: 100%;
+  padding: 1rem;
+  border: 1px solid rgba(16, 24, 40, 0.08);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 248, 252, 0.92));
+  box-shadow: var(--tv-shadow-card-soft);
+}
+
+.tv-outcome-card--good {
+  border-color: rgba(16, 185, 129, 0.12);
+  background: linear-gradient(180deg, rgba(245, 253, 249, 0.98), rgba(237, 251, 244, 0.92));
+}
+
+.tv-outcome-card--risk {
+  border-color: rgba(244, 63, 94, 0.12);
+  background: linear-gradient(180deg, rgba(255, 247, 248, 0.98), rgba(255, 239, 242, 0.92));
+}
+
+.tv-ranking-card {
+  height: 100%;
+  padding: 1.15rem;
+  border: var(--tv-border-line-subtle);
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 248, 252, 0.94));
+  box-shadow: var(--tv-shadow-card-soft-lg);
+}
+
+.tv-ranking-card.is-best {
+  border-color: var(--tv-line-primary-strong);
+  background: radial-gradient(circle at top right, rgba(45, 107, 255, 0.14), transparent 28%), linear-gradient(180deg, rgba(255, 255, 255, 0.99), rgba(241, 247, 255, 0.96));
+  box-shadow: var(--tv-shadow-card-primary);
+}
+
+.tv-ranking-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.9rem;
+}
+
+@media (max-width: 991.98px) {
+  .tv-stat-card {
+    padding: 0.9rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .tv-mini-stat,
+  .tv-upload-summary-item {
+    padding: var(--tv-space-card-xs) var(--tv-space-md);
+  }
+
+  .tv-summary-card {
+    text-align: center;
+  }
+
+  .tv-card,
+  .tv-stat,
+  .tv-metric-card,
+  .tv-highlight-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .tv-mini-stat,
+  .tv-upload-summary-item {
+    padding: 0.8rem 0.85rem;
+    border-radius: var(--tv-radius-sm);
+  }
+
+  .tv-summary-value {
+    font-size: clamp(1.7rem, 1.45rem + 1.2vw, 2.1rem);
+  }
+
+  .tv-card,
+  .tv-stat,
+  .tv-metric-card,
+  .tv-highlight-card {
+    padding: 0.9rem;
+    border-radius: 18px;
+  }
+
+  .tv-info-item {
+    gap: 0.8rem;
+  }
+
+  .tv-info-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+    font-size: 1rem;
+  }
+
+  .tv-note {
+    padding: 0.9rem;
+  }
+}

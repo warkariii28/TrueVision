@@ -1,0 +1,16 @@
+:root {
+    --tv-radius-xs: 14px;
+    --tv-radius-sm: 16px;
+    --tv-radius-md: 18px;
+    --tv-radius-card: 1rem;
+    --tv-radius-card-lg: 1.1rem;
+    --tv-radius-chip: 0.95rem;
+    --tv-radius: 24px;
+    --tv-radius-lg: 32px;
+    --tv-radius-panel: 28px;
+    --tv-radius-panel-sm: 22px;
+    --tv-radius-panel-xs: 20px;
+    --tv-radius-panel-2xs: 18px;
+    --tv-pill: 999px;
+    --tv-round: 50%;
+}

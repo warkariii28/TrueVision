@@ -1,0 +1,326 @@
+.tv-upload-summary,
+.tv-summary-strip,
+.tv-mini-metrics {
+  display: grid;
+}
+
+.tv-upload-summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.tv-summary-strip {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.tv-mini-metrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.tv-preview,
+.tv-chart-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 290px;
+  padding: 1rem;
+  border: var(--tv-border-line);
+  border-radius: var(--tv-radius);
+  background: linear-gradient(180deg, rgba(251, 253, 255, 0.98) 0%, rgba(238, 244, 252, 0.98) 100%);
+}
+
+.tv-preview img,
+.tv-chart-frame img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: var(--tv-shadow-sm);
+}
+
+.tv-meter {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+  height: 0.8rem;
+  overflow: hidden;
+  border-radius: var(--tv-pill);
+  background: var(--tv-surface-meter);
+}
+
+.tv-meter span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--tv-primary) 0%, var(--tv-accent) 100%);
+}
+
+.tv-result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.88rem 1.05rem;
+  border-radius: 18px;
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  font-weight: 800;
+}
+
+.tv-result-real {
+  color: var(--tv-success);
+  background: linear-gradient(180deg, var(--tv-success-soft) 0%, var(--tv-success-soft-strong) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.18);
+}
+
+.tv-result-fake {
+  color: var(--tv-danger);
+  background: linear-gradient(180deg, var(--tv-danger-soft) 0%, var(--tv-danger-soft-strong) 100%);
+  border: 1px solid rgba(244, 63, 94, 0.16);
+}
+
+.tv-table {
+  --bs-table-bg: transparent;
+  margin: 0;
+}
+
+.tv-table thead th {
+  background: rgba(238, 244, 255, 0.85);
+  color: var(--tv-muted-deep);
+  font-size: 0.77rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom-color: rgba(138, 159, 196, 0.2);
+}
+
+.tv-table tbody td {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom-color: rgba(138, 159, 196, 0.14);
+}
+
+.tv-table td a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tv-table tbody tr:hover {
+  --bs-table-accent-bg: rgba(239, 245, 255, 0.82);
+}
+
+.tv-thumb {
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: var(--tv-border-white-strong);
+  box-shadow: var(--tv-shadow-sm);
+}
+
+.tv-result-link {
+  text-decoration: none;
+  text-rendering: none;
+}
+
+.tv-result-link img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 3.9rem;
+  object-fit: contain;
+}
+
+.tv-feedback-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--tv-pill);
+  background: var(--tv-surface-alt);
+  color: var(--tv-text);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.tv-empty-state {
+  padding: 2rem;
+  text-align: center;
+  border: 1px dashed rgba(116, 140, 182, 0.4);
+  border-radius: var(--tv-radius);
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.tv-model-leader-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.9rem;
+  border: var(--tv-border-primary-faint);
+  border-radius: var(--tv-pill);
+  background: var(--tv-surface-glass);
+  color: var(--tv-text-soft);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.tv-model-leader-rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.55rem;
+  border-radius: var(--tv-pill);
+  color: var(--tv-white);
+  background: linear-gradient(135deg, var(--tv-primary), var(--tv-accent));
+}
+
+.tv-summary-strip-item {
+  padding: 0.95rem 1rem;
+  border: var(--tv-border-line-subtle);
+  border-radius: 1rem;
+  background: var(--tv-surface-panel);
+}
+
+.tv-summary-strip-kicker {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--tv-muted-alt);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tv-mini-metrics div {
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.9rem;
+  background: rgba(248, 251, 255, 0.9);
+}
+
+.tv-mini-metrics span {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #69788d;
+  font-size: 0.73rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tv-mini-metrics strong {
+  color: var(--tv-ink-soft);
+  font-size: 1rem;
+}
+
+.progress {
+  height: 14px;
+  overflow: hidden;
+  border-radius: var(--tv-pill);
+  background: var(--tv-surface-progress);
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tv-white);
+  transition: width 0.4s ease;
+  background: var(--tv-primary);
+}
+
+.progress-bar.low {
+  background: var(--tv-danger-bright);
+}
+
+.progress-bar.mid {
+  background: var(--tv-warning);
+}
+
+.progress-bar.high {
+  background: var(--tv-success-bright);
+}
+
+.upload-buttons-div {
+  margin-top: auto;
+}
+
+@media (max-width: 575.98px) {
+  .tv-upload-summary,
+  .tv-summary-strip,
+  .tv-mini-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .tv-preview,
+  .tv-chart-frame {
+    min-height: 220px;
+    padding: 0.85rem;
+  }
+
+  .tv-meter {
+    max-width: none;
+  }
+
+  .tv-result-badge,
+  .tv-feedback-pill {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tv-thumb {
+    width: 72px;
+    height: 72px;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tv-model-leader-chip {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 400px) {
+  .tv-preview,
+  .tv-chart-frame {
+    min-height: 200px;
+    padding: 0.7rem;
+    border-radius: 18px;
+  }
+
+  .tv-preview img,
+  .tv-chart-frame img {
+    border-radius: 14px;
+  }
+
+  .tv-result-badge,
+  .tv-feedback-pill {
+    padding: 0.75rem 0.9rem;
+    font-size: 0.82rem;
+  }
+
+  .tv-empty-state {
+    padding: 0.9rem;
+  }
+
+  .tv-thumb {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+  }
+
+  .tv-preview,
+  .tv-chart-frame {
+    min-height: 190px;
+  }
+}

@@ -1,0 +1,28 @@
+:root {
+    --tv-space-0: 0;
+    --tv-space-3xs: 0.25rem;
+    --tv-space-2xs: 0.35rem;
+    --tv-space-xs: 0.5rem;
+    --tv-space-sm: 0.75rem;
+    --tv-space-md: 1rem;
+    --tv-space-lg: 1.25rem;
+    --tv-space-xl: 1.5rem;
+    --tv-space-2xl: 2rem;
+    --tv-space-3xl: 2.5rem;
+    --tv-space-shell-x: 1.25rem;
+    --tv-space-shell-x-md: 1rem;
+    --tv-space-shell-x-sm: 0.75rem;
+    --tv-space-shell-x-xs: 0.625rem;
+    --tv-space-shell-bottom: 4rem;
+    --tv-space-shell-bottom-sm: 3rem;
+    --tv-space-shell-bottom-xs: 2.5rem;
+    --tv-space-shell-top: 1.65rem;
+    --tv-space-navbar-y: 0.75rem;
+    --tv-space-navbar-y-md: 0.55rem;
+    --tv-space-navbar-y-xs: 0.45rem;
+    --tv-space-card: 1.45rem;
+    --tv-space-card-sm: 1rem;
+    --tv-space-card-xs: 0.9rem;
+    --tv-space-panel: clamp(1.45rem, 1.15rem + 1vw, 2.3rem);
+    --tv-space-upload-zone: clamp(2.2rem, 1.8rem + 2vw, 4.1rem);
+}
