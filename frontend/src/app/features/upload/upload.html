@@ -130,12 +130,12 @@
 
         <div class="upload-buttons-div d-flex flex-wrap gap-3 mt-auto justify-content-center justify-content-md-start">
           <button type="submit" class="btn btn-tv-primary btn-lg px-4" [disabled]="isSubmitting()">
-            {{ isSubmitting() ? 'Processing...' : 'Check Image' }}
+            <i class="bi" [ngClass]="isSubmitting() ? 'bi-activity' : 'bi-radar'"></i> {{ isSubmitting() ? 'Processing...' : 'Check Image' }}
           </button>
 
           <a routerLink="/" class="btn btn-tv-soft btn-lg px-4" [class.disabled]="isSubmitting()"
             [attr.aria-disabled]="isSubmitting()">
-            Back to Home
+            <i class="bi bi-arrow-left"></i> Back to Home
           </a>
         </div>
 

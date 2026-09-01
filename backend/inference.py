@@ -43,16 +43,22 @@ class CustomViT(nn.Module):
         super().__init__()
 
         model_name = "microsoft/swin-base-patch4-window7-224"
+        local_files_only = os.getenv("HF_LOCAL_FILES_ONLY", "").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+            "on",
+        }
 
         self.feature_extractor = AutoImageProcessor.from_pretrained(
             model_name,
             use_fast=False,
-            local_files_only=True,
+            local_files_only=local_files_only,
         )
 
         self.model = AutoModelForImageClassification.from_pretrained(
             model_name,
-            local_files_only=True,
+            local_files_only=local_files_only,
         )
 
         self.model.classifier = nn.Sequential(

@@ -1,0 +1,78 @@
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--tv-text);
+  background:
+    linear-gradient(120deg, rgba(34, 211, 238, 0.14), rgba(244, 63, 143, 0.08), rgba(245, 158, 11, 0.1), rgba(139, 92, 246, 0.08)),
+    linear-gradient(180deg, rgba(3, 7, 18, 0.98), rgba(9, 20, 37, 0.98)),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.07) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(125, 211, 252, 0.055) 1px, transparent 1px);
+  background-size: 320% 320%, 100% 100%, 44px 44px, 44px 44px;
+  animation: tvAuroraFlow 22s ease-in-out infinite;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(3, 7, 18, 0.08), rgba(3, 7, 18, 0.52)),
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0, rgba(255, 255, 255, 0.025) 1px, transparent 1px, transparent 5px);
+  mix-blend-mode: screen;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(34, 211, 238, 0.14), transparent 42%),
+    linear-gradient(90deg, transparent 0%, rgba(34, 211, 238, 0.06) 48%, rgba(244, 63, 143, 0.08) 50%, transparent 54%);
+  opacity: 0.72;
+}
+
+.tv-shell::before,
+.tv-shell::after {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.tv-brand-name,
+.tv-section-title,
+.tv-display {
+  color: #f8fbff;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.tv-display {
+  max-width: 980px;
+  text-shadow: 0 0 34px rgba(34, 211, 238, 0.16);
+}
+
+.tv-display-accent-line,
+.tv-page-home .tv-rotating-word {
+  color: #67e8f9;
+}
+
+.tv-muted,
+.tv-subtext,
+.text-secondary {
+  color: var(--tv-muted) !important;
+}
+
+.tv-shell {
+  padding-bottom: clamp(2.6rem, 5vw, 5.25rem);
+}

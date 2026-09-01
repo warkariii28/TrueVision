@@ -6,6 +6,20 @@
 </a>
 
 <div class="tv-app-shell tv-page">
+  <div class="tv-deepfake-simulator" aria-hidden="true">
+    <div class="tv-sim-face">
+      <span class="tv-sim-node tv-sim-node-1"></span>
+      <span class="tv-sim-node tv-sim-node-2"></span>
+      <span class="tv-sim-node tv-sim-node-3"></span>
+      <span class="tv-sim-node tv-sim-node-4"></span>
+      <span class="tv-sim-node tv-sim-node-5"></span>
+      <span class="tv-sim-line tv-sim-line-1"></span>
+      <span class="tv-sim-line tv-sim-line-2"></span>
+      <span class="tv-sim-line tv-sim-line-3"></span>
+      <span class="tv-sim-scan"></span>
+    </div>
+  </div>
+
   <app-navbar></app-navbar>
 
   <main class="tv-shell" id="main-content">
@@ -15,4 +29,14 @@
   </main>
 
   <app-footer></app-footer>
+  <button
+    type="button"
+    class="tv-back-to-top"
+    [class.is-visible]="showBackToTop()"
+    (click)="scrollToTop()"
+    aria-label="Go to top"
+    title="Go to top"
+  >
+    <i class="bi bi-arrow-up-short" aria-hidden="true"></i>
+  </button>
 </div>

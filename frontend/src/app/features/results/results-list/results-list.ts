@@ -1,12 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ResultItem, ResultsService } from '../../../core/services/results.service';
-import { ResultDetail } from '../result-detail/result-detail';
 
 @Component({
   selector: 'app-results-list',
-  imports: [NgFor, NgIf, RouterLink],
+  imports: [DatePipe, NgFor, NgIf, RouterLink],
   templateUrl: './results-list.html',
   styleUrl: './results-list.css',
   host: { class: 'tv-page-results' },

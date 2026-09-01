@@ -1,0 +1,95 @@
+.btn-tv-primary,
+.btn-tv-soft,
+.btn-tv-outline,
+.btn-tv-danger,
+.btn-outline-success,
+.btn-outline-danger,
+.btn-outline-secondary {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--tv-pill);
+  min-height: 3.08rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.btn-tv-primary::before,
+.btn-tv-soft::before,
+.btn-outline-success::before,
+.btn-outline-danger::before,
+.btn-outline-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.32) 48%, transparent 58%);
+  transform: translateX(-120%);
+  transition: transform 0.55s ease;
+}
+
+.btn-tv-primary:hover::before,
+.btn-tv-soft:hover::before,
+.btn-outline-success:hover::before,
+.btn-outline-danger:hover::before,
+.btn-outline-secondary:hover::before {
+  transform: translateX(120%);
+}
+
+.btn-tv-primary {
+  color: #02111f;
+  background: linear-gradient(135deg, #67e8f9 0%, #22d3ee 44%, #f43f8f 100%);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: var(--tv-shadow-primary);
+}
+
+.btn-tv-primary:hover,
+.btn-tv-primary:focus-visible {
+  color: #020617;
+  transform: translateY(-2px);
+  box-shadow: var(--tv-shadow-primary-strong);
+}
+
+.btn-tv-soft,
+.btn-outline-secondary {
+  color: #dceafe;
+  background: rgba(15, 28, 48, 0.8);
+  border-color: rgba(125, 211, 252, 0.22);
+}
+
+.btn-tv-soft:hover,
+.btn-outline-secondary:hover {
+  color: #ffffff;
+  background: rgba(34, 211, 238, 0.14);
+  border-color: rgba(34, 211, 238, 0.42);
+  transform: translateY(-2px);
+}
+
+.btn-outline-success {
+  color: #86efac;
+  border-color: rgba(52, 211, 153, 0.44);
+}
+
+.btn-outline-danger {
+  color: #fda4af;
+  border-color: rgba(251, 113, 133, 0.48);
+}
+
+.tv-form-control,
+.form-control.tv-form-control {
+  border-radius: 18px;
+  border-color: rgba(125, 211, 252, 0.2);
+  background: rgba(3, 7, 18, 0.42);
+  color: #f8fbff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.tv-form-control::placeholder,
+.form-control.tv-form-control::placeholder {
+  color: rgba(203, 213, 225, 0.64);
+}
+
+.tv-form-control:focus,
+.form-control.tv-form-control:focus {
+  border-color: rgba(244, 63, 143, 0.54);
+  background: rgba(3, 7, 18, 0.58);
+  color: #ffffff;
+  box-shadow: 0 0 0 0.24rem rgba(34, 211, 238, 0.12), 0 0 30px rgba(244, 63, 143, 0.09);
+}

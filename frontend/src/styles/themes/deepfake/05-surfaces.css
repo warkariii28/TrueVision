@@ -1,0 +1,133 @@
+.tv-panel,
+.tv-card,
+.tv-stat,
+.tv-metric-card,
+.tv-stat-card,
+.tv-ranking-card,
+.tv-results-summary-card,
+.tv-result-summary-card,
+.tv-result-insight-card,
+.tv-rate-card,
+.tv-summary-strip-item,
+.tv-upload-step,
+.tv-upload-deliverable,
+.tv-preview-shell,
+.tv-page-home .tv-hero,
+.tv-page-home .tv-hero-console,
+.tv-home-cta {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--tv-radius-panel) !important;
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  background:
+    linear-gradient(180deg, rgba(15, 28, 48, 0.88), rgba(9, 20, 37, 0.82));
+  box-shadow: var(--tv-shadow-sm);
+  backdrop-filter: blur(18px) saturate(1.22);
+  animation: tvFloatIn 520ms ease both;
+}
+
+.tv-panel::before,
+.tv-card::before,
+.tv-metric-card::before,
+.tv-result-summary-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.8), rgba(244, 63, 143, 0.65), transparent);
+  animation: tvBorderPulse 4.8s ease-in-out infinite;
+}
+
+.tv-panel::after,
+.tv-page-home .tv-hero::after,
+.tv-preview-shell::after,
+.tv-upload-zone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 0%, transparent 38%, rgba(103, 232, 249, 0.12) 48%, rgba(244, 63, 143, 0.08) 52%, transparent 62%, transparent 100%);
+  transform: translateX(-130%);
+  animation: tvScanSweep 6.5s ease-in-out infinite;
+}
+
+.tv-card:hover,
+.tv-stat:hover,
+.tv-metric-card:hover,
+.tv-stat-card:hover,
+.tv-ranking-card:hover,
+.tv-results-summary-card:hover,
+.tv-result-summary-card:hover,
+.tv-upload-step:hover,
+.tv-upload-deliverable:hover {
+  transform: translateY(-5px);
+  border-color: rgba(34, 211, 238, 0.42);
+  box-shadow: var(--tv-shadow-md), 0 0 36px rgba(34, 211, 238, 0.08);
+}
+
+.tv-page-home .tv-hero {
+  background:
+    linear-gradient(135deg, rgba(7, 17, 31, 0.94), rgba(12, 28, 50, 0.9) 48%, rgba(25, 16, 45, 0.86)),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.1) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(34, 211, 238, 0.08) 1px, transparent 1px);
+  background-size: auto, 34px 34px, 34px 34px;
+  box-shadow: var(--tv-shadow-lg), inset 0 0 70px rgba(34, 211, 238, 0.06);
+}
+
+.tv-page-home .tv-hero-console {
+  background:
+    linear-gradient(180deg, rgba(3, 7, 18, 0.96), rgba(8, 18, 34, 0.94)),
+    repeating-linear-gradient(90deg, rgba(34, 211, 238, 0.09) 0 1px, transparent 1px 16px);
+}
+
+.tv-page-home .tv-hero-console .tv-pill,
+.tv-page-home .tv-hero-console .tv-stat {
+  background: rgba(15, 28, 48, 0.82);
+  border-color: rgba(125, 211, 252, 0.18);
+  color: #f8fbff;
+}
+
+.tv-console-dot,
+.tv-live-pill,
+.tv-model-leader-rank {
+  animation: tvPulseDot 2.6s ease-in-out infinite;
+}
+
+.tv-stat-value,
+.tv-summary-value,
+.tv-metric-value,
+.tv-results-summary-value,
+.tv-result-summary-heading strong,
+.tv-result-insight-card strong,
+.tv-mini-metrics strong,
+.tv-ranking-card h3,
+.tv-upload-step strong,
+.tv-upload-deliverable strong {
+  color: #f8fbff;
+}
+
+.tv-stat-label,
+.tv-mini-stat-label,
+.tv-upload-summary-label,
+.tv-metric-label,
+.tv-kicker,
+.tv-result-hero-callout-label,
+.tv-result-summary-kicker,
+.tv-summary-strip-kicker,
+.tv-upload-deliverable-kicker,
+.tv-results-summary-kicker {
+  color: #67e8f9;
+  letter-spacing: 0.08em;
+}
+
+.tv-mini-stat,
+.tv-upload-summary-item,
+.tv-summary-strip-item,
+.tv-mini-metrics div,
+.tv-result-hero-callout,
+.tv-empty-state {
+  border-color: rgba(125, 211, 252, 0.16);
+  background: rgba(15, 28, 48, 0.62);
+  color: var(--tv-text-soft);
+}

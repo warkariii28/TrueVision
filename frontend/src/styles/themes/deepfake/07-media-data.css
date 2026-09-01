@@ -1,0 +1,169 @@
+.tv-upload-zone {
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+  border-radius: 28px !important;
+  border: 1.5px dashed rgba(103, 232, 249, 0.42) !important;
+  background:
+    linear-gradient(180deg, rgba(8, 18, 34, 0.84), rgba(15, 28, 48, 0.76)),
+    repeating-linear-gradient(45deg, rgba(34, 211, 238, 0.08) 0 1px, transparent 1px 18px);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.035), 0 20px 48px rgba(0,0,0,0.2);
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tv-upload-zone:hover,
+.tv-upload-zone.dragging {
+  border-color: rgba(244, 63, 143, 0.68) !important;
+  transform: translateY(-3px) scale(1.005);
+  box-shadow: 0 28px 66px rgba(0,0,0,0.28), 0 0 46px rgba(34, 211, 238, 0.12);
+}
+
+.tv-preview,
+.tv-chart-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+  border-color: rgba(125, 211, 252, 0.18);
+  background:
+    linear-gradient(180deg, rgba(3, 7, 18, 0.78), rgba(15, 28, 48, 0.82)),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.06) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+  background-size: auto, 28px 28px, 28px 28px;
+}
+
+.tv-preview::after,
+.tv-chart-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(34, 211, 238, 0.14) 50%, transparent 100%);
+  transform: translateY(-120%);
+  animation: tvPreviewScan 5.2s ease-in-out infinite;
+}
+
+@keyframes tvPreviewScan {
+  0% { transform: translateY(-120%); opacity: 0; }
+  20% { opacity: 0.58; }
+  100% { transform: translateY(120%); opacity: 0; }
+}
+
+.tv-preview img,
+.tv-chart-frame img,
+.tv-thumb {
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 18px 42px rgba(0,0,0,0.34);
+}
+
+.tv-meter,
+.progress {
+  background: rgba(148, 163, 184, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.tv-meter span,
+.progress-bar {
+  background: linear-gradient(90deg, #f43f8f, #f59e0b, #22d3ee);
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.24);
+}
+
+.tv-table {
+  border-collapse: separate;
+  border-spacing: 0 0.55rem;
+  color: var(--tv-text);
+}
+
+.tv-table thead th {
+  border: 0;
+  color: #9cc9db;
+  background: rgba(15, 28, 48, 0.7);
+  letter-spacing: 0.08em;
+}
+
+.tv-table tbody tr {
+  background: rgba(15, 28, 48, 0.7);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.16);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tv-table tbody tr:hover {
+  --bs-table-accent-bg: rgba(34, 211, 238, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 42px rgba(0,0,0,0.22);
+}
+
+.tv-table tbody td {
+  border-color: rgba(125, 211, 252, 0.09);
+  color: #dceafe;
+}
+
+.tv-table tbody td:first-child {
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+}
+
+.tv-table tbody td:last-child {
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
+.tv-result-badge,
+.tv-results-badge {
+  border-radius: var(--tv-pill);
+  box-shadow: 0 0 22px rgba(34, 211, 238, 0.12);
+}
+
+.tv-result-real,
+.text-bg-success {
+  color: #032414 !important;
+  background: linear-gradient(135deg, #86efac, #34d399) !important;
+}
+
+.tv-result-fake,
+.text-bg-danger {
+  color: #fff7f7 !important;
+  background: linear-gradient(135deg, #fb7185, #f43f8f) !important;
+}
+
+.alert {
+  border-radius: 22px;
+  border-color: rgba(125, 211, 252, 0.18);
+  background: rgba(15, 28, 48, 0.82);
+  color: #dceafe;
+}
+
+.alert-success {
+  border-color: rgba(52, 211, 153, 0.32);
+  background: rgba(16, 185, 129, 0.14);
+}
+
+.alert-warning {
+  border-color: rgba(245, 158, 11, 0.34);
+  background: rgba(245, 158, 11, 0.14);
+}
+
+.alert-danger {
+  border-color: rgba(251, 113, 133, 0.35);
+  background: rgba(244, 63, 94, 0.15);
+}
+
+.alert-info {
+  border-color: rgba(34, 211, 238, 0.32);
+  background: rgba(34, 211, 238, 0.13);
+}
+
+.tv-footer {
+  background:
+    linear-gradient(180deg, rgba(5, 11, 24, 0.94), rgba(3, 7, 18, 1));
+  border-top: 1px solid rgba(125, 211, 252, 0.14);
+}
+
+.tv-footer-copy,
+.tv-footer-link {
+  color: #9fb0c8;
+}
+
+.tv-footer-link:hover {
+  color: #67e8f9;
+}

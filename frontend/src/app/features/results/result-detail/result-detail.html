@@ -16,38 +16,25 @@
 
   <ng-container *ngIf="!isLoading() && result() as data">
     <div class="col-12">
-      <div class="tv-panel tv-result-hero">
-        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+      <section class="tv-panel tv-result-hero tv-result-verdict-panel">
+        <div class="tv-result-verdict-main">
           <div>
             <div class="tv-kicker mb-2">
               {{ isGuestPreview ? 'Preview Result' : 'Image Check Result' }}
             </div>
-            <h1 class="tv-section-title mb-2">Your result is ready</h1>
+            <h1 class="tv-section-title mb-3">
+              {{ data.prediction === 'Fake' ? 'Review this image carefully' : 'This image looks more likely real' }}
+            </h1>
             <p class="tv-muted mb-0">
-              See the result, confidence score, simple explanation, and suggested next steps.
+              {{
+                data.prediction === 'Fake'
+                  ? 'The model found suspicious visual signals. Use the highlighted areas and recommendation before making a final call.'
+                  : 'The model did not find strong manipulation signals. Keep normal review caution for important decisions.'
+              }}
             </p>
-            <p class="tv-muted mb-4" *ngIf="isGuestPreview">
-              This result is available for this session. It is not added to history unless you are logged in.
-            </p>
-            <p class="tv-muted mb-4" *ngIf="!isGuestPreview">
-              This result is saved to your history, so you can revisit it later and keep feedback attached to it.
-            </p>
-
-            <div class="tv-result-hero-callout">
-              <div class="tv-result-hero-callout-label">
-                {{ data.prediction === 'Fake' ? 'What this means' : 'Interpretation' }}
-              </div>
-              <p class="mb-0">
-                {{
-                  data.prediction === 'Fake'
-                    ? 'The model found enough suspicious signals to treat this image as potentially manipulated.'
-                    : 'The model did not find strong manipulation signals and considers this image more likely to be authentic.'
-                }}
-              </p>
-            </div>
           </div>
 
-          <div class="tv-result-hero-meta text-lg-end">
+          <div class="tv-result-verdict-score">
             <div class="tv-result-badge" [ngClass]="{
                 'tv-result-fake': data.prediction === 'Fake',
                 'tv-result-real': data.prediction === 'Real'
@@ -58,138 +45,100 @@
                 }"></i>
               {{ data.prediction }}
             </div>
-
-            <div class="mt-3">
-              <div class="small text-uppercase text-secondary fw-semibold mb-2">Confidence</div>
-              <div class="fw-bold fs-4">{{ data.confidence.toFixed(2) }}%</div>
-              <div class="tv-meter tv-result-meter mt-2">
-                <span [style.width]="confidenceWidth"></span>
-              </div>
-            </div>
-
-            <div class="tv-result-status-chip mt-3">
-              {{ isGuestPreview ? 'Preview only for this session' : 'Saved in your results history' }}
+            <strong>{{ data.confidence.toFixed(2) }}%</strong>
+            <span>model confidence</span>
+            <div class="tv-meter tv-result-meter mt-2">
+              <span [style.width]="confidenceWidth"></span>
             </div>
           </div>
         </div>
-      </div>
+
+        <div class="tv-result-save-note" *ngIf="isGuestPreview; else savedState">
+          <i class="bi bi-person"></i>
+          Preview only. Log in to save future uploads to history.
+        </div>
+        <ng-template #savedState>
+          <div class="tv-result-save-note">
+            <i class="bi bi-archive"></i>
+            Saved in your results history.
+          </div>
+        </ng-template>
+      </section>
     </div>
 
     <div class="col-12">
-      <div class="tv-panel">
-        <div class="tv-result-summary-grid">
-          <article class="tv-result-summary-card tv-result-summary-card--prediction" tabindex="0">
-            <div class="tv-result-summary-top">
-              <span class="tv-result-summary-icon"><i class="bi bi-patch-check"></i></span>
-              <div class="tv-result-summary-heading">
-                <span class="tv-result-summary-kicker">Prediction</span>
-                <strong>{{ data.prediction }}</strong>
-              </div>
-            </div>
-            <p class="mb-0">
-              {{ data.prediction === 'Fake' ? 'Potential manipulation detected.' : 'Image appears more likely to be real.' }}
-            </p>
-          </article>
-
-          <article class="tv-result-summary-card tv-result-summary-card--confidence" tabindex="0">
-            <div class="tv-result-summary-top">
-              <span class="tv-result-summary-icon"><i class="bi bi-speedometer2"></i></span>
-              <div class="tv-result-summary-heading">
-                <span class="tv-result-summary-kicker">Confidence Level</span>
-                <strong>{{ data.confidence.toFixed(2) }}%</strong>
-              </div>
-            </div>
-            <p class="mb-0">Higher confidence means the model was more certain about this judgement.</p>
-          </article>
-
-          <article class="tv-result-summary-card tv-result-summary-card--next" tabindex="0">
-            <div class="tv-result-summary-top">
-              <span class="tv-result-summary-icon"><i class="bi bi-signpost-split"></i></span>
-              <div class="tv-result-summary-heading">
-                <span class="tv-result-summary-kicker">Next Step</span>
-                <strong>{{ data.prediction === 'Fake' ? 'Review carefully' : 'Use with normal caution' }}</strong>
-              </div>
-            </div>
-            <p class="mb-0">{{ data.recommendation || 'No recommendation available.' }}</p>
-          </article>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-lg-6">
-      <div class="tv-panel h-100">
-        <div class="tv-result-media-head mb-3">
+      <section class="tv-panel tv-result-media-panel">
+        <div class="tv-result-media-title">
           <div>
-            <h2 class="h4 fw-bold mb-2">Your Uploaded Image</h2>
-            <p class="tv-muted mb-0">
-              This is the original image exactly as it entered the analysis flow before any detection cues were overlaid.
-            </p>
+            <div class="tv-kicker mb-2">Visual Review</div>
+            <h2 class="h4 fw-bold mb-2">Original image and highlighted focus</h2>
           </div>
+          <a routerLink="/upload" class="btn btn-tv-soft btn-sm">
+            <i class="bi bi-arrow-repeat me-2"></i>Check Another
+          </a>
         </div>
-        <div class="tv-preview">
-          <img *ngIf="imageUrl" [src]="imageUrl" alt="Original image" />
-        </div>
-      </div>
-    </div>
 
-    <div class="col-lg-6">
-      <div class="tv-panel h-100">
-        <div class="tv-result-media-head mb-3">
-          <div>
-            <h2 class="h4 fw-bold mb-2">Highlighted Areas</h2>
-            <p class="tv-muted mb-0">
-              These highlighted regions show where the model focused most strongly while making its decision.
-            </p>
-          </div>
+        <div class="tv-result-compare-grid">
+          <figure class="tv-result-figure">
+            <figcaption>Uploaded image</figcaption>
+            <div class="tv-preview">
+              <img *ngIf="imageUrl" [src]="imageUrl" alt="Original image" />
+            </div>
+          </figure>
+
+          <figure class="tv-result-figure">
+            <figcaption>Model focus areas</figcaption>
+            <div class="tv-preview">
+              <img *ngIf="gradcamUrl" [src]="gradcamUrl" alt="Grad-CAM heatmap" />
+            </div>
+          </figure>
         </div>
-        <div class="tv-preview">
-          <img *ngIf="gradcamUrl" [src]="gradcamUrl" alt="Grad-CAM heatmap" />
-        </div>
-      </div>
+      </section>
     </div>
 
     <div class="col-lg-8">
-      <div class="tv-panel h-100">
+      <section class="tv-panel h-100 tv-result-explanation-panel">
         <div class="tv-pill mb-3"><i class="bi bi-search"></i> Simple Explanation</div>
         <h2 class="h4 fw-bold mb-3">Why the system gave this result</h2>
 
-        <div class="tv-result-insight-grid mb-4">
-          <div class="tv-result-insight-card">
-            <div class="tv-result-insight-head">
-              <span class="tv-result-summary-kicker">Model verdict</span>
-              <strong>{{ data.prediction === 'Fake' ? 'Suspicious pattern detected' : 'Authenticity looks stronger' }}</strong>
-            </div>
+        <div class="tv-result-mini-metrics mb-4">
+          <div>
+            <span>Verdict</span>
+            <strong>{{ data.prediction === 'Fake' ? 'Suspicious pattern detected' : 'Authenticity looks stronger' }}</strong>
           </div>
-          <div class="tv-result-insight-card">
-            <div class="tv-result-insight-head">
-              <span class="tv-result-summary-kicker">Confidence reading</span>
-              <strong>{{ data.confidence.toFixed(2) }}% confidence</strong>
-            </div>
+          <div>
+            <span>Confidence</span>
+            <strong>{{ data.confidence.toFixed(2) }}%</strong>
+          </div>
+          <div>
+            <span>Next step</span>
+            <strong>{{ data.prediction === 'Fake' ? 'Manual review' : 'Normal caution' }}</strong>
           </div>
         </div>
 
-        <div class="tv-result-copy mb-4">
+        <p class="tv-result-copy mb-4">
           {{ data.explanation || 'No explanation available.' }}
-        </div>
+        </p>
 
-        <div class="alert mb-0" [ngClass]="{
-            'alert-warning': data.prediction === 'Fake',
-            'alert-success': data.prediction === 'Real'
+        <div class="tv-result-recommendation" [ngClass]="{
+            'tv-result-recommendation--fake': data.prediction === 'Fake',
+            'tv-result-recommendation--real': data.prediction === 'Real'
           }">
-          <strong>Recommendation:</strong>
-          {{ data.recommendation || 'No recommendation available.' }}
+          <span><i class="bi bi-signpost-split"></i></span>
+          <div>
+            <strong>Recommended action</strong>
+            <p class="mb-0">{{ data.recommendation || 'No recommendation available.' }}</p>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
 
     <div class="col-lg-4">
-      <div class="tv-panel h-100">
+      <section class="tv-panel h-100 tv-result-action-panel">
         <ng-container *ngIf="!isGuestPreview; else guestInfo">
-          <div class="tv-pill mb-3"><i class="bi bi-chat-left-text"></i> Your Feedback</div>
-          <h2 class="h4 fw-bold mb-3">Was this result helpful?</h2>
-          <p class="tv-muted">
-            Choose a simple option below so your saved results remain useful later.
-          </p>
+          <div class="tv-pill mb-3"><i class="bi bi-chat-left-text"></i> Feedback</div>
+          <h2 class="h4 fw-bold mb-3">Was this helpful?</h2>
+          <p class="tv-muted mb-4">Save a simple note against this result.</p>
 
           <div *ngIf="successMessage()" class="alert alert-success" role="alert">
             {{ successMessage() }}
@@ -208,8 +157,7 @@
           </div>
 
           <div class="mt-3 small text-secondary" *ngIf="result()?.feedback">
-            Saved feedback:
-            <strong>{{ result()?.feedback }}</strong>
+            Saved feedback: <strong>{{ result()?.feedback }}</strong>
           </div>
 
           <div class="d-grid gap-3 mt-4">
@@ -220,13 +168,13 @@
 
         <ng-template #guestInfo>
           <div class="tv-pill mb-3"><i class="bi bi-person"></i> Guest Mode</div>
-          <h2 class="h4 fw-bold mb-3">Preview only</h2>
+          <h2 class="h4 fw-bold mb-3">Save this kind of result next time</h2>
           <p class="tv-muted mb-4">
-            You can view this result now, but it is not saved to your history because you are not logged in.
+            This preview works now, but it will disappear after the session.
           </p>
 
-          <div class="alert alert-info mb-4" role="alert">
-            Log in or create an account if you want future uploads to be saved in your results history.
+          <div class="tv-result-guest-box mb-4">
+            Log in before future uploads if you want image results, explanations, and history saved together.
           </div>
 
           <div class="d-grid gap-3">
@@ -235,7 +183,7 @@
             <a routerLink="/upload" class="btn btn-outline-secondary btn-lg">Check Another Image</a>
           </div>
         </ng-template>
-      </div>
+      </section>
     </div>
   </ng-container>
 </section>

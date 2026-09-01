@@ -17,3 +17,15 @@
 @import './styles/pages/performance.css';
 @import './styles/pages/results-list.css';
 @import './styles/pages/result-detail.css';
+@import './styles/themes/deepfake/01-tokens.css';
+@import './styles/themes/deepfake/02-motion.css';
+@import './styles/themes/deepfake/03-base.css';
+@import './styles/themes/deepfake/04-navigation.css';
+@import './styles/themes/deepfake/05-surfaces.css';
+@import './styles/themes/deepfake/06-controls.css';
+@import './styles/themes/deepfake/07-media-data.css';
+@import './styles/themes/deepfake/08-responsive.css';
+@import './styles/themes/deepfake/09-simulator-contrast.css';
+@import './styles/themes/deepfake/10-sticky-footer.css';
+@import './styles/themes/deepfake/11-cleanup.css';
+@import './styles/themes/deepfake/12-mobile-compat.css';

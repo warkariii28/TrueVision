@@ -1,44 +1,54 @@
 <footer class="tv-footer" role="contentinfo">
-  <!-- <div class="tv-shell-container"> -->
-    <div class="tv-footer-inner py-4">
-      <div class="row g-4 align-items-start">
-        <div class="col-lg-4">
-          <div class="d-flex align-items-center gap-3">
-            <a class="footer-link" routerLink="/">
-              <span class="tv-footer-mark">
-                <i class="bi bi-house-heart-fill" aria-hidden="true"></i>
-              </span>
-            </a>
-            <div>
-              <div class="fw-semibold text-white">TRUEVISION</div>
-              <div class="tv-footer-copy">
-                Vision-based deepfake detection for guided image review.
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="tv-footer-inner">
+    <div class="tv-footer-grid">
+      <section class="tv-footer-brand" aria-label="TrueVision summary">
+        <a class="tv-footer-brand-link" routerLink="/" aria-label="TrueVision home">
+          <span class="tv-footer-mark">
+            <i class="bi bi-fingerprint" aria-hidden="true"></i>
+          </span>
+          <span>
+            <strong>TRUEVISION</strong>
+            <small>Deepfake Image Intelligence</small>
+          </span>
+        </a>
+        <p class="tv-footer-copy mb-0">
+          Vision-based deepfake detection for guided image review, confidence checks, and visual evidence inspection.
+        </p>
+      </section>
 
-        <div class="col-sm-6 col-lg-4">
-          <div class="tv-footer-title">Navigation</div>
-          <nav aria-label="Footer navigation">
-            <ul class="list-unstyled mb-0 d-grid gap-2 tv-footer-nav">
-              <li><a routerLink="/" class="tv-footer-link">Home</a></li>
-              <li><a routerLink="/upload" class="tv-footer-link">Check Image</a></li>
-              <li><a routerLink="/results" class="tv-footer-link">My Results</a></li>
-              <li><a routerLink="/performance" class="tv-footer-link">Model Report</a></li>
-            </ul>
+      <section aria-label="Footer navigation">
+        <div class="tv-footer-title">Navigation</div>
+        <nav>
+          <ul class="list-unstyled mb-0 tv-footer-nav">
+            <li><a routerLink="/" class="tv-footer-link"><i class="bi bi-grid"></i>Home</a></li>
+            <li><a routerLink="/upload" class="tv-footer-link"><i class="bi bi-fingerprint"></i>Check Image</a></li>
+            <li><a routerLink="/results" class="tv-footer-link"><i class="bi bi-briefcase"></i>My Results</a></li>
+            <li><a routerLink="/performance" class="tv-footer-link"><i class="bi bi-graph-up-arrow"></i>Model Report</a></li>
+          </ul>
+        </nav>
+      </section>
 
-          </nav>
+      <section aria-label="Platform workflow">
+        <div class="tv-footer-title">Workflow</div>
+        <div class="tv-footer-steps">
+          <span>Upload</span>
+          <span>Analyze</span>
+          <span>Review</span>
         </div>
+        <p class="tv-footer-copy mb-0">
+          Compare the original image with highlighted focus areas and keep saved decisions tied to your account.
+        </p>
+      </section>
 
-        <div class="col-sm-6 col-lg-4">
-          <div class="tv-footer-title">Platform</div>
-          <div class="tv-footer-copy">
-            Upload face imagery, inspect model confidence, review visual evidence, and preserve decisions across
-            sessions.
-          </div>
+      <section aria-label="Decision note">
+        <div class="tv-footer-title">Decision Note</div>
+        <div class="tv-footer-note">
+          <i class="bi bi-shield-check"></i>
+          <p class="mb-0">
+            Results are decision support. Use confidence, explanation, and image context before final judgement.
+          </p>
         </div>
-      </div>
+      </section>
     </div>
-  <!-- </div> -->
+  </div>
 </footer>

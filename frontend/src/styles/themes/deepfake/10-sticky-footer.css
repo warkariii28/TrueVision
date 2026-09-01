@@ -1,0 +1,24 @@
+/* Sticky footer layout */
+html,
+body {
+  min-height: 100%;
+}
+
+app-root {
+  min-height: 100vh;
+  display: block;
+}
+
+.tv-app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.tv-shell {
+  flex: 1 0 auto;
+}
+
+.tv-footer {
+  flex-shrink: 0;
+}

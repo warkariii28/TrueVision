@@ -1,136 +1,122 @@
-<section class="tv-panel">
-  <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+<section class="tv-panel tv-results-shell">
+  <div class="tv-results-hero">
     <div>
       <div class="tv-kicker mb-2">Saved Results</div>
       <h1 class="tv-section-title mb-2">My Results</h1>
       <p class="tv-muted mb-0">
-        Review your past image checks, confidence scores, saved images, and feedback.
+        Review saved image checks, compare confidence, and reopen any result for the full explanation.
       </p>
     </div>
 
     <div class="tv-action-group d-flex flex-wrap gap-2">
-      <a routerLink="/upload" class="btn btn-tv-primary">Check New Image</a>
-      <a routerLink="/" class="btn btn-tv-soft">Dashboard</a>
+      <a routerLink="/upload" class="btn btn-tv-primary">
+        <i class="bi bi-cloud-upload me-2"></i>Check New Image
+      </a>
+      <a routerLink="/" class="btn btn-tv-soft">
+        <i class="bi bi-grid me-2"></i>Dashboard
+      </a>
     </div>
   </div>
 
-  <div class="tv-results-summary-grid mb-4" *ngIf="!isLoading() && !errorMessage() && results().length > 0">
-    <article class="tv-results-summary-card" tabindex="0">
-      <div class="tv-results-summary-top">
-
-        <span class="tv-results-summary-icon"><i class="bi bi-collection"></i></span>
-        <div class="tv-results-summary-heading">
-          <span class="tv-results-summary-kicker">Total checks</span>
-          <strong class="tv-results-summary-value">{{ totalResults }}</strong>
-        </div>
-      </div>
-      <p class="mb-0">All saved image analyses currently attached to your account.</p>
-    </article>
-
-    <article class="tv-results-summary-card" tabindex="0">
-      <div class="tv-results-summary-top">
-        <span class="tv-results-summary-icon"><i class="bi bi-exclamation-octagon"></i></span>
-        <div class="tv-results-summary-heading">
-          <span class="tv-results-summary-kicker">Flagged fake</span>
-          <strong class="tv-results-summary-value">{{ fakeCount }}</strong>
-        </div>
-      </div>
-      <p class="mb-0">Saved checks where the model detected likely manipulation.</p>
-    </article>
-
-    <article class="tv-results-summary-card" tabindex="0">
-      <div class="tv-results-summary-top">
-        <span class="tv-results-summary-icon"><i class="bi bi-check2-circle"></i></span>
-        <div class="tv-results-summary-heading">
-          <span class="tv-results-summary-kicker">Likely real</span>
-          <strong class="tv-results-summary-value">{{ realCount }}</strong>
-        </div>
-      </div>
-      <p class="mb-0">Saved checks where the model judged the image as more likely authentic.</p>
-    </article>
-
-    <article class="tv-results-summary-card" tabindex="0">
-      <div class="tv-results-summary-top">
-        <span class="tv-results-summary-icon"><i class="bi bi-chat-left-dots"></i></span>
-        <div class="tv-results-summary-heading">
-          <span class="tv-results-summary-kicker">With feedback</span>
-          <strong class="tv-results-summary-value">{{ feedbackCount }}</strong>
-        </div>
-      </div>
-      <p class="mb-0">Results where you already marked whether the analysis was helpful.</p>
-    </article>
+  <div *ngIf="isLoading()" class="tv-results-state">
+    <p class="mb-0">Loading saved results...</p>
   </div>
 
-  <div *ngIf="!isLoading() && !errorMessage() && results().length === 0" class="py-4">
-    <h3 class="h5 fw-bold mb-2">No saved results yet</h3>
-    <p class="mb-3 text-secondary">
-      Upload an image while logged in and it will appear here automatically.
-    </p>
-    <a routerLink="/upload" class="btn btn-tv-primary">Check Image</a>
+  <div *ngIf="errorMessage()" class="alert alert-danger" role="alert">
+    {{ errorMessage() }}
   </div>
 
-  <div class="table-responsive" *ngIf="!isLoading() && !errorMessage() && results().length > 0">
-    <table class="table tv-table table-hover align-middle mb-0">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Prediction</th>
-          <th>Confidence</th>
-          <th>Image</th>
-          <th>Highlighted Areas</th>
-          <th>Feedback</th>
-        </tr>
-      </thead>
+  <ng-container *ngIf="!isLoading() && !errorMessage()">
+    <div class="tv-results-summary-strip mb-4" *ngIf="results().length > 0">
+      <article>
+        <span><i class="bi bi-collection"></i></span>
+        <div>
+          <strong>{{ totalResults }}</strong>
+          <p>Total checks</p>
+        </div>
+      </article>
 
-      <tbody>
-        <tr *ngFor="let result of results()">
-          <td class="fw-semibold" data-label="ID">
-            <div class="tv-results-id-cell">
-              <span class="tv-rank-pill">#{{ result.id }}</span>
-            </div>
-          </td>
+      <article>
+        <span><i class="bi bi-exclamation-octagon"></i></span>
+        <div>
+          <strong>{{ fakeCount }}</strong>
+          <p>Flagged fake</p>
+        </div>
+      </article>
 
-          <td data-label="Prediction">
-            <span class="badge tv-results-badge" [class.text-bg-danger]="result.prediction === 'Fake'"
-              [class.text-bg-success]="result.prediction === 'Real'">
-              {{ result.prediction }}
-            </span>
-          </td>
+      <article>
+        <span><i class="bi bi-check2-circle"></i></span>
+        <div>
+          <strong>{{ realCount }}</strong>
+          <p>Likely real</p>
+        </div>
+      </article>
 
-          <td data-label="Confidence">
-            <div class="tv-results-confidence">
-              <strong>{{ result.confidence.toFixed(2) }}%</strong>
-              <span>{{ result.prediction === 'Fake' ? 'Manipulation confidence' : 'Authenticity confidence' }}</span>
-            </div>
-          </td>
+      <article>
+        <span><i class="bi bi-chat-left-dots"></i></span>
+        <div>
+          <strong>{{ feedbackCount }}</strong>
+          <p>With feedback</p>
+        </div>
+      </article>
+    </div>
 
-          <td data-label="Image">
-            <a [routerLink]="['/results', result.id]" class="tv-result-link">
-              <!-- <div class="tv-results-thumb-shell"> -->
-                <!-- <span class="tv-results-thumb-label">Original</span> -->
-                <img [src]="imageUrl(result)" alt="Uploaded image" class="tv-thumb" />
-              <!-- </div> -->
-            </a>
-          </td>
+    <div *ngIf="results().length === 0" class="tv-results-empty">
+      <div class="tv-results-empty-icon"><i class="bi bi-images"></i></div>
+      <h2 class="h4 fw-bold mb-2">No saved results yet</h2>
+      <p class="tv-muted mb-4">
+        Upload an image while logged in and the saved result will appear here automatically.
+      </p>
+      <a routerLink="/upload" class="btn btn-tv-primary">Check Image</a>
+    </div>
 
-          <td data-label="Highlighted Areas">
-            <a [routerLink]="['/results', result.id]" class="tv-result-link">
-              <!-- <div class="tv-results-thumb-shell"> -->
-                <!-- <span class="tv-results-thumb-label">Focus map</span> -->
-                <img *ngIf="result.gradcamPath !== null || !result.saved" [src]="gradcamUrl(result)" alt="Grad-CAM image"
-                  class="tv-thumb" />
-              <!-- </div> -->
-            </a>
-          </td>
+    <div class="tv-results-list" *ngIf="results().length > 0">
+      <article class="tv-result-row" *ngFor="let result of results()">
+        <a [routerLink]="['/results', result.id]" class="tv-result-row-media" aria-label="Open result detail">
+          <img [src]="imageUrl(result)" alt="Uploaded image" class="tv-thumb" />
+          <img *ngIf="result.gradcamPath !== null || !result.saved" [src]="gradcamUrl(result)" alt="Grad-CAM image" class="tv-thumb" />
+        </a>
 
-          <td data-label="Feedback">
-            <span class="tv-feedback-pill tv-results-feedback-pill">
-              <i class="bi bi-chat-left-text"></i>
-              {{ result.feedback || 'Not provided' }}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        <div class="tv-result-row-body">
+          <div class="tv-result-row-title">
+  <div>
+    <span class="tv-rank-pill">#{{ result.id }}</span>
+    <span class="tv-result-row-date" *ngIf="result.createdAt">
+      {{ result.createdAt | date:'mediumDate' }}
+    </span>
+    <span class="badge tv-results-badge" [class.text-bg-danger]="result.prediction === 'Fake'"
+      [class.text-bg-success]="result.prediction === 'Real'">
+      {{ result.prediction }}
+    </span>
   </div>
+</div>
+
+          <div class="tv-result-row-copy">
+            <h2 class="h5 fw-bold mb-1">
+              {{ result.prediction === 'Fake' ? 'Needs careful review' : 'Looks more likely authentic' }}
+            </h2>
+            <p class="tv-muted mb-0">
+              {{ result.prediction === 'Fake' ? 'Manipulation confidence' : 'Authenticity confidence' }}
+              is {{ result.confidence.toFixed(2) }}%.
+            </p>
+          </div>
+
+          <div class="tv-meter tv-results-row-meter" aria-label="Confidence level">
+            <span [style.width.%]="result.confidence"></span>
+          </div>
+        </div>
+
+        <div class="tv-result-row-side">
+          <span class="tv-feedback-pill tv-results-feedback-pill">
+            <i class="bi bi-chat-left-text"></i>
+            {{ result.feedback || 'No feedback' }}
+          </span>
+
+          <a [routerLink]="['/results', result.id]" class="btn btn-tv-soft btn-sm">
+            Open Result
+          </a>
+        </div>
+      </article>
+    </div>
+  </ng-container>
 </section>

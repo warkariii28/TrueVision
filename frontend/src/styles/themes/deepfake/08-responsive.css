@@ -1,0 +1,66 @@
+@media (max-width: 991.98px) {
+  .tv-navbar {
+    position: sticky;
+  }
+
+  .tv-navbar .navbar-collapse {
+    border-radius: 24px;
+    background: rgba(5, 11, 24, 0.94);
+    border-color: rgba(125, 211, 252, 0.18);
+  }
+}
+
+@media (max-width: 575.98px) {
+  body {
+    background-size: 260% 260%, 100% 100%, 34px 34px, 34px 34px;
+  }
+
+  .tv-shell {
+    padding-top: 1rem;
+  }
+
+  .tv-panel,
+  .tv-card,
+  .tv-stat,
+  .tv-metric-card,
+  .tv-page-home .tv-hero,
+  .tv-page-home .tv-hero-console {
+    padding: 1rem;
+    border-radius: 22px !important;
+  }
+
+  .tv-section-title {
+    font-size: clamp(1.55rem, 1.25rem + 2vw, 2rem);
+  }
+
+  .tv-upload-zone {
+    min-height: 220px;
+    border-radius: 22px !important;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  .tv-panel,
+  .tv-card,
+  .tv-stat,
+  .tv-metric-card,
+  .tv-stat-card,
+  .tv-ranking-card,
+  .tv-results-summary-card,
+  .tv-result-summary-card,
+  .tv-upload-step,
+  .tv-upload-deliverable,
+  .tv-console-dot,
+  .tv-live-pill,
+  .tv-model-leader-rank,
+  .tv-panel::after,
+  .tv-page-home .tv-hero::after,
+  .tv-preview-shell::after,
+  .tv-upload-zone::after,
+  .tv-preview::after,
+  .tv-chart-frame::after {
+    animation: none !important;
+  }
+}

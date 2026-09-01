@@ -72,6 +72,65 @@ export class Performance {
     return this.rankedModels.length;
   }
 
+  get topModels(): PerformanceModel[] {
+    return this.rankedModels.slice(0, 5);
+  }
+
+  get bestModelNameShort(): string {
+    return this.bestModel()?.modelName.replace(/^Stage-\d\s+/, '') ?? '';
+  }
+
+  get totalTestCases(): number {
+    const best = this.bestModel();
+
+    if (!best) {
+      return 0;
+    }
+
+    return best.tp + best.tn + best.fp + best.fn;
+  }
+
+  get correctDecisions(): number {
+    const best = this.bestModel();
+
+    if (!best) {
+      return 0;
+    }
+
+    return best.tp + best.tn;
+  }
+
+  get wrongDecisions(): number {
+    const best = this.bestModel();
+
+    if (!best) {
+      return 0;
+    }
+
+    return best.fp + best.fn;
+  }
+
+  get riskSummary(): string {
+    const details = this.bestModelDetails;
+
+    if (!details) {
+      return 'Risk details are unavailable until model rows load.';
+    }
+
+    if (details.fnr > details.fpr) {
+      return 'This model is more likely to miss a fake than falsely accuse a real image.';
+    }
+
+    if (details.fpr > details.fnr) {
+      return 'This model is more likely to flag a real image than miss a fake.';
+    }
+
+    return 'False alerts and missed fakes are balanced in this test set.';
+  }
+
+  modelFamily(modelName: string): string {
+    return modelName.replace(/^Stage-\d\s+/, '');
+  }
   isBestModel(modelName: string): boolean {
     return this.bestModel()?.modelName === modelName;
   }

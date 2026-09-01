@@ -11,6 +11,8 @@ describe('ResultDetail', () => {
   let resultsServiceMock: {
     getResultById: ReturnType<typeof vi.fn>;
     submitFeedback: ReturnType<typeof vi.fn>;
+    resultImageUrl: ReturnType<typeof vi.fn>;
+    resultGradcamUrl: ReturnType<typeof vi.fn>;
   };
   let router: Router;
 
@@ -39,6 +41,8 @@ describe('ResultDetail', () => {
           result: { ...mockResult, feedback: 'Fake' },
         }),
       ),
+      resultImageUrl: vi.fn(() => 'http://localhost:5000/api/media/result/1/image'),
+      resultGradcamUrl: vi.fn(() => 'http://localhost:5000/api/media/result/1/gradcam'),
     };
 
     await TestBed.configureTestingModule({

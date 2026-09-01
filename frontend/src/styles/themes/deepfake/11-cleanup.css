@@ -1,0 +1,91 @@
+/* Remove literal in-card face mesh motifs */
+.tv-card::after,
+.tv-stat-card::after,
+.tv-results-summary-card::after,
+.tv-result-summary-card::after,
+.tv-ranking-card::after,
+.tv-upload-step::after,
+.tv-upload-deliverable::after,
+.tv-page-home .tv-hero-console::before,
+.tv-upload-zone::before,
+.tv-preview::before,
+.tv-chart-frame::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Performance/readability contrast corrections */
+.tv-brand-name,
+.tv-navbar .tv-brand-name {
+  color: #f8fbff !important;
+  text-shadow: 0 0 18px rgba(103, 232, 249, 0.22);
+}
+
+.tv-performance-hero,
+.tv-page-result .tv-result-hero,
+.tv-page-home .tv-hero,
+.tv-page-auth .tv-panel,
+.tv-page-upload .tv-panel {
+  background:
+    radial-gradient(circle at 92% 8%, rgba(103, 232, 249, 0.12), transparent 34%),
+    radial-gradient(circle at 12% 100%, rgba(244, 114, 182, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(10, 23, 42, 0.96), rgba(13, 26, 46, 0.92)) !important;
+  border-color: rgba(103, 232, 249, 0.22) !important;
+}
+
+.tv-performance-hero::after,
+.tv-page-result .tv-result-hero::after,
+.tv-page-home .tv-hero::after,
+.tv-page-auth .tv-panel::after,
+.tv-page-upload .tv-panel::after {
+  opacity: 0.16 !important;
+}
+
+.tv-performance-hero .tv-kicker,
+.tv-page-result .tv-kicker,
+.tv-page-auth .tv-kicker,
+.tv-page-upload .tv-kicker {
+  color: #67e8f9 !important;
+}
+
+.tv-performance-hero .tv-section-title,
+.tv-performance-hero h1,
+.tv-performance-hero h2,
+.tv-page-result .tv-section-title,
+.tv-page-auth .tv-section-title,
+.tv-page-upload .tv-section-title {
+  color: #f8fbff !important;
+  text-shadow: 0 0 26px rgba(103, 232, 249, 0.14);
+}
+
+.tv-performance-hero .tv-muted,
+.tv-performance-hero p,
+.tv-page-result .tv-muted,
+.tv-page-auth .tv-muted,
+.tv-page-upload .tv-muted {
+  color: #b8c7dc !important;
+}
+
+.alert-danger,
+.tv-panel .alert-danger {
+  color: #ffe4e9 !important;
+  border-color: rgba(251, 113, 133, 0.45) !important;
+  background:
+    linear-gradient(180deg, rgba(88, 28, 43, 0.7), rgba(66, 21, 36, 0.58)) !important;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.tv-deepfake-simulator {
+  opacity: 0.18;
+}
+
+.tv-sim-face {
+  right: clamp(-8rem, -4vw, 0rem);
+  opacity: 0.72;
+}
+
+@media (max-width: 991.98px) {
+  .tv-deepfake-simulator {
+    opacity: 0.1;
+  }
+}
