@@ -138,7 +138,15 @@
         <ng-container *ngIf="!isGuestPreview; else guestInfo">
           <div class="tv-pill mb-3"><i class="bi bi-chat-left-text"></i> Feedback</div>
           <h2 class="h4 fw-bold mb-3">Was this helpful?</h2>
-          <p class="tv-muted mb-4">Save a simple note against this result.</p>
+          <p class="tv-muted mb-4">Save a simple note against this result and keep it available for future review.</p>
+
+          <div class="tv-result-account-value mb-4">
+            <i class="bi bi-file-earmark-arrow-down" aria-hidden="true"></i>
+            <div>
+              <strong>Your account keeps this result useful.</strong>
+              <p class="mb-0">You can return to this image, compare the highlighted evidence, and download a report whenever you need to share or archive the check.</p>
+            </div>
+          </div>
 
           <div *ngIf="successMessage()" class="alert alert-success" role="alert">
             {{ successMessage() }}
@@ -161,20 +169,24 @@
           </div>
 
           <div class="d-grid gap-3 mt-4">
-            <a routerLink="/upload" class="btn btn-tv-primary btn-lg">Check Another Image</a>
-            <a routerLink="/results" class="btn btn-tv-soft btn-lg">See My Results</a>
+            <button type="button" class="btn btn-tv-primary btn-lg" (click)="downloadReport()">
+              <i class="bi bi-download me-2" aria-hidden="true"></i>Download Report
+            </button>
+            <a routerLink="/upload" class="btn btn-tv-soft btn-lg">Check Another Image</a>
+            <a routerLink="/results" class="btn btn-outline-secondary btn-lg">See My Results</a>
           </div>
         </ng-container>
 
         <ng-template #guestInfo>
           <div class="tv-pill mb-3"><i class="bi bi-person"></i> Guest Mode</div>
-          <h2 class="h4 fw-bold mb-3">Save this kind of result next time</h2>
+          <h2 class="h4 fw-bold mb-3">Create an account before serious checks</h2>
           <p class="tv-muted mb-4">
-            This preview works now, but it will disappear after the session.
+            Guest previews are temporary. An account keeps your results available after this session.
           </p>
 
-          <div class="tv-result-guest-box mb-4">
-            Log in before future uploads if you want image results, explanations, and history saved together.
+          <div class="tv-result-guest-box tv-result-guest-box--strong mb-4">
+            <strong>Why sign in?</strong>
+            <span>Your image history, confidence score, explanation, highlighted evidence, feedback, and downloadable report stay attached to your account.</span>
           </div>
 
           <div class="d-grid gap-3">

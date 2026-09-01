@@ -51,9 +51,13 @@
         </article>
       </div>
 
-      <p class="small text-secondary mb-0" *ngIf="!isSubmitting()">
-        Guests can view results immediately. <br> Log in only if you want saved history.
-      </p>
+      <div class="tv-upload-account-callout" *ngIf="!isSubmitting()">
+        <i class="bi bi-person-check" aria-hidden="true"></i>
+        <div>
+          <strong>Create an account for result history and reports.</strong>
+          <p class="mb-0">Guest checks are temporary. Sign in to save each image check, revisit highlighted areas, and download a report later.</p>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -73,11 +77,20 @@
         <div class="tv-upload-zone mb-3" [ngClass]="{ dragging: isDragging }" role="button" tabindex="0"
           (click)="openFilePicker()" (keydown)="onKeydown($event)" (dragover)="onDragOver($event)"
           (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
-          <div class="display-6 mb-3 text-primary">
-            <i class="bi bi-cloud-upload"></i>
+
+          <div *ngIf="!isSubmitting()">
+            <div class="display-6 mb-3 text-primary">
+              <i class="bi bi-cloud-upload"></i>
+            </div>
+            <h3 class="h5 fw-bold">Drop an image here</h3>
+            <p class="tv-muted mb-0">or click to browse from your device</p>
           </div>
-          <h3 class="h5 fw-bold">Drop an image here</h3>
-          <p class="tv-muted mb-0">or click to browse from your device</p>
+
+          <div *ngIf="isSubmitting()" class="text-center">
+            <app-infinite-path-loader class="mb-3"></app-infinite-path-loader>
+            <h3 class="h5 fw-bold">Processing Image...</h3>
+            <p class="tv-muted mb-0">Our AI is analyzing the facial patterns</p>
+          </div>
         </div>
 
         <div class="tv-upload-guidance mb-3">
@@ -162,3 +175,44 @@
     </div>
   </div>
 </section>
+<div class="tv-analysis-overlay" *ngIf="isSubmitting()" role="status" aria-live="polite" aria-label="Image analysis in progress">
+  <div class="tv-analysis-card">
+    <div class="tv-analysis-media">
+      <div class="tv-analysis-preview" *ngIf="previewUrl(); else analysisPlaceholder">
+        <img [src]="previewUrl()" alt="Selected image being analyzed" />
+        <span class="tv-analysis-scan-line"></span>
+        <span class="tv-analysis-scan-glow"></span>
+      </div>
+
+      <ng-template #analysisPlaceholder>
+        <div class="tv-analysis-preview tv-analysis-preview-empty">
+          <i class="bi bi-person-bounding-box" aria-hidden="true"></i>
+          <span class="tv-analysis-scan-line"></span>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="tv-analysis-content">
+      <div class="tv-analysis-kicker">
+        <i class="bi bi-radar" aria-hidden="true"></i>
+        Live analysis
+      </div>
+      <h2>Analyzing image integrity</h2>
+      <p>{{ analysisSteps[analysisStepIndex()] }}</p>
+
+      <div class="tv-analysis-step-track" aria-hidden="true">
+        <span [class.active]="analysisStepIndex() >= 0"></span>
+        <span [class.active]="analysisStepIndex() >= 1"></span>
+        <span [class.active]="analysisStepIndex() >= 2"></span>
+        <span [class.active]="analysisStepIndex() >= 3"></span>
+        <span [class.active]="analysisStepIndex() >= 4"></span>
+      </div>
+
+      <div class="tv-analysis-progress">
+        <span [style.width.%]="progress()"></span>
+      </div>
+
+      <small>{{ statusMessage() || 'Please keep this window open while the model reviews the image.' }}</small>
+    </div>
+  </div>
+</div>

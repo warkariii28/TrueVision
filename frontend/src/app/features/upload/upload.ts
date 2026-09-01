@@ -1,16 +1,17 @@
-import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { ResultsService } from '../../core/services/results.service';
+import { InfinitePathLoader } from '../../shared/components/infinite-path-loader/infinite-path-loader';
 
 @Component({
   selector: 'app-upload',
-  imports: [RouterLink, NgIf, NgClass],
+  imports: [RouterLink, NgIf, NgClass, InfinitePathLoader],
   templateUrl: './upload.html',
   styleUrl: './upload.css',
   host: { class: 'tv-page-upload' },
 })
-export class Upload {
+export class Upload implements OnDestroy {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   readonly previewUrl = signal('');
@@ -21,14 +22,29 @@ export class Upload {
   readonly isSubmitting = signal(false);
   readonly statusMessage = signal('');
   readonly selectedFileName = signal('');
+  readonly analysisStepIndex = signal(0);
+  readonly analysisSteps = [
+    'Checking image quality',
+    'Scanning facial consistency',
+    'Analyzing manipulation signals',
+    'Preparing confidence result',
+    'Generating highlighted evidence',
+  ];
 
   isDragging = false;
   selectedFile: File | null = null;
 
   private progressTimer: ReturnType<typeof setInterval> | null = null;
+  private analysisStepTimer: ReturnType<typeof setInterval> | null = null;
+  private submitStartedAt = 0;
+  private readonly minimumAnalysisMs = 2600;
 
   private readonly resultsService = inject(ResultsService);
   private readonly router = inject(Router);
+
+  ngOnDestroy(): void {
+    this.stopFakeProgress();
+  }
 
   openFilePicker(): void {
     if (this.isSubmitting()) {
@@ -89,6 +105,7 @@ export class Upload {
     this.progress.set(12);
     this.progressClass.set('low');
     this.statusMessage.set('Uploading and analyzing image...');
+    this.analysisStepIndex.set(0);
     this.showProgress.set(true);
 
     this.progressTimer = setInterval(() => {
@@ -105,6 +122,10 @@ export class Upload {
         this.progressClass.set('high');
       }
     }, 400);
+
+    this.analysisStepTimer = setInterval(() => {
+      this.analysisStepIndex.update((current) => (current + 1) % this.analysisSteps.length);
+    }, 1300);
   }
 
   stopFakeProgress(): void {
@@ -112,6 +133,18 @@ export class Upload {
       clearInterval(this.progressTimer);
       this.progressTimer = null;
     }
+
+    if (this.analysisStepTimer) {
+      clearInterval(this.analysisStepTimer);
+      this.analysisStepTimer = null;
+    }
+  }
+
+  private finishAfterMinimumDelay(callback: () => void): void {
+    const elapsed = Date.now() - this.submitStartedAt;
+    const remaining = Math.max(0, this.minimumAnalysisMs - elapsed);
+
+    setTimeout(callback, remaining);
   }
 
   processFile(file: File): void {
@@ -120,6 +153,7 @@ export class Upload {
     this.progress.set(0);
     this.progressClass.set('');
     this.statusMessage.set('');
+    this.analysisStepIndex.set(0);
 
     if (!this.validateFile(file)) {
       this.previewUrl.set('');
@@ -166,6 +200,7 @@ export class Upload {
     }
 
     this.errorMessage.set('');
+    this.submitStartedAt = Date.now();
     this.isSubmitting.set(true);
     this.startFakeProgress();
     sessionStorage.removeItem('guestPreviewResult');
@@ -176,9 +211,11 @@ export class Upload {
         this.progress.set(100);
         this.progressClass.set('high');
         this.statusMessage.set('Analysis complete. Opening result...');
-        this.isSubmitting.set(false);
+        this.analysisStepIndex.set(this.analysisSteps.length - 1);
 
-        setTimeout(() => {
+        this.finishAfterMinimumDelay(() => {
+          this.isSubmitting.set(false);
+
           if (response.result.saved && response.result.id) {
             this.router.navigate(['/results', response.result.id]);
             return;
@@ -187,20 +224,24 @@ export class Upload {
           this.router.navigate(['/result-preview'], {
             state: { result: response.result },
           });
-        }, 300);
+        });
       },
       error: (error) => {
         this.stopFakeProgress();
-        this.isSubmitting.set(false);
-        this.showProgress.set(false);
-        this.progress.set(0);
-        this.progressClass.set('');
-        this.statusMessage.set('');
-        this.errorMessage.set(
-          error?.error?.error === 'Uploaded image did not meet quality standards.'
-            ? 'This image could not be checked clearly. Try a brighter, sharper face image facing the camera.'
-            : error?.error?.error || 'Upload failed. Please try again.',
-        );
+
+        this.finishAfterMinimumDelay(() => {
+          this.isSubmitting.set(false);
+          this.showProgress.set(false);
+          this.progress.set(0);
+          this.progressClass.set('');
+          this.statusMessage.set('');
+          this.analysisStepIndex.set(0);
+          this.errorMessage.set(
+            error?.error?.error === 'Uploaded image did not meet quality standards.'
+              ? 'This image could not be checked clearly. Try a brighter, sharper face image facing the camera.'
+              : error?.error?.error || 'Upload failed. Please try again.',
+          );
+        });
       },
     });
   }

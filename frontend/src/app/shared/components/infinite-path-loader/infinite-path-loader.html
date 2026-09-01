@@ -1,0 +1,44 @@
+<div class="tv-infinite-loader">
+  <svg viewBox="0 0 100 100" class="tv-loader-svg">
+    <defs>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+        <feMerge>
+          <feMergeNode in="coloredBlur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+    </defs>
+    <!-- Glow Layer -->
+    <path
+      #glowPath
+      class="tv-loader-path glow"
+      d="M 50,30
+         C 70,30 70,50 50,50
+         C 30,50 30,70 50,70
+         C 70,70 70,50 50,50
+         C 30,50 30,30 50,30
+         Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="6"
+      stroke-linecap="round"
+      filter="url(#glow)"
+    />
+    <!-- Main Layer -->
+    <path
+      #loaderPath
+      class="tv-loader-path"
+      d="M 50,30
+         C 70,30 70,50 50,50
+         C 30,50 30,70 50,70
+         C 70,70 70,50 50,50
+         C 30,50 30,30 50,30
+         Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
+      stroke-linecap="round"
+    />
+  </svg>
+</div>
