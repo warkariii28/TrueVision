@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class Navbar {
   readonly authService = inject(AuthService);
+  readonly themeService = inject(ThemeService);
   readonly isMenuOpen = signal(false);
 
   private readonly router = inject(Router);
@@ -21,6 +23,10 @@ export class Navbar {
 
   closeMenu(): void {
     this.isMenuOpen.set(false);
+  }
+
+  toggleTheme(): void {
+    this.themeService.toggleMode();
   }
 
   logout(): void {

@@ -46,7 +46,8 @@
               {{ data.prediction }}
             </div>
             <strong>{{ data.confidence.toFixed(2) }}%</strong>
-            <span>model confidence</span>
+            <span>model confidence for this image</span>
+            <div class="tv-confidence-note">Different from overall model accuracy.</div>
             <div class="tv-meter tv-result-meter mt-2">
               <span [style.width]="confidenceWidth"></span>
             </div>
@@ -109,6 +110,7 @@
           <div>
             <span>Confidence</span>
             <strong>{{ data.confidence.toFixed(2) }}%</strong>
+            <small>This is the model certainty for this image only.</small>
           </div>
           <div>
             <span>Next step</span>

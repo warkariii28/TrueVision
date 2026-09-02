@@ -37,32 +37,51 @@
               (click)="closeMenu()"
               [routerLinkActiveOptions]="{ exact: true }"
             >
-              <i class="bi bi-grid-1x2" aria-hidden="true"></i>
+              <i class="bi bi-house-x-fill" aria-hidden="true"></i>
               <span>Home</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" routerLink="/upload" routerLinkActive="active" (click)="closeMenu()">
-              <i class="bi bi-radar" aria-hidden="true"></i>
+              <i class="bi bi-patch-check-fill" aria-hidden="true"></i>
               <span>Check Image</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" routerLink="/performance" routerLinkActive="active" (click)="closeMenu()">
-              <i class="bi bi-graph-up-arrow" aria-hidden="true"></i>
+              <i class="bi bi-layers-fill" aria-hidden="true"></i>
               <span>Model Report</span>
             </a>
           </li>
-
+          
           <ng-container *ngIf="authService.isAuthenticated(); else guestLinks">
             <li class="nav-item">
               <a class="nav-link" routerLink="/results" routerLinkActive="active" (click)="closeMenu()">
-                <i class="bi bi-collection" aria-hidden="true"></i>
+                <i class="bi bi-collection-fill" aria-hidden="true"></i>
                 <span>My Results</span>
               </a>
             </li>
+
+            <li class="nav-item">
+            <button
+              type="button"
+              class="tv-theme-toggle"
+              (click)="toggleTheme()"
+              [attr.aria-label]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+              [title]="themeService.isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+            >
+              <i
+                class="bi"
+                [class.bi-sun-fill]="themeService.isDark()"
+                [class.bi-moon-stars-fill]="!themeService.isDark()"
+                aria-hidden="true"
+              ></i>
+              <span>{{ themeService.isDark() ? 'Light' : 'Dark' }}</span>
+            </button>
+          </li>
+
             <li class="nav-item ms-lg-2 tv-nav-cta-item">
               <button type="button" class="btn btn-tv-primary tv-nav-cta" (click)="logout()">
                 <i class="bi bi-box-arrow-right" aria-hidden="true"></i>

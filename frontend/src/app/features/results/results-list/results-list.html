@@ -4,7 +4,7 @@
       <div class="tv-kicker mb-2">Saved Results</div>
       <h1 class="tv-section-title mb-2">My Results</h1>
       <p class="tv-muted mb-0">
-        Review saved image checks, compare confidence, and reopen any result for the full explanation.
+        Review saved image checks, compare per-image confidence, and reopen any result for the full explanation.
       </p>
     </div>
 
@@ -117,7 +117,7 @@
             </h2>
             <p class="tv-muted mb-0">
               {{ result.prediction === 'Fake' ? 'Manipulation confidence' : 'Authenticity confidence' }}
-              is {{ result.confidence.toFixed(2) }}%.
+              is {{ result.confidence.toFixed(2) }}% for this image.
             </p>
           </div>
 

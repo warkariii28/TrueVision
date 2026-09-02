@@ -4,14 +4,14 @@
       <div class="tv-kicker mb-2">Model Report</div>
       <h1 class="tv-section-title mb-3">Can the system be trusted for image checks?</h1>
       <p class="tv-muted mb-0">
-        A simplified view of the model tests, focused on what a reviewer needs to know before trusting a result.
+        A simplified view of the project evaluation metrics stored in PostgreSQL, focused on what a reviewer needs to know before trusting a result.
       </p>
     </div>
 
     <div class="tv-performance-hero-card" *ngIf="!isLoading() && !errorMessage() && bestModel() as best">
       <span class="tv-performance-hero-label">Recommended model</span>
       <strong>{{ bestModelNameShort }}</strong>
-      <span>{{ best.accuracy | percent:'1.1-1' }} PDF accuracy</span>
+      <span>{{ best.accuracy | percent:'1.1-1' }} evaluation accuracy</span>
     </div>
   </div>
 </section>
@@ -41,7 +41,7 @@
 
     <div class="tv-performance-score-ring" aria-label="Best model accuracy">
       <span>{{ best.accuracy | percent:'1.0-0' }}</span>
-      <small>PDF accuracy</small>
+      <small>evaluation accuracy</small>
     </div>
   </section>
 
@@ -165,7 +165,7 @@
         <div class="tv-kicker mb-2">Full Data</div>
         <h2 class="h4 fw-bold mb-2">All tested models</h2>
         <p class="tv-muted mb-0">
-          Extra detail for comparison. Most users only need the recommendation above.
+          Extra detail for comparison. Most users only need the recommendation above; this table is the evidence behind it.
         </p>
       </div>
     </div>

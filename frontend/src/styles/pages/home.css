@@ -161,3 +161,49 @@
         font-size: 0.7rem;
     }
 }
+.tv-home-account-callout {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    max-width: 44rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(103, 232, 249, 0.22);
+    border-radius: var(--tv-radius-card-lg);
+    background:
+        radial-gradient(circle at top left, rgba(34, 211, 238, 0.16), transparent 42%),
+        linear-gradient(135deg, rgba(3, 7, 18, 0.48), rgba(16, 24, 48, 0.32));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 1rem 2.8rem rgba(0, 0, 0, 0.18);
+}
+
+.tv-home-account-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.45rem;
+    height: 2.45rem;
+    border-radius: var(--tv-pill);
+    color: #06111f;
+    background: linear-gradient(135deg, #67e8f9, #f472b6);
+    box-shadow: 0 0 1.6rem rgba(34, 211, 238, 0.24);
+}
+
+.tv-home-account-callout strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--tv-white);
+    font-weight: 900;
+}
+
+.tv-home-account-callout p {
+    color: var(--tv-text-soft-strong);
+    font-size: 0.94rem;
+    line-height: 1.55;
+}
+
+@media (max-width: 575.98px) {
+    .tv-home-account-callout {
+        grid-template-columns: 1fr;
+        padding: 0.9rem;
+        border-radius: var(--tv-radius-panel-xs);
+    }
+}
