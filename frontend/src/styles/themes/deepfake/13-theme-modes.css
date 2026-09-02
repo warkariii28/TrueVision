@@ -1140,3 +1140,82 @@ body.tv-theme-light .tv-upload-feedback {
 body.tv-theme-light .tv-upload-feedback i {
   color: #be123c !important;
 }
+body.tv-theme-light .tv-review-context,
+body.tv-theme-light .tv-page-result .tv-result-context-strip > div,
+body.tv-theme-light .tv-results-context-pill {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(45, 107, 255, 0.16) !important;
+  color: #1d2f4f !important;
+}
+
+body.tv-theme-light .tv-review-context-grid select {
+  background: rgba(255, 255, 255, 0.86) !important;
+  border-color: rgba(45, 107, 255, 0.18) !important;
+  color: #0b1730 !important;
+}
+
+body.tv-theme-light .tv-review-context-grid label > span,
+body.tv-theme-light .tv-page-result .tv-result-context-strip span {
+  color: #0e95c8 !important;
+}
+
+body.tv-theme-light .tv-review-context-copy h3,
+body.tv-theme-light .tv-page-result .tv-result-context-strip strong {
+  color: #0b1730 !important;
+}
+
+body.tv-theme-light .tv-page-result .tv-result-recommendation small {
+  color: #5f748f !important;
+}
+/* Review context segmented controls. */
+body.tv-theme-light .tv-review-context {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(14, 165, 233, 0.16), transparent 30%),
+    radial-gradient(circle at 100% 100%, rgba(244, 114, 182, 0.1), transparent 36%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(232, 244, 255, 0.88)) !important;
+  border-color: rgba(14, 165, 233, 0.2) !important;
+  box-shadow: 0 18px 44px rgba(15, 35, 70, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.86) !important;
+}
+
+body.tv-theme-light .tv-review-context-icon {
+  color: #06142b !important;
+  background: linear-gradient(135deg, #22d3ee, #60a5fa 46%, #f472b6) !important;
+}
+
+body.tv-theme-light .tv-review-context-copy h3 {
+  color: #06142b !important;
+}
+
+body.tv-theme-light .tv-review-choice-label {
+  color: #0b86b6 !important;
+}
+
+body.tv-theme-light .tv-review-choice {
+  color: #27425f !important;
+  border-color: rgba(45, 107, 255, 0.16) !important;
+  background: rgba(255, 255, 255, 0.68) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.86), 0 10px 24px rgba(15, 35, 70, 0.06) !important;
+}
+
+body.tv-theme-light .tv-review-choice i {
+  color: #0e95c8 !important;
+}
+
+body.tv-theme-light .tv-review-choice:hover,
+body.tv-theme-light .tv-review-choice:focus-visible {
+  color: #06142b !important;
+  border-color: rgba(14, 165, 233, 0.32) !important;
+  background: rgba(223, 248, 255, 0.88) !important;
+}
+
+body.tv-theme-light .tv-review-choice.active {
+  color: #06142b !important;
+  border-color: transparent !important;
+  background: linear-gradient(135deg, #22d3ee, #60a5fa 46%, #f472b6) !important;
+  box-shadow: 0 14px 30px rgba(14, 165, 233, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.72) !important;
+}
+
+body.tv-theme-light .tv-review-choice.active i,
+body.tv-theme-light .tv-review-choice.active span {
+  color: #06142b !important;
+}

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, ViewChild, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
-import { ResultsService } from '../../core/services/results.service';
+import { ResultsService, ReviewPurpose, ReviewStrictness } from '../../core/services/results.service';
 import { InfinitePathLoader } from '../../shared/components/infinite-path-loader/infinite-path-loader';
 
 @Component({
@@ -23,6 +23,8 @@ export class Upload implements OnDestroy {
   readonly statusMessage = signal('');
   readonly selectedFileName = signal('');
   readonly selectedFileSize = signal('');
+  readonly reviewPurpose = signal<ReviewPurpose>('social_media');
+  readonly reviewStrictness = signal<ReviewStrictness>('balanced');
   readonly analysisStepIndex = signal(0);
   readonly analysisSteps = [
     'Checking image quality',
@@ -231,6 +233,16 @@ export class Upload implements OnDestroy {
     return true;
   }
 
+
+  updateReviewPurpose(value: string): void {
+    const allowed: ReviewPurpose[] = ['social_media', 'news_article', 'profile_identity', 'research', 'personal'];
+    this.reviewPurpose.set(allowed.includes(value as ReviewPurpose) ? value as ReviewPurpose : 'social_media');
+  }
+
+  updateReviewStrictness(value: string): void {
+    const allowed: ReviewStrictness[] = ['quick', 'balanced', 'strict'];
+    this.reviewStrictness.set(allowed.includes(value as ReviewStrictness) ? value as ReviewStrictness : 'balanced');
+  }
   onSubmit(event: Event): void {
     event.preventDefault();
 
@@ -247,7 +259,7 @@ export class Upload implements OnDestroy {
     this.startFakeProgress();
     sessionStorage.removeItem('guestPreviewResult');
 
-    this.resultsService.uploadImage(this.selectedFile).subscribe({
+    this.resultsService.uploadImage(this.selectedFile, this.reviewPurpose(), this.reviewStrictness()).subscribe({
       next: (response) => {
         this.stopFakeProgress();
         this.progress.set(100);

@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { ResultItem, ResultsService } from '../../../core/services/results.service';
+import { ResultItem, ResultsService, ReviewPurpose } from '../../../core/services/results.service';
 
 type ResultFilter = 'All' | 'Fake' | 'Real';
 type ResultSort = 'newest' | 'confidence-desc' | 'confidence-asc';
@@ -45,6 +45,18 @@ export class ResultsList {
     return this.resultsService.resultGradcamUrl(result);
   }
 
+
+  reviewPurposeLabel(value: ReviewPurpose | null): string {
+    const labels: Record<ReviewPurpose, string> = {
+      social_media: 'Social media',
+      news_article: 'News/article',
+      profile_identity: 'Identity',
+      research: 'Research',
+      personal: 'Personal',
+    };
+
+    return value ? labels[value] : 'General';
+  }
   updateFilter(value: string): void {
     this.filterMode.set((['All', 'Fake', 'Real'].includes(value) ? value : 'All') as ResultFilter);
   }

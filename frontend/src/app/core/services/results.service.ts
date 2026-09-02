@@ -3,8 +3,11 @@ import { HttpClient } from '@angular/common/http';
 
 import { API_BASE_URL } from '../config/api.config';
 
+export type ReviewPurpose = 'social_media' | 'news_article' | 'profile_identity' | 'research' | 'personal';
+export type ReviewStrictness = 'quick' | 'balanced' | 'strict';
+
 export type ResultItem = {
-  id: number;
+  id: number | null;
   saved: boolean;
   prediction: 'Fake' | 'Real';
   confidence: number;
@@ -13,6 +16,9 @@ export type ResultItem = {
   gradcamPath: string | null;
   explanation: string;
   recommendation: string;
+  reviewPurpose: ReviewPurpose | null;
+  reviewStrictness: ReviewStrictness | null;
+  recommendationReason: string | null;
   createdAt: string | null;
   inferenceTime: number | null;
 };
@@ -96,9 +102,11 @@ export class ResultsService {
     return `${this.apiBase}/media/guest/gradcam`;
   }
 
-  uploadImage(file: File) {
+  uploadImage(file: File, reviewPurpose: ReviewPurpose, reviewStrictness: ReviewStrictness) {
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('reviewPurpose', reviewPurpose);
+    formData.append('reviewStrictness', reviewStrictness);
 
     return this.http.post<UploadResponse>(`${this.apiBase}/upload`, formData, {
       withCredentials: true,

@@ -82,6 +82,9 @@ def result_to_dict(result):
         "gradcamPath": result.gradcam_path,
         "explanation": result.explanation,
         "recommendation": result.recommendation,
+        "reviewPurpose": result.review_purpose,
+        "reviewStrictness": result.review_strictness,
+        "recommendationReason": result.recommendation_reason,
         "createdAt": result.created_at.isoformat() if result.created_at else None,
         "inferenceTime": result.inference_time,
     }
@@ -98,6 +101,9 @@ def guest_result_to_dict(result: dict):
         "gradcamPath": None,
         "explanation": result.get("explanation", ""),
         "recommendation": result.get("recommendation", ""),
+        "reviewPurpose": result.get("review_purpose"),
+        "reviewStrictness": result.get("review_strictness"),
+        "recommendationReason": result.get("recommendation_reason"),
         "createdAt": None,
         "inferenceTime": result.get("inference_time"),
     }
@@ -127,6 +133,92 @@ def performance_to_dict(performance):
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 ALLOWED_IMAGE_FORMATS = {"PNG", "JPEG"}
 MAX_IMAGE_PIXELS = 25_000_000
+
+REVIEW_PURPOSES = {
+    "social_media": "Social media post",
+    "news_article": "News or public article",
+    "profile_identity": "Profile or identity check",
+    "research": "Research or academic review",
+    "personal": "Personal curiosity",
+}
+
+REVIEW_STRICTNESS = {
+    "quick": "Quick first pass",
+    "balanced": "Balanced review",
+    "strict": "Strict verification",
+}
+
+
+def normalize_review_context() -> tuple[str, str]:
+    purpose = request.form.get("reviewPurpose", "social_media")
+    strictness = request.form.get("reviewStrictness", "balanced")
+
+    if purpose not in REVIEW_PURPOSES:
+        purpose = "social_media"
+
+    if strictness not in REVIEW_STRICTNESS:
+        strictness = "balanced"
+
+    return purpose, strictness
+
+
+def build_contextual_recommendation(
+    prediction: str,
+    confidence: float,
+    purpose: str,
+    strictness: str,
+    fallback_recommendation: str,
+) -> tuple[str, str]:
+    is_fake = prediction == "Fake"
+    confidence_label = "high" if confidence >= 85 else "moderate" if confidence >= 65 else "low"
+    purpose_label = REVIEW_PURPOSES[purpose]
+    strictness_label = REVIEW_STRICTNESS[strictness]
+
+    recommendations = {
+        "social_media": {
+            "fake": "Do not share this image yet. Treat it as suspicious, check the original source, and compare it with another verification method before reposting.",
+            "real": "This can be treated as a low-risk social post only if the source is familiar. If it could affect someone's reputation, verify the original source before sharing.",
+        },
+        "news_article": {
+            "fake": "Do not publish or cite this image from this result alone. Confirm the source, look for the original upload, and get a second verification pass before using it publicly.",
+            "real": "The image has no strong manipulation signal, but publication still needs source verification, timestamp checks, and context review before it is used as evidence.",
+        },
+        "profile_identity": {
+            "fake": "Do not trust this profile image for identity decisions. Ask for another live or official verification method before continuing.",
+            "real": "This supports authenticity, but it is not enough for identity trust by itself. Pair it with another image, document, or live verification step.",
+        },
+        "research": {
+            "fake": "Record this as a suspicious sample and preserve the heatmap, confidence score, and source details. Use it as supporting evidence, not a final label by itself.",
+            "real": "Record this as a likely authentic sample with its confidence score and heatmap. Keep the source and review context so the result can be audited later.",
+        },
+        "personal": {
+            "fake": "Use this as a warning sign and avoid making strong claims from the image. Try a clearer original image or another verification tool if the result matters.",
+            "real": "The image looks more likely real for a casual check. Still use normal caution if the image affects money, identity, reputation, or safety.",
+        },
+    }
+
+    recommendation = recommendations[purpose]["fake" if is_fake else "real"]
+
+    if strictness == "strict":
+        recommendation += " Because you selected strict review, require a second source or manual review before making a final decision."
+    elif strictness == "quick":
+        recommendation += " Because you selected quick review, treat this as first-pass triage rather than a final decision."
+
+    if confidence_label == "low":
+        recommendation += " Confidence is low, so the safest next step is to upload a clearer image or verify through another method."
+    elif confidence_label == "moderate" and strictness != "quick":
+        recommendation += " Confidence is moderate, so keep the decision cautious and compare against source context."
+
+    if not recommendation and fallback_recommendation:
+        recommendation = fallback_recommendation
+
+    reason = (
+        f"Personalized for {purpose_label.lower()} with {strictness_label.lower()}: "
+        f"the model predicted {prediction.lower()} with {confidence:.2f}% confidence, "
+        f"which is treated as {confidence_label} certainty for this image."
+    )
+
+    return recommendation, reason
 
 
 def allowed_file(filename):
@@ -401,6 +493,7 @@ def api_upload():
             400,
         )
 
+    review_purpose, review_strictness = normalize_review_context()
     filepath = None
 
     try:
@@ -463,6 +556,13 @@ def api_upload():
 
         image_path = os.path.join("uploads", filename).replace("\\", "/")
         gradcam_rel_path = result.get("gradcam_path", "")
+        recommendation, recommendation_reason = build_contextual_recommendation(
+            result["prediction"],
+            float(result["confidence"]),
+            review_purpose,
+            review_strictness,
+            result.get("recommendation", ""),
+        )
 
         if current_user.is_authenticated:
             new_result = Result()
@@ -473,7 +573,10 @@ def api_upload():
             new_result.user_id = current_user.id
             new_result.explanation = result.get("explanation", "")
             new_result.gradcam_path = gradcam_rel_path
-            new_result.recommendation = result.get("recommendation", "")
+            new_result.recommendation = recommendation
+            new_result.review_purpose = review_purpose
+            new_result.review_strictness = review_strictness
+            new_result.recommendation_reason = recommendation_reason
             new_result.inference_time = result.get("inference_time")
 
             db_session.add(new_result)
@@ -495,7 +598,10 @@ def api_upload():
             "prediction": result["prediction"],
             "confidence": result["confidence"],
             "explanation": result.get("explanation", ""),
-            "recommendation": result.get("recommendation", ""),
+            "recommendation": recommendation,
+            "review_purpose": review_purpose,
+            "review_strictness": review_strictness,
+            "recommendation_reason": recommendation_reason,
             "inference_time": result.get("inference_time"),
         }
         session["guest_result"] = guest_result

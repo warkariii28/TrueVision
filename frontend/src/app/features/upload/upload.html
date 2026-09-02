@@ -158,6 +158,61 @@
             {{ statusMessage() }}
           </p>
         </div>
+        <div class="tv-review-context mb-4" *ngIf="!isSubmitting()">
+          <div class="tv-review-context-head">
+            <span class="tv-review-context-icon"><i class="bi bi-sliders2" aria-hidden="true"></i></span>
+            <div class="tv-review-context-copy">
+              <div class="tv-kicker mb-1">Review Context</div>
+              <h3 class="h5 fw-bold mb-1">Tune the decision guidance</h3>
+              <p class="tv-muted mb-0">Tell TrueVision what this image is for. The recommendation becomes stricter for identity, news, and high-trust use.</p>
+            </div>
+          </div>
+
+          <div class="tv-review-choice-group" aria-label="Image review purpose">
+            <span class="tv-review-choice-label">Purpose</span>
+            <div class="tv-review-choice-grid tv-review-choice-grid--purpose">
+              <button type="button" class="tv-review-choice" [class.active]="reviewPurpose() === 'social_media'" (click)="updateReviewPurpose('social_media')">
+                <i class="bi bi-share" aria-hidden="true"></i>
+                <span>Social</span>
+              </button>
+              <button type="button" class="tv-review-choice" [class.active]="reviewPurpose() === 'news_article'" (click)="updateReviewPurpose('news_article')">
+                <i class="bi bi-newspaper" aria-hidden="true"></i>
+                <span>News</span>
+              </button>
+              <button type="button" class="tv-review-choice" [class.active]="reviewPurpose() === 'profile_identity'" (click)="updateReviewPurpose('profile_identity')">
+                <i class="bi bi-person-badge" aria-hidden="true"></i>
+                <span>Identity</span>
+              </button>
+              <button type="button" class="tv-review-choice" [class.active]="reviewPurpose() === 'research'" (click)="updateReviewPurpose('research')">
+                <i class="bi bi-journal-text" aria-hidden="true"></i>
+                <span>Research</span>
+              </button>
+              <button type="button" class="tv-review-choice" [class.active]="reviewPurpose() === 'personal'" (click)="updateReviewPurpose('personal')">
+                <i class="bi bi-eye" aria-hidden="true"></i>
+                <span>Personal</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="tv-review-choice-group" aria-label="Recommendation strictness">
+            <span class="tv-review-choice-label">Strictness</span>
+            <div class="tv-review-choice-grid tv-review-choice-grid--strictness">
+              <button type="button" class="tv-review-choice" [class.active]="reviewStrictness() === 'quick'" (click)="updateReviewStrictness('quick')">
+                <i class="bi bi-lightning-charge" aria-hidden="true"></i>
+                <span>Quick</span>
+              </button>
+              <button type="button" class="tv-review-choice" [class.active]="reviewStrictness() === 'balanced'" (click)="updateReviewStrictness('balanced')">
+                <i class="bi bi-shield-check" aria-hidden="true"></i>
+                <span>Balanced</span>
+              </button>
+              <button type="button" class="tv-review-choice" [class.active]="reviewStrictness() === 'strict'" (click)="updateReviewStrictness('strict')">
+                <i class="bi bi-lock" aria-hidden="true"></i>
+                <span>Strict</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
 
         <div class="upload-buttons-div d-flex flex-wrap gap-3 mt-auto justify-content-center justify-content-md-start">
           <button type="submit" class="btn btn-tv-primary btn-lg px-4" [disabled]="isSubmitting()">

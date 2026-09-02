@@ -641,3 +641,165 @@
         transition: none !important;
     }
 }
+.tv-review-context {
+    position: relative;
+    display: grid;
+    gap: var(--tv-space-md);
+    padding: clamp(1rem, 2.2vw, 1.35rem);
+    overflow: hidden;
+    border: 1px solid rgba(103, 232, 249, 0.18);
+    border-radius: var(--tv-radius-card-lg);
+    background:
+        radial-gradient(circle at 7% 0%, rgba(34, 211, 238, 0.18), transparent 30%),
+        radial-gradient(circle at 100% 100%, rgba(244, 114, 182, 0.13), transparent 36%),
+        linear-gradient(135deg, rgba(8, 19, 36, 0.94), rgba(11, 27, 46, 0.86));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 18px 44px rgba(0, 0, 0, 0.16);
+}
+
+.tv-review-context::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.08), transparent);
+    opacity: 0.52;
+}
+
+.tv-review-context > * {
+    position: relative;
+    z-index: 1;
+}
+
+.tv-review-context-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: start;
+}
+
+.tv-review-context-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.45rem;
+    height: 2.45rem;
+    border-radius: 0.95rem;
+    color: #07111f;
+    background: linear-gradient(135deg, #67e8f9, #60a5fa 46%, #f472b6);
+    box-shadow: 0 0 1.5rem rgba(34, 211, 238, 0.22);
+}
+
+.tv-review-context-copy h3 {
+    color: var(--tv-white);
+}
+
+.tv-review-context-copy p {
+    max-width: 54rem;
+}
+
+.tv-review-choice-group {
+    display: grid;
+    gap: 0.62rem;
+}
+
+.tv-review-choice-label {
+    color: var(--tv-primary-bright);
+    font-size: 0.74rem;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.tv-review-choice-grid {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.tv-review-choice-grid--purpose {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.tv-review-choice-grid--strictness {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.tv-review-choice {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 3.05rem;
+    min-width: 0;
+    padding: 0.72rem 0.82rem;
+    border: 1px solid rgba(103, 232, 249, 0.16);
+    border-radius: var(--tv-pill);
+    background: rgba(3, 7, 18, 0.34);
+    color: var(--tv-text-soft-strong);
+    font: inherit;
+    font-weight: 850;
+    line-height: 1.1;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tv-review-choice i,
+.tv-review-choice span {
+    min-width: 0;
+}
+
+.tv-review-choice:hover,
+.tv-review-choice:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(103, 232, 249, 0.36);
+    background: rgba(34, 211, 238, 0.1);
+    color: var(--tv-white);
+    outline: none;
+}
+
+.tv-review-choice.active {
+    color: #06111f;
+    border-color: transparent;
+    background: linear-gradient(135deg, #67e8f9, #60a5fa 46%, #f472b6);
+    box-shadow:
+        0 14px 30px rgba(34, 211, 238, 0.18),
+        0 0 0 1px rgba(255, 255, 255, 0.14) inset;
+}
+
+.tv-review-choice.active i {
+    color: #06111f;
+}
+
+@media (max-width: 1199.98px) {
+    .tv-review-choice-grid--purpose {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767.98px) {
+    .tv-review-context-head {
+        grid-template-columns: 1fr;
+    }
+
+    .tv-review-choice-grid--purpose,
+    .tv-review-choice-grid--strictness {
+        grid-template-columns: 1fr;
+    }
+
+    .tv-review-choice {
+        justify-content: flex-start;
+        border-radius: var(--tv-radius-card);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tv-review-choice {
+        transition: none !important;
+    }
+
+    .tv-review-choice:hover,
+    .tv-review-choice:focus-visible {
+        transform: none !important;
+    }
+}

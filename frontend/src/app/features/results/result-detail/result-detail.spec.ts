@@ -26,6 +26,9 @@ describe('ResultDetail', () => {
     gradcamPath: 'gradcam/demo_gradcam.jpg',
     explanation: 'Test explanation',
     recommendation: 'Test recommendation',
+    reviewPurpose: 'social_media',
+    reviewStrictness: 'balanced',
+    recommendationReason: 'Personalized test reason',
     createdAt: '2026-04-07T10:00:00',
     inferenceTime: 1.2,
   };

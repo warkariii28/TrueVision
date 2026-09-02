@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { NgClass, NgIf } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { ResultItem, ResultsService } from '../../../core/services/results.service';
+import { ResultItem, ResultsService, ReviewPurpose, ReviewStrictness } from '../../../core/services/results.service';
 
 @Component({
   selector: 'app-result-detail',
@@ -81,6 +81,28 @@ export class ResultDetail {
     return !this.result()?.id;
   }
 
+
+  reviewPurposeLabel(value: ReviewPurpose | null): string {
+    const labels: Record<ReviewPurpose, string> = {
+      social_media: 'Social media post',
+      news_article: 'News or public article',
+      profile_identity: 'Profile or identity check',
+      research: 'Research or academic review',
+      personal: 'Personal curiosity',
+    };
+
+    return value ? labels[value] : 'General review';
+  }
+
+  reviewStrictnessLabel(value: ReviewStrictness | null): string {
+    const labels: Record<ReviewStrictness, string> = {
+      quick: 'Quick first pass',
+      balanced: 'Balanced review',
+      strict: 'Strict verification',
+    };
+
+    return value ? labels[value] : 'Balanced review';
+  }
   async downloadReport(): Promise<void> {
     const currentResult = this.result();
     if (!currentResult?.id) {
@@ -151,6 +173,8 @@ export class ResultDetail {
     const inferenceTime = result.inferenceTime === null || result.inferenceTime === undefined
       ? 'Not recorded'
       : `${result.inferenceTime.toFixed(2)} seconds`;
+    const reviewPurpose = this.reviewPurposeLabel(result.reviewPurpose);
+    const reviewStrictness = this.reviewStrictnessLabel(result.reviewStrictness);
 
     return `<!doctype html>
 <html lang="en">
@@ -213,12 +237,15 @@ export class ResultDetail {
       <div class="metric"><span>Prediction</span><strong>${escapeHtml(result.prediction)}</strong></div>
       <div class="metric"><span>Checked</span><strong>${escapeHtml(createdAt)}</strong></div>
       <div class="metric"><span>Inference Time</span><strong>${escapeHtml(inferenceTime)}</strong></div>
+      <div class="metric"><span>Review Purpose</span><strong>${escapeHtml(reviewPurpose)}</strong></div>
+      <div class="metric"><span>Strictness</span><strong>${escapeHtml(reviewStrictness)}</strong></div>
     </section>
 
     <section class="panel details">
       <h2>Review Summary</h2>
       <div class="detail"><strong>Explanation</strong>${escapeHtml(result.explanation || 'No explanation available.')}</div>
       <div class="detail"><strong>Recommended action</strong>${escapeHtml(result.recommendation || 'No recommendation available.')}</div>
+      <div class="detail"><strong>Why this action</strong>${escapeHtml(result.recommendationReason || 'Based on the selected review context and model confidence.')}</div>
       <div class="detail"><strong>Feedback</strong>${escapeHtml(result.feedback || 'Not provided')}</div>
     </section>
 

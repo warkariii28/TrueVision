@@ -118,6 +118,17 @@
           </div>
         </div>
 
+        <div class="tv-result-context-strip mb-4">
+          <div>
+            <span>Review purpose</span>
+            <strong>{{ reviewPurposeLabel(data.reviewPurpose) }}</strong>
+          </div>
+          <div>
+            <span>Recommendation strictness</span>
+            <strong>{{ reviewStrictnessLabel(data.reviewStrictness) }}</strong>
+          </div>
+        </div>
+
         <p class="tv-result-copy mb-4">
           {{ data.explanation || 'No explanation available.' }}
         </p>
@@ -129,7 +140,8 @@
           <span><i class="bi bi-signpost-split"></i></span>
           <div>
             <strong>Recommended action</strong>
-            <p class="mb-0">{{ data.recommendation || 'No recommendation available.' }}</p>
+            <p class="mb-2">{{ data.recommendation || 'No recommendation available.' }}</p>
+            <small *ngIf="data.recommendationReason">{{ data.recommendationReason }}</small>
           </div>
         </div>
       </section>
