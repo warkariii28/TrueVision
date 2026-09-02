@@ -74,11 +74,19 @@
       </div>
 
       <form (submit)="onSubmit($event)">
-        <div class="tv-upload-zone mb-3" [ngClass]="{ dragging: isDragging }" role="button" tabindex="0"
-          (click)="openFilePicker()" (keydown)="onKeydown($event)" (dragover)="onDragOver($event)"
-          (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
-
-          <div *ngIf="!isSubmitting()">
+        <div
+          class="tv-upload-zone mb-3"
+          [ngClass]="{ dragging: isDragging, 'has-file': previewUrl(), 'has-error': errorMessage() }"
+          role="button"
+          tabindex="0"
+          aria-describedby="uploadFeedback"
+          (click)="openFilePicker()"
+          (keydown)="onKeydown($event)"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event)"
+        >
+          <div *ngIf="!isSubmitting() && !previewUrl()" class="tv-upload-zone-empty">
             <div class="display-6 mb-3 text-primary">
               <i class="bi bi-cloud-upload"></i>
             </div>
@@ -86,10 +94,19 @@
             <p class="tv-muted mb-0">or click to browse from your device</p>
           </div>
 
-          <div *ngIf="isSubmitting()" class="text-center">
+          <div *ngIf="!isSubmitting() && previewUrl()" class="tv-upload-zone-selected">
+            <img [src]="previewUrl()" alt="Selected image preview" />
+            <div>
+              <span class="tv-upload-ready-chip"><i class="bi bi-check2-circle" aria-hidden="true"></i> Ready to check</span>
+              <h3 class="h5 fw-bold mb-1">{{ selectedFileName() }}</h3>
+              <p class="tv-muted mb-0">{{ selectedFileSize() }} selected. Click here to choose a different image.</p>
+            </div>
+          </div>
+
+          <div *ngIf="isSubmitting()" class="text-center tv-upload-zone-processing">
             <app-infinite-path-loader class="mb-3"></app-infinite-path-loader>
-            <h3 class="h5 fw-bold">Processing Image...</h3>
-            <p class="tv-muted mb-0">Our AI is analyzing the facial patterns</p>
+            <h3 class="h5 fw-bold">Processing image...</h3>
+            <p class="tv-muted mb-0">{{ analysisSteps[analysisStepIndex()] }}</p>
           </div>
         </div>
 
@@ -106,17 +123,18 @@
 
         <input #fileInput type="file" accept=".png,.jpg,.jpeg" hidden (change)="onFileSelected($event)" />
 
-        <div *ngIf="errorMessage()" class="text-danger small mb-3">
-          {{ errorMessage() }}
+        <div id="uploadFeedback" class="tv-upload-feedback mb-3" *ngIf="errorMessage()" role="alert" aria-live="assertive">
+          <i class="bi bi-exclamation-triangle" aria-hidden="true"></i>
+          <span>{{ errorMessage() }}</span>
         </div>
 
-        <div *ngIf="previewUrl()" class="tv-preview-shell mb-4">
+        <div *ngIf="previewUrl()" class="tv-preview-shell tv-preview-shell-compact mb-4">
           <div class="tv-preview-shell-header">
             <div>
               <div class="tv-kicker mb-1">Selected Image</div>
-              <h3 class="h5 fw-bold mb-1">Ready for analysis</h3>
+              <h3 class="h5 fw-bold mb-1">Preview before analysis</h3>
             </div>
-            <span class="tv-upload-file-chip" *ngIf="selectedFileName()">{{ selectedFileName() }}</span>
+            <span class="tv-upload-file-chip" *ngIf="selectedFileName()">{{ selectedFileName() }} - {{ selectedFileSize() }}</span>
           </div>
 
           <div class="tv-preview mb-0">

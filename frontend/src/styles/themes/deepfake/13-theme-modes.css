@@ -1099,3 +1099,44 @@ body.tv-theme-light .tv-performance-data-note {
 body.tv-theme-light .tv-performance-data-note code {
   color: #0b86b6 !important;
 }
+
+/* Upload UX light-mode states. */
+body.tv-theme-light .tv-upload-zone::after {
+  border-color: rgba(14, 165, 233, 0.34) !important;
+}
+
+body.tv-theme-light .tv-upload-zone.dragging {
+  border-color: rgba(244, 63, 143, 0.55) !important;
+  box-shadow: 0 20px 48px rgba(14, 165, 233, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.94) !important;
+}
+
+body.tv-theme-light .tv-upload-zone.has-error {
+  border-color: rgba(244, 63, 94, 0.6) !important;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(244, 63, 94, 0.08), transparent 24%),
+    repeating-linear-gradient(135deg, rgba(244, 63, 94, 0.035) 0 1px, transparent 1px 14px),
+    rgba(255, 248, 250, 0.88) !important;
+}
+
+body.tv-theme-light .tv-upload-zone-selected img {
+  border-color: rgba(14, 165, 233, 0.24) !important;
+  background: #ffffff !important;
+  box-shadow: 0 16px 34px rgba(15, 35, 70, 0.1) !important;
+}
+
+body.tv-theme-light .tv-upload-ready-chip {
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.26) !important;
+  background: rgba(209, 250, 229, 0.74) !important;
+}
+
+body.tv-theme-light .tv-upload-feedback {
+  color: #8f1233 !important;
+  border-color: rgba(244, 63, 94, 0.32) !important;
+  background: rgba(255, 228, 233, 0.82) !important;
+  box-shadow: 0 14px 30px rgba(244, 63, 94, 0.08) !important;
+}
+
+body.tv-theme-light .tv-upload-feedback i {
+  color: #be123c !important;
+}

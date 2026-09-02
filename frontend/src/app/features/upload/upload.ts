@@ -22,6 +22,7 @@ export class Upload implements OnDestroy {
   readonly isSubmitting = signal(false);
   readonly statusMessage = signal('');
   readonly selectedFileName = signal('');
+  readonly selectedFileSize = signal('');
   readonly analysisStepIndex = signal(0);
   readonly analysisSteps = [
     'Checking image quality',
@@ -158,12 +159,14 @@ export class Upload implements OnDestroy {
     if (!this.validateFile(file)) {
       this.previewUrl.set('');
       this.selectedFileName.set('');
+      this.selectedFileSize.set('');
       this.selectedFile = null;
       return;
     }
 
     this.selectedFile = file;
     this.selectedFileName.set(file.name);
+    this.selectedFileSize.set(this.formatFileSize(file.size));
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -172,6 +175,7 @@ export class Upload implements OnDestroy {
         if (!isValid) {
           this.previewUrl.set('');
           this.selectedFileName.set('');
+          this.selectedFileSize.set('');
           this.selectedFile = null;
           return;
         }
@@ -180,6 +184,11 @@ export class Upload implements OnDestroy {
       });
     };
     reader.readAsDataURL(file);
+  }
+
+  private formatFileSize(bytes: number): string {
+    const megabytes = bytes / (1024 * 1024);
+    return megabytes >= 1 ? megabytes.toFixed(2) + ' MB' : Math.max(1, Math.round(bytes / 1024)) + ' KB';
   }
 
   private validateImageDimensions(imageDataUrl: string): Promise<boolean> {
