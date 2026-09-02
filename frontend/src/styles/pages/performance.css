@@ -270,3 +270,79 @@
         justify-items: start;
     }
 }
+.tv-metric-help {
+    margin-left: 0.25rem;
+    color: var(--tv-primary-bright);
+    cursor: help;
+}
+
+.tv-performance-model-score em {
+    color: var(--tv-muted);
+    font-size: 0.78rem;
+    font-style: normal;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+.tv-performance-risk-extra {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.tv-performance-risk-extra-card {
+    min-width: 0;
+    padding: 0.85rem;
+    border: 1px solid rgba(103, 232, 249, 0.16);
+    border-radius: var(--tv-radius-card);
+    background:
+        radial-gradient(circle at top right, rgba(34, 211, 238, 0.1), transparent 48%),
+        rgba(3, 7, 18, 0.3);
+}
+
+.tv-performance-risk-extra-card span {
+    display: block;
+    color: var(--tv-primary-bright);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+    text-transform: uppercase;
+}
+
+.tv-performance-risk-extra-card strong {
+    display: block;
+    margin: 0.35rem 0 0.2rem;
+    color: var(--tv-white);
+    font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+    line-height: 1;
+}
+
+.tv-performance-risk-extra-card p {
+    margin: 0;
+    color: var(--tv-muted);
+    font-size: 0.78rem;
+    line-height: 1.35;
+}
+
+.tv-performance-reviewer-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.85rem 0.95rem;
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: var(--tv-radius-card);
+    background: rgba(245, 158, 11, 0.08);
+    color: var(--tv-text-soft-strong);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.tv-performance-reviewer-tip i {
+    color: #fbbf24;
+}
+
+@media (max-width: 575.98px) {
+    .tv-performance-risk-extra {
+        grid-template-columns: 1fr;
+    }
+}

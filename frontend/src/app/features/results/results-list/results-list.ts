@@ -3,6 +3,9 @@ import { DatePipe, NgFor, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ResultItem, ResultsService } from '../../../core/services/results.service';
 
+type ResultFilter = 'All' | 'Fake' | 'Real';
+type ResultSort = 'newest' | 'confidence-desc' | 'confidence-asc';
+
 @Component({
   selector: 'app-results-list',
   imports: [DatePipe, NgFor, NgIf, RouterLink],
@@ -16,6 +19,8 @@ export class ResultsList {
   readonly results = signal<ResultItem[]>([]);
   readonly isLoading = signal(true);
   readonly errorMessage = signal('');
+  readonly filterMode = signal<ResultFilter>('All');
+  readonly sortMode = signal<ResultSort>('newest');
 
   constructor() {
     this.resultsService.getResults().subscribe({
@@ -38,6 +43,31 @@ export class ResultsList {
 
   gradcamUrl(result: ResultItem): string {
     return this.resultsService.resultGradcamUrl(result);
+  }
+
+  updateFilter(value: string): void {
+    this.filterMode.set((['All', 'Fake', 'Real'].includes(value) ? value : 'All') as ResultFilter);
+  }
+
+  updateSort(value: string): void {
+    this.sortMode.set((['newest', 'confidence-desc', 'confidence-asc'].includes(value) ? value : 'newest') as ResultSort);
+  }
+
+  get visibleResults(): ResultItem[] {
+    const filter = this.filterMode();
+    const filtered = this.results().filter((result) => filter === 'All' || result.prediction === filter);
+
+    return [...filtered].sort((left, right) => {
+      if (this.sortMode() === 'confidence-desc') {
+        return right.confidence - left.confidence;
+      }
+
+      if (this.sortMode() === 'confidence-asc') {
+        return left.confidence - right.confidence;
+      }
+
+      return new Date(right.createdAt ?? 0).getTime() - new Date(left.createdAt ?? 0).getTime();
+    });
   }
 
   get totalResults(): number {

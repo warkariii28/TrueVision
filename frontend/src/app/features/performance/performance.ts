@@ -40,7 +40,7 @@ export class Performance {
   }
 
   get rankedModels(): PerformanceModel[] {
-    return [...this.modelRows()].sort((left, right) => right.accuracy - left.accuracy);
+    return [...this.modelRows()].sort((left, right) => this.modelScore(right) - this.modelScore(left));
   }
 
   get runnerUpModel(): PerformanceModel | null {
@@ -90,6 +90,16 @@ export class Performance {
     return best.tp + best.tn + best.fp + best.fn;
   }
 
+  get correctDecisionRate(): number {
+    const total = this.totalTestCases;
+
+    if (!total) {
+      return 0;
+    }
+
+    return this.correctDecisions / total;
+  }
+
   get correctDecisions(): number {
     const best = this.bestModel();
 
@@ -110,6 +120,40 @@ export class Performance {
     return best.fp + best.fn;
   }
 
+  get falseAlertRate(): number {
+    const best = this.bestModel();
+
+    if (!best) {
+      return 0;
+    }
+
+    const realImages = best.tn + best.fp;
+    return realImages ? best.fp / realImages : 0;
+  }
+
+  get missedFakeRate(): number {
+    const best = this.bestModel();
+
+    if (!best) {
+      return 0;
+    }
+
+    const fakeImages = best.tp + best.fn;
+    return fakeImages ? best.fn / fakeImages : 0;
+  }
+
+  get riskTakeaway(): string {
+    const best = this.bestModel();
+
+    if (!best) {
+      return 'Review the visual evidence before making a final decision.';
+    }
+
+    return best.fp > best.fn
+      ? 'Most remaining mistakes are false alerts, so review fake labels carefully before rejecting an image.'
+      : 'Most remaining mistakes are missed fakes, so review real labels carefully when the image is important.';
+  }
+
   get riskSummary(): string {
     const details = this.bestModelDetails;
 
@@ -126,6 +170,10 @@ export class Performance {
     }
 
     return 'False alerts and missed fakes are balanced in this test set.';
+  }
+
+  modelScore(model: Pick<PerformanceModel, 'accuracy' | 'f1Score'>): number {
+    return (model.accuracy * 0.65) + (model.f1Score * 0.35);
   }
 
   modelFamily(modelName: string): string {

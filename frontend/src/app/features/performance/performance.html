@@ -29,7 +29,7 @@
     <div class="tv-performance-verdict">
       <div class="tv-model-leader-chip mb-3">
         <span class="tv-model-leader-rank">#1</span>
-        <span>Best option among {{ leadingModelCount }} tested models</span>
+        <span>Best balanced option among {{ leadingModelCount }} tested models</span>
       </div>
 
       <h2 class="h3 fw-bold mb-3">Use {{ best.modelName }} as the main detector.</h2>
@@ -49,16 +49,16 @@
     <article class="tv-stat-card tv-performance-kpi-card">
       <span class="tv-performance-stat-icon"><i class="bi bi-bullseye"></i></span>
       <div>
-        <span class="tv-stat-label">Correct decisions</span>
+        <span class="tv-stat-label">Correct decisions <i class="bi bi-question-circle tv-metric-help" title="Correct decisions are true positives plus true negatives from the derived confusion counts."></i></span>
         <strong>{{ correctDecisions | number }}</strong>
-        <p>{{ best.accuracy | percent:'1.1-1' }} of {{ totalTestCases | number }} test images.</p>
+        <p>{{ correctDecisionRate | percent:'1.1-1' }} of {{ totalTestCases | number }} test images from the derived confusion counts.</p>
       </div>
     </article>
 
     <article class="tv-stat-card tv-performance-kpi-card">
       <span class="tv-performance-stat-icon"><i class="bi bi-radar"></i></span>
       <div>
-        <span class="tv-stat-label">Fake images caught</span>
+        <span class="tv-stat-label">Fake images caught <i class="bi bi-question-circle tv-metric-help" title="Recall: out of all fake test images, how many the model correctly caught."></i></span>
         <strong>{{ best.recall | percent:'1.1-1' }}</strong>
         <p>Higher means fewer fake images slip through as real.</p>
       </div>
@@ -67,7 +67,7 @@
     <article class="tv-stat-card tv-performance-kpi-card">
       <span class="tv-performance-stat-icon"><i class="bi bi-shield-check"></i></span>
       <div>
-        <span class="tv-stat-label">Fake alerts trusted</span>
+        <span class="tv-stat-label">Fake alerts trusted <i class="bi bi-question-circle tv-metric-help" title="Precision: when the model says fake, how often that fake alert is correct."></i></span>
         <strong>{{ best.precision | percent:'1.1-1' }}</strong>
         <p>When it says fake, this shows how often that alert is right.</p>
       </div>
@@ -102,6 +102,31 @@
         <div class="tv-performance-note mt-4">
           False-alert and missed-fake counts are approximate indicators derived from the PDF metrics and dataset split. Treat the final result as a decision aid, not proof.
         </div>
+
+        <div class="tv-performance-risk-extra mt-4">
+          <div class="tv-performance-risk-extra-card">
+            <span>Total mistakes</span>
+            <strong>{{ wrongDecisions | number }}</strong>
+            <p>combined false alerts and missed fakes</p>
+          </div>
+
+          <div class="tv-performance-risk-extra-card">
+            <span>False-alert rate</span>
+            <strong>{{ falseAlertRate | percent:'1.1-1' }}</strong>
+            <p>real images wrongly marked fake</p>
+          </div>
+
+          <div class="tv-performance-risk-extra-card">
+            <span>Missed-fake rate</span>
+            <strong>{{ missedFakeRate | percent:'1.1-1' }}</strong>
+            <p>fake images wrongly marked real</p>
+          </div>
+        </div>
+
+        <div class="tv-performance-reviewer-tip mt-3">
+          <i class="bi bi-compass"></i>
+          <span>{{ riskTakeaway }}</span>
+        </div>
       </div>
     </div>
 
@@ -110,7 +135,7 @@
         <div class="tv-kicker mb-2">Top Models</div>
         <h2 class="h4 fw-bold mb-3">Quick comparison</h2>
         <p class="tv-muted mb-4">
-          Focus on the top few models. The recommended model is the one with the best overall accuracy.
+          Focus on the top few models. Ranking uses a weighted balance of accuracy and F1 score, because accuracy alone can hide weak fake-image handling.
         </p>
 
         <div class="tv-performance-model-list">
@@ -125,7 +150,8 @@
 
             <div class="tv-performance-model-score">
               <span>{{ row.accuracy | percent:'1.1-1' }}</span>
-              <small>correct</small>
+              <small>accuracy</small>
+              <em>F1 {{ row.f1Score | percent:'1.1-1' }}</em>
             </div>
           </article>
         </div>

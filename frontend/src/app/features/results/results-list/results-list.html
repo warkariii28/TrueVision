@@ -70,8 +70,28 @@
       <a routerLink="/upload" class="btn btn-tv-primary">Check Image</a>
     </div>
 
-    <div class="tv-results-list" *ngIf="results().length > 0">
-      <article class="tv-result-row" *ngFor="let result of results()">
+        <div class="tv-results-toolbar mb-3" *ngIf="results().length > 0">
+      <label>
+        <span>Verdict</span>
+        <select [value]="filterMode()" (change)="updateFilter($any($event.target).value)">
+          <option value="All">All results</option>
+          <option value="Fake">Fake only</option>
+          <option value="Real">Real only</option>
+        </select>
+      </label>
+
+      <label>
+        <span>Sort</span>
+        <select [value]="sortMode()" (change)="updateSort($any($event.target).value)">
+          <option value="newest">Newest first</option>
+          <option value="confidence-desc">Highest confidence</option>
+          <option value="confidence-asc">Lowest confidence</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="tv-results-list" *ngIf="visibleResults.length > 0; else noFilteredResults">
+      <article class="tv-result-row" *ngFor="let result of visibleResults">
         <a [routerLink]="['/results', result.id]" class="tv-result-row-media" aria-label="Open result detail">
           <img [src]="imageUrl(result)" alt="Uploaded image" class="tv-thumb" />
           <img *ngIf="result.gradcamPath !== null || !result.saved" [src]="gradcamUrl(result)" alt="Grad-CAM image" class="tv-thumb" />
@@ -107,7 +127,7 @@
         </div>
 
         <div class="tv-result-row-side">
-          <span class="tv-feedback-pill tv-results-feedback-pill">
+          <span class="tv-feedback-control tv-results-feedback-pill">
             <i class="bi bi-chat-left-text"></i>
             {{ result.feedback || 'No feedback' }}
           </span>
@@ -118,5 +138,10 @@
         </div>
       </article>
     </div>
-  </ng-container>
+
+    <ng-template #noFilteredResults>
+      <div class="tv-results-state">
+        <p class="mb-0">No saved results match this filter.</p>
+      </div>
+    </ng-template>  </ng-container>
 </section>

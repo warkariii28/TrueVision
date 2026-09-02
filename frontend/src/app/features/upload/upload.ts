@@ -167,9 +167,42 @@ export class Upload implements OnDestroy {
 
     const reader = new FileReader();
     reader.onload = () => {
-      this.previewUrl.set(reader.result as string);
+      const imageDataUrl = reader.result as string;
+      this.validateImageDimensions(imageDataUrl).then((isValid) => {
+        if (!isValid) {
+          this.previewUrl.set('');
+          this.selectedFileName.set('');
+          this.selectedFile = null;
+          return;
+        }
+
+        this.previewUrl.set(imageDataUrl);
+      });
     };
     reader.readAsDataURL(file);
+  }
+
+  private validateImageDimensions(imageDataUrl: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      const image = new Image();
+
+      image.onload = () => {
+        if (image.naturalWidth < 160 || image.naturalHeight < 160) {
+          this.errorMessage.set('This image is too small for a reliable check. Upload a clearer face image at least 160 x 160 pixels.');
+          resolve(false);
+          return;
+        }
+
+        resolve(true);
+      };
+
+      image.onerror = () => {
+        this.errorMessage.set('This file could not be previewed as a valid image. Try another PNG or JPG.');
+        resolve(false);
+      };
+
+      image.src = imageDataUrl;
+    });
   }
 
   validateFile(file: File): boolean {
