@@ -24,6 +24,11 @@ backend/instance/
 *.db
 *.sqlite3
 
+# Datasets
+StyleGAN Dataset.zip
+PPT2-Atharv Warkari-TrueVision.pptx
+StyleGAN Dataset 
+
 # Generated backend assets
 backend/static/uploads/*
 !backend/static/uploads/.gitkeep
